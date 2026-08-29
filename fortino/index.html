@@ -1,1 +1,586 @@
+<!DOCTYPE html>
+<html lang="it">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Fortino | BOT E RISPOSTA</title>
+
+  <link rel="stylesheet" href="../css/style.css?v=2">
+
+  <script src="https://cdn.jsdelivr.net/pyodide/v314.0.3/full/pyodide.js"></script>
+</head>
+
+
+<body>
+
+  <header class="site-header">
+
+    <a href="../index.html">
+      <img
+        src="../assets/logober.png"
+        alt="BOT E RISPOSTA"
+        class="logo"
+      >
+    </a>
+
+  </header>
+
+
+  <main class="page">
+
+
+    <section class="bot-intro">
+
+      <div class="bot-picture">
+        <img
+          src="../assets/fortino.png"
+          alt="Fortino"
+        >
+      </div>
+
+
+      <div class="bot-content">
+
+        <p class="qualification">
+          BOT DI QUALIFICAZIONE #2
+        </p>
+
+        <h1>Fortino</h1>
+
+        <p class="bot-quote">
+          «Avanti pure.<br>
+          Vediamo se riesci a passare.»
+        </p>
+
+
+        <div class="instructions-inline">
+
+          <h2>Batti Fortino</h2>
+
+          <p>
+            La partita dura <strong>10 turni</strong>.
+          </p>
+
+          <p>
+            A ogni turno il tuo programma deve scegliere:
+          </p>
+
+          <div class="moves">
+
+            <span class="move move-c">C</span>
+            <span>Cooperare</span>
+
+            <span class="move move-a">A</span>
+            <span>Attaccare</span>
+
+            <span class="move move-p">P</span>
+            <span>Proteggere</span>
+
+          </div>
+
+          <p class="hint">
+            Modifica il codice qui sotto e costruisci la tua strategia.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <section class="editor-section">
+
+      <div class="section-title">
+
+        <div>
+          <span class="small-label">IL TUO BOT</span>
+          <h2>Codice Python</h2>
+        </div>
+
+        <div id="python-status" class="python-status">
+          Caricamento Python...
+        </div>
+
+      </div>
+
+
+      <textarea
+        id="python-code"
+        spellcheck="false"
+      ># A ogni turno devi scegliere una mossa:
+# "C", "A" oppure "P"
+
+mossa = "C"</textarea>
+
+
+      <div class="editor-buttons">
+
+        <button
+          id="play-button"
+          class="primary-button"
+          disabled
+        >
+          ▶ GIOCA CONTRO FORTINO
+        </button>
+
+        <button
+          id="reset-button"
+          class="secondary-button"
+        >
+          Ricomincia
+        </button>
+
+      </div>
+
+
+      <div id="error-box" class="error-box hidden"></div>
+
+    </section>
+
+
+
+    <section
+      id="game-section"
+      class="game-section hidden"
+    >
+
+      <div class="section-title">
+
+        <div>
+          <span class="small-label">RISULTATO</span>
+          <h2>La partita</h2>
+        </div>
+
+      </div>
+
+
+      <div class="scoreboard">
+
+        <div class="score">
+
+          <span>IL TUO BOT</span>
+
+          <strong id="player-score">
+            0
+          </strong>
+
+        </div>
+
+
+        <div class="score-separator">
+          :
+        </div>
+
+
+        <div class="score">
+
+          <span>FORTINO</span>
+
+          <strong id="opponent-score">
+            0
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+              <th>Turno</th>
+              <th>Il tuo bot</th>
+              <th>Fortino</th>
+              <th>Punti</th>
+            </tr>
+
+          </thead>
+
+          <tbody id="game-table"></tbody>
+
+        </table>
+
+      </div>
+
+
+      <div
+        id="final-result"
+        class="final-result"
+      ></div>
+
+    </section>
+
+
+    <a
+      href="../index.html"
+      class="back-link"
+    >
+      ← Torna alla home
+    </a>
+
+  </main>
+
+
+
+<script>
+
+let pyodide;
+
+
+// ------------------------------------
+// AVVIO PYTHON
+// ------------------------------------
+
+async function startPython() {
+
+  const status =
+    document.getElementById("python-status");
+
+  try {
+
+    pyodide = await loadPyodide();
+
+    status.textContent = "Python pronto ✓";
+    status.classList.add("ready");
+
+    document.getElementById("play-button").disabled = false;
+
+  }
+
+  catch (error) {
+
+    status.textContent =
+      "Errore nel caricamento di Python";
+
+  }
+
+}
+
+startPython();
+
+
+
+// ------------------------------------
+// MATRICE DEI PUNTEGGI
+// ------------------------------------
+
+const scores = {
+
+  C: {
+    C: [3, 3],
+    A: [0, 5],
+    P: [2, 1]
+  },
+
+  A: {
+    C: [5, 0],
+    A: [0, 0],
+    P: [0, 2]
+  },
+
+  P: {
+    C: [1, 2],
+    A: [2, 0],
+    P: [1, 1]
+  }
+
+};
+
+
+
+// ------------------------------------
+// FORTINO
+// ------------------------------------
+
+function opponentMove() {
+
+  return "P";
+
+}
+
+
+
+// ------------------------------------
+// PARTITA
+// ------------------------------------
+
+async function playGame() {
+
+  const code =
+    document.getElementById("python-code").value;
+
+  const errorBox =
+    document.getElementById("error-box");
+
+  const gameSection =
+    document.getElementById("game-section");
+
+  const table =
+    document.getElementById("game-table");
+
+  const finalResult =
+    document.getElementById("final-result");
+
+
+  errorBox.classList.add("hidden");
+
+  table.innerHTML = "";
+
+  finalResult.innerHTML = "";
+
+  gameSection.classList.remove("hidden");
+
+
+  let playerScore = 0;
+  let opponentScore = 0;
+
+  let previousOpponentMove = "";
+
+
+
+  for (let turn = 1; turn <= 10; turn++) {
+
+    try {
+
+      pyodide.globals.set("turno", turn);
+
+      pyodide.globals.set(
+        "mossa_avversario",
+        previousOpponentMove
+      );
+
+
+      await pyodide.runPythonAsync(code);
+
+
+      let playerMove =
+        pyodide.globals.get("mossa");
+
+
+      playerMove =
+        String(playerMove)
+          .trim()
+          .toUpperCase();
+
+
+
+      if (!["C", "A", "P"].includes(playerMove)) {
+
+        throw new Error(
+          'La variabile "mossa" deve contenere "C", "A" oppure "P".'
+        );
+
+      }
+
+
+
+      const botMove =
+        opponentMove();
+
+
+
+      const roundScores =
+        scores[playerMove][botMove];
+
+      playerScore += roundScores[0];
+      opponentScore += roundScores[1];
+
+
+
+      addTurn(
+        turn,
+        playerMove,
+        botMove,
+        roundScores[0],
+        roundScores[1]
+      );
+
+
+
+      document.getElementById(
+        "player-score"
+      ).textContent = playerScore;
+
+
+      document.getElementById(
+        "opponent-score"
+      ).textContent = opponentScore;
+
+
+
+      previousOpponentMove =
+        botMove;
+
+    }
+
+    catch (error) {
+
+      errorBox.textContent =
+        "Errore nel codice: " +
+        error.message;
+
+      errorBox.classList.remove("hidden");
+
+      return;
+
+    }
+
+  }
+
+
+
+  if (playerScore > opponentScore) {
+
+    finalResult.innerHTML =
+      "<strong>VITTORIA!</strong>" +
+      "<span>Hai battuto Fortino.</span>";
+
+    finalResult.className =
+      "final-result victory";
+
+  }
+
+  else if (playerScore < opponentScore) {
+
+    finalResult.innerHTML =
+      "<strong>Fortino vince.</strong>" +
+      "<span>Modifica il codice e riprova.</span>";
+
+    finalResult.className =
+      "final-result defeat";
+
+  }
+
+  else {
+
+    finalResult.innerHTML =
+      "<strong>Pareggio.</strong>" +
+      "<span>Prova una nuova strategia.</span>";
+
+    finalResult.className =
+      "final-result draw";
+
+  }
+
+}
+
+
+
+// ------------------------------------
+// TABELLA
+// ------------------------------------
+
+function addTurn(
+  turn,
+  playerMove,
+  botMove,
+  playerPoints,
+  opponentPoints
+) {
+
+  const table =
+    document.getElementById("game-table");
+
+  const row =
+    document.createElement("tr");
+
+
+  row.innerHTML = `
+
+    <td>${turn}</td>
+
+    <td>
+      <span class="table-move move-${playerMove.toLowerCase()}">
+        ${playerMove}
+      </span>
+    </td>
+
+    <td>
+      <span class="table-move move-${botMove.toLowerCase()}">
+        ${botMove}
+      </span>
+    </td>
+
+    <td>
+      ${playerPoints} – ${opponentPoints}
+    </td>
+
+  `;
+
+
+  table.appendChild(row);
+
+}
+
+
+
+// ------------------------------------
+// RESET
+// ------------------------------------
+
+function resetGame() {
+
+  document.getElementById(
+    "python-code"
+  ).value =
+`# A ogni turno devi scegliere una mossa:
+# "C", "A" oppure "P"
+
+mossa = "C"`;
+
+
+  document.getElementById(
+    "game-section"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "error-box"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "player-score"
+  ).textContent = "0";
+
+
+  document.getElementById(
+    "opponent-score"
+  ).textContent = "0";
+
+}
+
+
+
+// ------------------------------------
+// PULSANTI
+// ------------------------------------
+
+document.getElementById(
+  "play-button"
+).addEventListener(
+  "click",
+  playGame
+);
+
+
+document.getElementById(
+  "reset-button"
+).addEventListener(
+  "click",
+  resetGame
+);
+
+</script>
+
+
+</body>
+</html>
