@@ -14,529 +14,305 @@
 
   <link
     rel="stylesheet"
-    href="../css/style.css?v=4"
+    href="../css/style.css?v=5"
   >
-
-  <script
-    src="https://cdn.jsdelivr.net/pyodide/v314.0.3/full/pyodide.js"
-  ></script>
 
 
   <style>
 
-    /* ========================================
+    /* ====================================
        ARENA
-    ======================================== */
+    ==================================== */
 
     .arena-header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 30px;
     }
-
 
     .arena-header h1 {
       margin: 0;
-
       color: #173c68;
-
-      font-size: clamp(3rem, 8vw, 5.5rem);
-
+      font-size: clamp(3.5rem, 8vw, 5.5rem);
       letter-spacing: -0.04em;
     }
 
-
     .arena-header p {
       margin: 12px 0 0;
-
       color: #607287;
-
       font-size: 1.08rem;
     }
 
 
+    /* ====================================
+       EDITOR
+    ==================================== */
 
-    /* ========================================
-       EDITOR BOT
-    ======================================== */
-
-    .arena-editors {
-
+    .arena-grid {
       display: grid;
-
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
+      grid-template-columns: 1fr 1fr;
       gap: 25px;
-
     }
 
-
-    .bot-editor {
-
+    .bot-card {
+      min-width: 0;
       background: white;
-
       border-radius: 20px;
-
       padding: 28px;
-
-      box-shadow:
-        0 8px 25px rgba(25, 50, 80, 0.07);
-
+      box-shadow: 0 8px 25px rgba(25, 50, 80, 0.07);
     }
 
-
-    .bot-editor-title {
-
-      display: flex;
-
-      justify-content: space-between;
-
-      align-items: center;
-
-      gap: 15px;
-
-      margin-bottom: 18px;
-
-    }
-
-
-    .bot-editor-title h2 {
-
-      margin: 0;
-
+    .bot-card h2 {
+      margin: 0 0 16px;
       color: #173c68;
-
-      font-size: 1.6rem;
-
+      font-size: 1.5rem;
     }
-
-
-    .bot-number {
-
-      color: #7a8da1;
-
-      font-size: 0.75rem;
-
-      font-weight: bold;
-
-      letter-spacing: 0.12em;
-
-    }
-
 
     .bot-name {
-
       width: 100%;
-
-      margin-bottom: 15px;
-
+      margin-bottom: 14px;
       padding: 11px 13px;
-
       border: 2px solid #cbd7e5;
-
       border-radius: 10px;
-
-      color: #173c68;
-
       background: white;
-
+      color: #173c68;
       font-size: 1rem;
-
       font-weight: bold;
-
     }
-
 
     .bot-name:focus {
-
       outline: none;
-
       border-color: #4295cb;
-
     }
-
 
     .bot-code {
-
+      display: block;
       width: 100%;
-
-      min-height: 340px;
-
+      min-height: 370px;
       resize: vertical;
-
       padding: 18px;
-
       border: 2px solid #cbd7e5;
-
       border-radius: 12px;
-
       background: #f8fafc;
-
       color: #172033;
-
-      font-family:
-        "Courier New",
-        Courier,
-        monospace;
-
-      font-size: 0.95rem;
-
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.94rem;
       line-height: 1.55;
-
       tab-size: 4;
-
     }
-
 
     .bot-code:focus {
-
       outline: none;
-
       border-color: #4295cb;
-
-      box-shadow:
-        0 0 0 3px rgba(66, 149, 203, 0.12);
-
+      box-shadow: 0 0 0 3px rgba(66, 149, 203, 0.12);
     }
 
 
-
-    /* ========================================
-       INFO ENGINE
-    ======================================== */
-
-    .engine-info {
-
-      margin-top: 25px;
-
-      padding: 20px 24px;
-
-      border-radius: 14px;
-
-      background: #edf6fc;
-
-      color: #405b74;
-
-      line-height: 1.55;
-
-    }
-
-
-    .engine-info strong {
-      color: #173c68;
-    }
-
-
-
-    /* ========================================
+    /* ====================================
        CONTROLLI
-    ======================================== */
+    ==================================== */
 
     .arena-controls {
-
       display: flex;
-
       justify-content: center;
-
       gap: 14px;
-
       flex-wrap: wrap;
-
       margin-top: 28px;
-
     }
-
 
     .arena-status {
-
-      margin-top: 16px;
-
+      margin-top: 17px;
       text-align: center;
-
       color: #946817;
-
       font-size: 0.9rem;
-
     }
-
 
     .arena-status.ready {
-
       color: #176638;
-
     }
-
-
-
-    /* ========================================
-       ERRORI
-    ======================================== */
 
     .arena-error {
-
       margin-top: 25px;
-
       padding: 18px 20px;
-
       border-radius: 12px;
-
       background: #ffe5e5;
-
       color: #922727;
-
-      font-family:
-        "Courier New",
-        monospace;
-
+      font-family: "Courier New", monospace;
       white-space: pre-wrap;
-
     }
 
 
+    /* ====================================
+       CONSOLE
+    ==================================== */
 
-    /* ========================================
+    .console-section {
+      margin-top: 30px;
+    }
+
+    .console-title {
+      margin: 0 0 15px;
+      color: #173c68;
+      font-size: 1.6rem;
+    }
+
+    .console-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .console-card {
+      min-width: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #172033;
+      box-shadow: 0 8px 25px rgba(25, 50, 80, 0.10);
+    }
+
+    .console-head {
+      padding: 11px 16px;
+      background: #26364d;
+      color: #dce8f5;
+      font-size: 0.8rem;
+      font-weight: bold;
+      letter-spacing: 0.07em;
+    }
+
+    .console {
+      height: 220px;
+      overflow-y: auto;
+      padding: 17px;
+      color: #eef5fc;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+
+    /* ====================================
        RISULTATI
-    ======================================== */
+    ==================================== */
 
     .arena-results {
-
       margin-top: 30px;
-
       padding: 35px 40px;
-
       background: white;
-
       border-radius: 20px;
-
-      box-shadow:
-        0 8px 25px rgba(25, 50, 80, 0.07);
-
+      box-shadow: 0 8px 25px rgba(25, 50, 80, 0.07);
     }
-
 
     .arena-scoreboard {
-
       display: grid;
-
-      grid-template-columns:
-        minmax(0, 1fr)
-        auto
-        minmax(0, 1fr);
-
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
       align-items: center;
-
       gap: 30px;
-
       margin-bottom: 28px;
-
       padding: 28px;
-
       border-radius: 16px;
-
       background: #eef6fc;
-
     }
-
 
     .arena-score {
-
       min-width: 0;
-
       text-align: center;
-
     }
-
 
     .arena-score span {
-
       display: block;
-
       overflow: hidden;
-
       margin-bottom: 5px;
-
       color: #62758b;
-
-      font-size: 0.8rem;
-
+      font-size: 0.78rem;
       font-weight: bold;
-
       letter-spacing: 0.08em;
-
       text-overflow: ellipsis;
-
       white-space: nowrap;
-
     }
-
 
     .arena-score strong {
-
       display: block;
-
       color: #173c68;
-
       font-size: 3rem;
-
     }
-
 
     .arena-vs {
-
       color: #8394a6;
-
       font-size: 1.5rem;
-
       font-weight: bold;
-
     }
-
-
-
-    /* ========================================
-       MOSSE
-    ======================================== */
 
     .arena-move {
-
       width: 36px;
-
       height: 36px;
-
       display: inline-flex;
-
       justify-content: center;
-
       align-items: center;
-
       border-radius: 50%;
-
       font-weight: 900;
-
     }
-
 
     .arena-move-c {
-
       background: #c9f4d8;
-
       color: #176638;
-
     }
-
 
     .arena-move-a {
-
       background: #ffd1d1;
-
       color: #9c2929;
-
     }
-
 
     .arena-move-p {
-
       background: #d9e7ff;
-
       color: #275da6;
-
     }
-
-
-
-    /* ========================================
-       RISULTATO FINALE
-    ======================================== */
 
     .arena-final {
-
       margin-top: 26px;
-
       padding: 24px;
-
       border-radius: 14px;
-
       text-align: center;
-
     }
-
 
     .arena-final strong {
-
       display: block;
-
-      margin-bottom: 6px;
-
+      margin-bottom: 7px;
       font-size: 1.8rem;
-
     }
-
-
-    .arena-final span {
-
-      font-size: 1.05rem;
-
-    }
-
 
     .arena-final.victory {
-
       background: #dff6e7;
-
       color: #176638;
-
     }
-
 
     .arena-final.draw {
-
       background: #fff1cb;
-
       color: #795716;
-
     }
 
-
-
-    /* ========================================
-       MOBILE
-    ======================================== */
 
     @media (max-width: 800px) {
 
-      .arena-editors {
-
+      .arena-grid,
+      .console-grid {
         grid-template-columns: 1fr;
-
       }
-
 
       .bot-code {
-
-        min-height: 260px;
-
+        min-height: 280px;
       }
-
 
       .arena-results {
-
-        padding:
-          28px 20px;
-
+        padding: 28px 20px;
       }
-
 
       .arena-scoreboard {
-
         gap: 15px;
-
       }
 
-
       .arena-score strong {
-
         font-size: 2.3rem;
-
       }
 
     }
@@ -569,9 +345,9 @@
 <main class="page">
 
 
-  <!-- ======================================
-       INTRO
-  ======================================= -->
+  <!-- ==================================
+       TITOLO
+  =================================== -->
 
   <section class="arena-header">
 
@@ -582,59 +358,58 @@
     <h1>Arena</h1>
 
     <p>
-      Incolla due strategie Python e falle
-      sfidare per 10 turni.
+      Incolla due programmi Python e falli sfidare.
     </p>
 
   </section>
 
 
 
-  <!-- ======================================
-       EDITOR
-  ======================================= -->
+  <!-- ==================================
+       CODICI
+  =================================== -->
 
-  <section class="arena-editors">
+  <section class="arena-grid">
 
 
     <!-- BOT 1 -->
 
-    <div class="bot-editor">
+    <div class="bot-card">
 
-      <div class="bot-editor-title">
-
-        <h2>Bot 1</h2>
-
-        <span class="bot-number">
-          SFIDANTE 1
-        </span>
-
-      </div>
-
+      <h2>Bot 1</h2>
 
       <input
         id="bot1-name"
         class="bot-name"
-        type="text"
         value="Bot 1"
         maxlength="30"
       >
-
 
       <textarea
         id="bot1-code"
         class="bot-code"
         spellcheck="false"
-      ># Strategia del Bot 1
+      >turno = 1
 
-if turno == 1:
-    mossa = "C"
+mossa = "C"
+print("La mia prima mossa è:", mossa)
 
-else:
-    if mossa_avversario == "A":
-        mossa = "P"
+mossa_avversario = input("Cosa ha giocato l'avversario? ")
+
+turno = turno + 1
+
+while turno <= 10:
+
+    if mossa_avversario == "C":
+        mossa = "A"
     else:
-        mossa = "C"</textarea>
+        mossa = "P"
+
+    print("Io gioco:", mossa)
+
+    mossa_avversario = input("Cosa ha giocato l'avversario? ")
+
+    turno = turno + 1</textarea>
 
     </div>
 
@@ -642,42 +417,48 @@ else:
 
     <!-- BOT 2 -->
 
-    <div class="bot-editor">
+    <div class="bot-card">
 
-      <div class="bot-editor-title">
-
-        <h2>Bot 2</h2>
-
-        <span class="bot-number">
-          SFIDANTE 2
-        </span>
-
-      </div>
-
+      <h2>Bot 2</h2>
 
       <input
         id="bot2-name"
         class="bot-name"
-        type="text"
         value="Bot 2"
         maxlength="30"
       >
-
 
       <textarea
         id="bot2-code"
         class="bot-code"
         spellcheck="false"
-      ># Strategia del Bot 2
+      >turno = 1
 
-if turno <= 3:
-    mossa = "C"
+mossa = "P"
+print("Comincio con:", mossa)
 
-elif turno <= 6:
-    mossa = "A"
+mossa_avversario = input("Mossa avversario: ")
 
-else:
-    mossa = "P"</textarea>
+turno = turno + 1
+
+while turno <= 10:
+
+    if turno <= 4:
+        if mossa_avversario == "A":
+            mossa = "P"
+        else:
+            mossa = "C"
+    else:
+        if mossa_avversario == "C":
+            mossa = "A"
+        else:
+            mossa = "P"
+
+    print("Turno", turno, "- gioco", mossa)
+
+    mossa_avversario = input("Mossa avversario: ")
+
+    turno = turno + 1</textarea>
 
     </div>
 
@@ -685,28 +466,11 @@ else:
 
 
 
-  <!-- ======================================
-       SPIEGAZIONE
-  ======================================= -->
+  <!-- ==================================
+       PULSANTI
+  =================================== -->
 
-  <div class="engine-info">
-
-    L'Arena gestisce automaticamente
-    <strong>turno</strong> e
-    <strong>mossa_avversario</strong>.
-
-    Le altre variabili create dal bot vengono
-    conservate durante tutta la partita.
-
-  </div>
-
-
-
-  <!-- ======================================
-       CONTROLLI
-  ======================================= -->
-
-  <section class="arena-controls">
+  <div class="arena-controls">
 
     <button
       id="play-button"
@@ -724,17 +488,15 @@ else:
       Cancella risultato
     </button>
 
-  </section>
-
+  </div>
 
 
   <div
-    id="python-status"
+    id="arena-status"
     class="arena-status"
   >
-    Caricamento Python...
+    Preparazione dei due motori Python...
   </div>
-
 
 
   <div
@@ -744,17 +506,73 @@ else:
 
 
 
-  <!-- ======================================
+  <!-- ==================================
+       CONSOLE
+  =================================== -->
+
+  <section
+    id="console-section"
+    class="console-section hidden"
+  >
+
+    <h2 class="console-title">
+      Console dei bot
+    </h2>
+
+
+    <div class="console-grid">
+
+
+      <div class="console-card">
+
+        <div
+          id="console-name-1"
+          class="console-head"
+        >
+          BOT 1
+        </div>
+
+        <div
+          id="console-1"
+          class="console"
+        ></div>
+
+      </div>
+
+
+
+      <div class="console-card">
+
+        <div
+          id="console-name-2"
+          class="console-head"
+        >
+          BOT 2
+        </div>
+
+        <div
+          id="console-2"
+          class="console"
+        ></div>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ==================================
        RISULTATI
-  ======================================= -->
+  =================================== -->
 
   <section
     id="results"
     class="arena-results hidden"
   >
 
-
-    <!-- PUNTEGGIO -->
 
     <div class="arena-scoreboard">
 
@@ -773,9 +591,7 @@ else:
 
 
       <div class="arena-vs">
-
         VS
-
       </div>
 
 
@@ -796,8 +612,6 @@ else:
 
 
 
-    <!-- TABELLA -->
-
     <div class="table-wrapper">
 
       <table>
@@ -806,9 +620,7 @@ else:
 
           <tr>
 
-            <th>
-              Turno
-            </th>
+            <th>Turno</th>
 
             <th id="table-name-1">
               Bot 1
@@ -818,26 +630,20 @@ else:
               Bot 2
             </th>
 
-            <th>
-              Punti
-            </th>
+            <th>Punti</th>
 
           </tr>
 
         </thead>
 
 
-        <tbody id="game-table">
-
-        </tbody>
+        <tbody id="game-table"></tbody>
 
       </table>
 
     </div>
 
 
-
-    <!-- RISULTATO -->
 
     <div
       id="final-result"
@@ -850,8 +656,8 @@ else:
 
 
   <a
-    class="back-link"
     href="../index.html"
+    class="back-link"
   >
     ← Torna alla home
   </a>
@@ -864,154 +670,55 @@ else:
 <script>
 
 
-/* ==========================================
-   PYODIDE
-========================================== */
+/* ======================================================
+   CONFIGURAZIONE
+====================================================== */
 
-let pyodide;
-
-
-
-async function startPython() {
-
-  const status =
-    document.getElementById(
-      "python-status"
-    );
+const PYODIDE_URL =
+  "https://cdn.jsdelivr.net/pyodide/v314.0.3/full/pyodide.js";
 
 
-  try {
-
-    pyodide =
-      await loadPyodide();
+const TURN_DELAY = 350;
 
 
-    /*
-      Il motore Python crea due ambienti
-      distinti.
+/*
+  Se un bot rimane bloccato molto a lungo
+  senza raggiungere il prossimo input(),
+  la partita viene fermata.
 
-      Le variabili di Bot 1 e Bot 2 quindi
-      non interferiscono tra loro.
-    */
+  Utile soprattutto contro while infiniti.
+*/
 
-    await pyodide.runPythonAsync(`
-
-bot1_env = {}
-bot2_env = {}
-
-
-def reset_arena():
-
-    global bot1_env
-    global bot2_env
-
-    bot1_env = {}
-    bot2_env = {}
+const BOT_TIMEOUT = 8000;
 
 
 
-def esegui_bot(
-    codice,
-    ambiente,
-    numero_turno,
-    ultima_mossa_avversario
-):
-
-    # L'Arena imposta queste due variabili.
-
-    ambiente["turno"] = numero_turno
-
-    ambiente["mossa_avversario"] = \
-        ultima_mossa_avversario
-
-
-    # Evitiamo che una mossa del turno
-    # precedente venga riutilizzata
-    # accidentalmente.
-
-    ambiente["mossa"] = None
-
-
-    # Esegue la strategia.
-
-    exec(codice, ambiente)
-
-
-    # Legge la decisione.
-
-    return ambiente.get("mossa")
-
-    `);
-
-
-    status.textContent =
-      "Python pronto ✓";
-
-
-    status.classList.add(
-      "ready"
-    );
-
-
-    document.getElementById(
-      "play-button"
-    ).disabled = false;
-
-  }
-
-
-  catch (error) {
-
-    console.error(error);
-
-
-    status.textContent =
-      "Errore nel caricamento di Python";
-
-  }
-
-}
-
-
-
-startPython();
-
-
-
-/* ==========================================
+/* ======================================================
    MATRICE PUNTEGGI
-========================================== */
+====================================================== */
 
 const scores = {
 
   C: {
 
     C: [3, 3],
-
     A: [0, 5],
-
     P: [2, 1]
 
   },
 
-
   A: {
 
     C: [5, 0],
-
     A: [0, 0],
-
     P: [0, 2]
 
   },
 
-
   P: {
 
     C: [1, 2],
-
     A: [2, 0],
-
     P: [1, 1]
 
   }
@@ -1020,104 +727,1013 @@ const scores = {
 
 
 
-/* ==========================================
-   ESECUZIONE DI UN BOT
-========================================== */
+/* ======================================================
+   MOTORE PYTHON CHE VERRÀ CARICATO
+   DENTRO CIASCUN WEB WORKER
+====================================================== */
 
-async function runBot(
-  botNumber,
-  code,
-  turn,
-  previousOpponentMove
+const PYTHON_ENGINE = `
+
+import ast
+
+from arena_bridge import (
+    arena_input,
+    arena_print
+)
+
+
+
+# ------------------------------------------------------
+# PRINT
+# ------------------------------------------------------
+
+def __arena_print__(
+    *args,
+    sep=" ",
+    end="\\\\n",
+    file=None,
+    flush=False
+):
+
+    testo = sep.join(
+        str(x)
+        for x in args
+    )
+
+    testo = testo + end
+
+    arena_print(testo)
+
+
+
+# ------------------------------------------------------
+# INPUT
+# ------------------------------------------------------
+
+async def __arena_input__(
+    mossa_corrente,
+    prompt=""
+):
+
+    risposta = await arena_input(
+        mossa_corrente,
+        str(prompt)
+    )
+
+    return str(risposta)
+
+
+
+# ------------------------------------------------------
+# TRASFORMAZIONE AST
+#
+# input("...")
+#
+# diventa internamente:
+#
+# await __arena_input__(
+#     locals().get("mossa"),
+#     "..."
+# )
+#
+# Lo studente NON deve scrivere await.
+# ------------------------------------------------------
+
+class InputTransformer(
+    ast.NodeTransformer
+):
+
+    def visit_Call(self, node):
+
+        node = self.generic_visit(node)
+
+
+        if (
+            isinstance(
+                node.func,
+                ast.Name
+            )
+            and
+            node.func.id == "input"
+        ):
+
+            current_move = ast.Call(
+
+                func=ast.Attribute(
+
+                    value=ast.Call(
+
+                        func=ast.Name(
+                            id="locals",
+                            ctx=ast.Load()
+                        ),
+
+                        args=[],
+                        keywords=[]
+
+                    ),
+
+                    attr="get",
+                    ctx=ast.Load()
+
+                ),
+
+                args=[
+                    ast.Constant(
+                        value="mossa"
+                    )
+                ],
+
+                keywords=[]
+
+            )
+
+
+            new_call = ast.Call(
+
+                func=ast.Name(
+                    id="__arena_input__",
+                    ctx=ast.Load()
+                ),
+
+                args=[
+                    current_move,
+                    *node.args
+                ],
+
+                keywords=node.keywords
+
+            )
+
+
+            return ast.copy_location(
+
+                ast.Await(
+                    value=new_call
+                ),
+
+                node
+
+            )
+
+
+        return node
+
+
+
+# ------------------------------------------------------
+# ESECUZIONE DEL PROGRAMMA
+# ------------------------------------------------------
+
+async def run_student_code(source):
+
+
+    tree = ast.parse(
+        source,
+        filename="<bot>"
+    )
+
+
+    tree = InputTransformer().visit(
+        tree
+    )
+
+
+    /*
+      Tutto il programma dello studente
+      viene inserito dentro una funzione
+      asincrona invisibile.
+
+      Il codice originale non viene
+      modificato nell'editor.
+    */
+
+
+    main_function = ast.AsyncFunctionDef(
+
+        name="__bot_main__",
+
+        args=ast.arguments(
+
+            posonlyargs=[],
+            args=[],
+            kwonlyargs=[],
+            kw_defaults=[],
+            defaults=[]
+
+        ),
+
+        body=tree.body,
+
+        decorator_list=[]
+
+    )
+
+
+    module = ast.Module(
+
+        body=[
+            main_function
+        ],
+
+        type_ignores=[]
+
+    )
+
+
+    ast.fix_missing_locations(
+        module
+    )
+
+
+    compiled = compile(
+
+        module,
+
+        filename="<bot>",
+
+        mode="exec"
+
+    )
+
+
+    environment = {
+
+        "__arena_input__":
+            __arena_input__,
+
+        "print":
+            __arena_print__
+
+    }
+
+
+    exec(
+        compiled,
+        environment
+    )
+
+
+    await environment[
+        "__bot_main__"
+    ]()
+
+`;
+
+
+
+/* ======================================================
+   CODICE JAVASCRIPT DI OGNI WORKER
+====================================================== */
+
+function createWorkerSource() {
+
+
+  return `
+
+    importScripts(
+      ${JSON.stringify(PYODIDE_URL)}
+    );
+
+
+    let pyodide;
+
+    let nextInputId = 0;
+
+    const waitingInputs =
+      new Map();
+
+
+
+    // ==========================================
+    // PONTE: PRINT
+    // ==========================================
+
+    function arenaPrint(text) {
+
+      postMessage({
+
+        type: "print",
+
+        text: String(text)
+
+      });
+
+    }
+
+
+
+    // ==========================================
+    // PONTE: INPUT
+    // ==========================================
+
+    function arenaInput(
+      move,
+      prompt
+    ) {
+
+      return new Promise(
+        (resolve) => {
+
+          nextInputId++;
+
+          const id =
+            nextInputId;
+
+
+          waitingInputs.set(
+            id,
+            resolve
+          );
+
+
+          postMessage({
+
+            type:
+              "input",
+
+            id:
+              id,
+
+            move:
+              move === null ||
+              move === undefined
+                ? null
+                : String(move),
+
+            prompt:
+              String(prompt || "")
+
+          });
+
+        }
+      );
+
+    }
+
+
+
+    // ==========================================
+    // AVVIO PYODIDE
+    // ==========================================
+
+    async function initialize() {
+
+
+      try {
+
+
+        pyodide =
+          await loadPyodide();
+
+
+
+        pyodide.registerJsModule(
+
+          "arena_bridge",
+
+          {
+
+            arena_input:
+              arenaInput,
+
+            arena_print:
+              arenaPrint
+
+          }
+
+        );
+
+
+
+        await pyodide.runPythonAsync(
+          ${JSON.stringify(PYTHON_ENGINE)}
+        );
+
+
+
+        postMessage({
+
+          type:
+            "ready"
+
+        });
+
+
+      }
+
+
+      catch (error) {
+
+
+        postMessage({
+
+          type:
+            "fatal",
+
+          message:
+            error.message
+
+        });
+
+      }
+
+    }
+
+
+
+    initialize();
+
+
+
+    // ==========================================
+    // MESSAGGI DALL'ARENA
+    // ==========================================
+
+    self.onmessage =
+      async function(event) {
+
+
+        const data =
+          event.data;
+
+
+
+        // --------------------------------------
+        // RISPOSTA A INPUT
+        // --------------------------------------
+
+        if (
+          data.type ===
+          "input-response"
+        ) {
+
+
+          const resolve =
+            waitingInputs.get(
+              data.id
+            );
+
+
+          if (resolve) {
+
+
+            waitingInputs.delete(
+              data.id
+            );
+
+
+            resolve(
+              data.value
+            );
+
+          }
+
+
+          return;
+
+        }
+
+
+
+        // --------------------------------------
+        // AVVIA PROGRAMMA
+        // --------------------------------------
+
+        if (
+          data.type ===
+          "start"
+        ) {
+
+
+          try {
+
+
+            pyodide.globals.set(
+              "_student_source",
+              data.code
+            );
+
+
+            await pyodide.runPythonAsync(
+              "await run_student_code(_student_source)"
+            );
+
+
+            postMessage({
+
+              type:
+                "done"
+
+            });
+
+
+          }
+
+
+          catch (error) {
+
+
+            postMessage({
+
+              type:
+                "error",
+
+              message:
+                error.message
+
+            });
+
+          }
+
+        }
+
+      };
+
+  `;
+
+}
+
+
+
+/* ======================================================
+   STATO ARENA
+====================================================== */
+
+let workers = {
+
+  1: null,
+  2: null
+
+};
+
+
+let workersReady = {
+
+  1: false,
+  2: false
+
+};
+
+
+let gameActive = false;
+
+
+let turn = 0;
+
+
+let pendingMoves = {
+
+  1: null,
+  2: null
+
+};
+
+
+let finishedBots = {
+
+  1: false,
+  2: false
+
+};
+
+
+let score1 = 0;
+
+let score2 = 0;
+
+
+let botNames = {
+
+  1: "Bot 1",
+  2: "Bot 2"
+
+};
+
+
+let watchdog = null;
+
+
+
+/* ======================================================
+   CREA I DUE BOT
+====================================================== */
+
+function createWorkers() {
+
+
+  terminateWorkers();
+
+
+  workersReady = {
+
+    1: false,
+    2: false
+
+  };
+
+
+  document.getElementById(
+    "play-button"
+  ).disabled = true;
+
+
+  const status =
+    document.getElementById(
+      "arena-status"
+    );
+
+
+  status.textContent =
+    "Preparazione dei due motori Python...";
+
+
+  status.classList.remove(
+    "ready"
+  );
+
+
+
+  for (
+    let bot = 1;
+    bot <= 2;
+    bot++
+  ) {
+
+
+    const source =
+      createWorkerSource();
+
+
+    const blob =
+      new Blob(
+
+        [source],
+
+        {
+          type:
+            "text/javascript"
+        }
+
+      );
+
+
+    const url =
+      URL.createObjectURL(
+        blob
+      );
+
+
+    const worker =
+      new Worker(url);
+
+
+    URL.revokeObjectURL(
+      url
+    );
+
+
+    workers[bot] =
+      worker;
+
+
+
+    worker.onmessage =
+      function(event) {
+
+        handleWorkerMessage(
+          bot,
+          event.data
+        );
+
+      };
+
+
+    worker.onerror =
+      function(event) {
+
+        failGame(
+
+          "Errore nel motore del Bot " +
+          bot +
+          ".\\n\\n" +
+          event.message
+
+        );
+
+      };
+
+  }
+
+}
+
+
+
+/* ======================================================
+   MESSAGGI DAI WORKER
+====================================================== */
+
+function handleWorkerMessage(
+  bot,
+  data
 ) {
 
 
-  pyodide.globals.set(
-    "_arena_code",
-    code
-  );
+  // ----------------------------------------
+  // PRONTO
+  // ----------------------------------------
+
+  if (
+    data.type === "ready"
+  ) {
 
 
-  pyodide.globals.set(
-    "_arena_turn",
-    turn
-  );
+    workersReady[bot] =
+      true;
 
 
-  pyodide.globals.set(
-    "_arena_previous_move",
-    previousOpponentMove
-  );
+    if (
+      workersReady[1] &&
+      workersReady[2]
+    ) {
 
 
-
-  const environment =
-    botNumber === 1
-      ? "bot1_env"
-      : "bot2_env";
-
+      const status =
+        document.getElementById(
+          "arena-status"
+        );
 
 
-  let result;
+      status.textContent =
+        "Arena pronta ✓";
 
 
-  try {
+      status.classList.add(
+        "ready"
+      );
 
-    result =
-      await pyodide.runPythonAsync(`
 
-esegui_bot(
-    _arena_code,
-    ${environment},
-    _arena_turn,
-    _arena_previous_move
-)
+      document.getElementById(
+        "play-button"
+      ).disabled = false;
 
-      `);
+    }
+
+
+    return;
 
   }
 
 
-  catch (error) {
 
-    throw new Error(
-      "Errore nel Bot " +
-      botNumber +
-      " al turno " +
-      turn +
-      ":\n\n" +
-      error.message
+  // ----------------------------------------
+  // PRINT
+  // ----------------------------------------
+
+  if (
+    data.type === "print"
+  ) {
+
+
+    if (gameActive) {
+
+      appendConsole(
+        bot,
+        data.text
+      );
+
+    }
+
+
+    return;
+
+  }
+
+
+
+  // ----------------------------------------
+  // INPUT
+  // ----------------------------------------
+
+  if (
+    data.type === "input"
+  ) {
+
+
+    if (!gameActive) {
+      return;
+    }
+
+
+    receiveMove(
+
+      bot,
+
+      data.id,
+
+      data.move
+
+    );
+
+
+    return;
+
+  }
+
+
+
+  // ----------------------------------------
+  // PROGRAMMA FINITO
+  // ----------------------------------------
+
+  if (
+    data.type === "done"
+  ) {
+
+
+    if (!gameActive) {
+      return;
+    }
+
+
+    finishedBots[bot] =
+      true;
+
+
+
+    /*
+      Se il programma finisce prima
+      di aver giocato 10 turni,
+      qualcosa non va.
+    */
+
+    if (turn < 10) {
+
+
+      failGame(
+
+        botNames[bot] +
+        " ha terminato il programma " +
+        "dopo soltanto " +
+        turn +
+        " turni.\\n\\n" +
+        "La partita deve durare 10 turni."
+
+      );
+
+
+      return;
+
+    }
+
+
+
+    if (
+      finishedBots[1] &&
+      finishedBots[2]
+    ) {
+
+
+      finishGame();
+
+    }
+
+
+    return;
+
+  }
+
+
+
+  // ----------------------------------------
+  // ERRORE PYTHON
+  // ----------------------------------------
+
+  if (
+    data.type === "error"
+  ) {
+
+
+    failGame(
+
+      "Errore in " +
+      botNames[bot] +
+      ":\\n\\n" +
+      cleanPythonError(
+        data.message
+      )
+
+    );
+
+
+    return;
+
+  }
+
+
+
+  // ----------------------------------------
+  // ERRORE CARICAMENTO PYTHON
+  // ----------------------------------------
+
+  if (
+    data.type === "fatal"
+  ) {
+
+
+    failGame(
+
+      "Errore nel caricamento Python:\\n\\n" +
+      data.message
+
     );
 
   }
 
+}
+
+
+
+/* ======================================================
+   RICEVE LA MOSSA DA UN BOT
+====================================================== */
+
+function receiveMove(
+  bot,
+  inputId,
+  rawMove
+) {
 
 
   /*
-    mossa deve essere stata assegnata
-    durante QUESTO turno.
+    Dopo il decimo turno un nuovo
+    input() significherebbe che il bot
+    sta cercando di giocare un turno 11.
   */
 
   if (
-    result === null ||
-    result === undefined
+    turn >= 10
   ) {
 
-    throw new Error(
-      "Il Bot " +
-      botNumber +
-      " non ha scelto alcuna mossa " +
-      "al turno " +
-      turn +
-      "."
+
+    failGame(
+
+      botNames[bot] +
+      " ha richiesto un nuovo input() " +
+      "dopo il decimo turno."
+
     );
+
+
+    return;
+
+  }
+
+
+
+  if (
+    pendingMoves[bot] !== null
+  ) {
+
+
+    failGame(
+
+      botNames[bot] +
+      " ha richiesto due input() " +
+      "nello stesso turno."
+
+    );
+
+
+    return;
+
+  }
+
+
+
+  if (
+    rawMove === null ||
+    rawMove === undefined
+  ) {
+
+
+    failGame(
+
+      botNames[bot] +
+      " è arrivato a input() senza " +
+      'aver assegnato un valore a "mossa".'
+
+    );
+
+
+    return;
 
   }
 
 
 
   const move =
-    String(result)
+    String(rawMove)
       .trim()
       .toUpperCase();
 
@@ -1127,134 +1743,237 @@ esegui_bot(
     !["C", "A", "P"].includes(move)
   ) {
 
-    throw new Error(
 
-      "Il Bot " +
-      botNumber +
-      ' ha impostato mossa = "' +
+    failGame(
+
+      botNames[bot] +
+      ' ha scelto "' +
       move +
-      '" al turno ' +
-      turn +
-      ".\n\n" +
-      'Sono ammesse soltanto "C", "A" oppure "P".'
+      '".\\n\\n' +
+      'La variabile "mossa" deve essere ' +
+      '"C", "A" oppure "P".'
 
     );
+
+
+    return;
 
   }
 
 
 
-  return move;
+  pendingMoves[bot] = {
+
+    id:
+      inputId,
+
+    move:
+      move
+
+  };
+
+
+
+  /*
+    Se entrambi sono arrivati al proprio
+    input(), il turno è completo.
+  */
+
+  if (
+    pendingMoves[1] &&
+    pendingMoves[2]
+  ) {
+
+
+    completeTurn();
+
+  }
 
 }
 
 
 
-/* ==========================================
-   PARTITA
-========================================== */
+/* ======================================================
+   COMPLETA UN TURNO
+====================================================== */
 
-async function playGame() {
-
-
-  const playButton =
-    document.getElementById(
-      "play-button"
-    );
+function completeTurn() {
 
 
-  const errorBox =
-    document.getElementById(
-      "error-box"
-    );
+  clearWatchdog();
 
 
-  const results =
-    document.getElementById(
-      "results"
-    );
+  const bot1 =
+    pendingMoves[1];
 
 
-  const table =
-    document.getElementById(
-      "game-table"
-    );
+  const bot2 =
+    pendingMoves[2];
 
 
-  const finalResult =
-    document.getElementById(
-      "final-result"
-    );
+  pendingMoves = {
+
+    1: null,
+    2: null
+
+  };
+
+
+  turn++;
 
 
 
-  playButton.disabled = true;
+  const points =
+    scores[
+      bot1.move
+    ][
+      bot2.move
+    ];
 
 
-  errorBox.classList.add(
-    "hidden"
+
+  const points1 =
+    points[0];
+
+
+  const points2 =
+    points[1];
+
+
+
+  score1 +=
+    points1;
+
+
+  score2 +=
+    points2;
+
+
+
+  addTurnToTable(
+
+    turn,
+
+    bot1.move,
+
+    bot2.move,
+
+    points1,
+
+    points2
+
   );
 
 
-  results.classList.remove(
-    "hidden"
+
+  document.getElementById(
+    "score-1"
+  ).textContent =
+    score1;
+
+
+  document.getElementById(
+    "score-2"
+  ).textContent =
+    score2;
+
+
+
+  /*
+    Piccola pausa visiva.
+
+    Poi ciascun input() riceve
+    la mossa dell'altro bot.
+  */
+
+  setTimeout(
+    function() {
+
+
+      if (!gameActive) {
+        return;
+      }
+
+
+      workers[1].postMessage({
+
+        type:
+          "input-response",
+
+        id:
+          bot1.id,
+
+        value:
+          bot2.move
+
+      });
+
+
+
+      workers[2].postMessage({
+
+        type:
+          "input-response",
+
+        id:
+          bot2.id,
+
+        value:
+          bot1.move
+
+      });
+
+
+
+      armWatchdog();
+
+
+    },
+
+    TURN_DELAY
+
   );
 
-
-  table.innerHTML = "";
-
-
-  finalResult.innerHTML = "";
+}
 
 
 
-  /* ----------------------------------------
-     NOMI
-  ---------------------------------------- */
+/* ======================================================
+   AVVIA PARTITA
+====================================================== */
 
-  const bot1Name =
+function playGame() {
+
+
+  if (
+    !workersReady[1] ||
+    !workersReady[2]
+  ) {
+
+    return;
+
+  }
+
+
+
+  resetVisuals();
+
+
+
+  botNames[1] =
     document.getElementById(
       "bot1-name"
     ).value.trim()
     || "Bot 1";
 
 
-  const bot2Name =
+  botNames[2] =
     document.getElementById(
       "bot2-name"
     ).value.trim()
     || "Bot 2";
 
 
-
-  document.getElementById(
-    "score-name-1"
-  ).textContent =
-    bot1Name.toUpperCase();
-
-
-  document.getElementById(
-    "score-name-2"
-  ).textContent =
-    bot2Name.toUpperCase();
-
-
-  document.getElementById(
-    "table-name-1"
-  ).textContent =
-    bot1Name;
-
-
-  document.getElementById(
-    "table-name-2"
-  ).textContent =
-    bot2Name;
-
-
-
-  /* ----------------------------------------
-     CODICE
-  ---------------------------------------- */
 
   const code1 =
     document.getElementById(
@@ -1269,215 +1988,138 @@ async function playGame() {
 
 
 
-  /* ----------------------------------------
-     RESET PYTHON
-  ---------------------------------------- */
+  document.getElementById(
+    "score-name-1"
+  ).textContent =
+    botNames[1].toUpperCase();
 
-  await pyodide.runPythonAsync(
-    "reset_arena()"
+
+  document.getElementById(
+    "score-name-2"
+  ).textContent =
+    botNames[2].toUpperCase();
+
+
+  document.getElementById(
+    "table-name-1"
+  ).textContent =
+    botNames[1];
+
+
+  document.getElementById(
+    "table-name-2"
+  ).textContent =
+    botNames[2];
+
+
+  document.getElementById(
+    "console-name-1"
+  ).textContent =
+    botNames[1].toUpperCase();
+
+
+  document.getElementById(
+    "console-name-2"
+  ).textContent =
+    botNames[2].toUpperCase();
+
+
+
+  gameActive =
+    true;
+
+
+  turn =
+    0;
+
+
+  score1 =
+    0;
+
+
+  score2 =
+    0;
+
+
+  pendingMoves = {
+
+    1: null,
+    2: null
+
+  };
+
+
+  finishedBots = {
+
+    1: false,
+    2: false
+
+  };
+
+
+
+  document.getElementById(
+    "play-button"
+  ).disabled =
+    true;
+
+
+
+  document.getElementById(
+    "console-section"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "results"
+  ).classList.remove(
+    "hidden"
   );
 
 
 
-  let score1 = 0;
+  workers[1].postMessage({
 
-  let score2 = 0;
+    type:
+      "start",
 
+    code:
+      code1
 
+  });
 
-  let previousMove1 = "";
 
-  let previousMove2 = "";
 
+  workers[2].postMessage({
 
+    type:
+      "start",
 
-  document.getElementById(
-    "score-1"
-  ).textContent = "0";
+    code:
+      code2
 
+  });
 
-  document.getElementById(
-    "score-2"
-  ).textContent = "0";
 
 
-
-  /* ========================================
-     10 TURNI
-  ======================================== */
-
-  try {
-
-
-    for (
-      let turn = 1;
-      turn <= 10;
-      turn++
-    ) {
-
-
-      /*
-        Entrambi ricevono SOLO
-        la mossa precedente dell'altro.
-      */
-
-
-      const move1 =
-        await runBot(
-
-          1,
-
-          code1,
-
-          turn,
-
-          previousMove2
-
-        );
-
-
-
-      const move2 =
-        await runBot(
-
-          2,
-
-          code2,
-
-          turn,
-
-          previousMove1
-
-        );
-
-
-
-      /*
-        Solo ora conosciamo entrambe
-        le mosse del turno.
-      */
-
-
-      const round =
-        scores[move1][move2];
-
-
-
-      const points1 =
-        round[0];
-
-
-      const points2 =
-        round[1];
-
-
-
-      score1 += points1;
-
-      score2 += points2;
-
-
-
-      addTurn(
-
-        turn,
-
-        move1,
-
-        move2,
-
-        points1,
-
-        points2
-
-      );
-
-
-
-      document.getElementById(
-        "score-1"
-      ).textContent =
-        score1;
-
-
-      document.getElementById(
-        "score-2"
-      ).textContent =
-        score2;
-
-
-
-      /*
-        Le mosse diventano "precedenti"
-        soltanto DOPO il turno.
-      */
-
-      previousMove1 =
-        move1;
-
-
-      previousMove2 =
-        move2;
-
-    }
-
-
-
-    showFinalResult(
-
-      bot1Name,
-
-      bot2Name,
-
-      score1,
-
-      score2
-
-    );
-
-  }
-
-
-  catch (error) {
-
-
-    errorBox.textContent =
-      error.message;
-
-
-    errorBox.classList.remove(
-      "hidden"
-    );
-
-  }
-
-
-  finally {
-
-    playButton.disabled = false;
-
-  }
+  armWatchdog();
 
 }
 
 
 
-/* ==========================================
-   AGGIUNGE UNA RIGA ALLA TABELLA
-========================================== */
+/* ======================================================
+   TABELLA
+====================================================== */
 
-function addTurn(
-
-  turn,
-
+function addTurnToTable(
+  turnNumber,
   move1,
-
   move2,
-
   points1,
-
   points2
-
 ) {
 
 
@@ -1487,13 +2129,11 @@ function addTurn(
     );
 
 
-
   row.innerHTML = `
 
     <td>
-      ${turn}
+      ${turnNumber}
     </td>
-
 
     <td>
 
@@ -1508,7 +2148,6 @@ function addTurn(
 
     </td>
 
-
     <td>
 
       <span
@@ -1522,7 +2161,6 @@ function addTurn(
 
     </td>
 
-
     <td>
       ${points1} – ${points2}
     </td>
@@ -1530,50 +2168,80 @@ function addTurn(
   `;
 
 
-
   document.getElementById(
     "game-table"
-  ).appendChild(row);
+  ).appendChild(
+    row
+  );
 
 }
 
 
 
-/* ==========================================
-   RISULTATO FINALE
-========================================== */
+/* ======================================================
+   CONSOLE
+====================================================== */
 
-function showFinalResult(
-
-  bot1Name,
-
-  bot2Name,
-
-  score1,
-
-  score2
-
+function appendConsole(
+  bot,
+  text
 ) {
 
 
-  const box =
+  const consoleBox =
+    document.getElementById(
+      "console-" + bot
+    );
+
+
+  consoleBox.textContent +=
+    text;
+
+
+  consoleBox.scrollTop =
+    consoleBox.scrollHeight;
+
+}
+
+
+
+/* ======================================================
+   FINE PARTITA
+====================================================== */
+
+function finishGame() {
+
+
+  clearWatchdog();
+
+
+  gameActive =
+    false;
+
+
+
+  const finalBox =
     document.getElementById(
       "final-result"
     );
 
 
 
-  if (score1 > score2) {
+  if (
+    score1 > score2
+  ) {
 
 
-    box.className =
+    finalBox.className =
       "arena-final victory";
 
 
-    box.innerHTML =
+    finalBox.innerHTML =
 
       "<strong>" +
-      escapeHTML(bot1Name) +
+      escapeHTML(
+        botNames[1]
+      ) +
       " vince!</strong>" +
 
       "<span>" +
@@ -1585,17 +2253,21 @@ function showFinalResult(
   }
 
 
-  else if (score2 > score1) {
+  else if (
+    score2 > score1
+  ) {
 
 
-    box.className =
+    finalBox.className =
       "arena-final victory";
 
 
-    box.innerHTML =
+    finalBox.innerHTML =
 
       "<strong>" +
-      escapeHTML(bot2Name) +
+      escapeHTML(
+        botNames[2]
+      ) +
       " vince!</strong>" +
 
       "<span>" +
@@ -1610,11 +2282,11 @@ function showFinalResult(
   else {
 
 
-    box.className =
+    finalBox.className =
       "arena-final draw";
 
 
-    box.innerHTML =
+    finalBox.innerHTML =
 
       "<strong>Pareggio!</strong>" +
 
@@ -1626,22 +2298,206 @@ function showFinalResult(
 
   }
 
+
+
+  document.getElementById(
+    "play-button"
+  ).disabled =
+    false;
+
 }
 
 
 
-/* ==========================================
-   RESET VISIVO
-========================================== */
+/* ======================================================
+   ERRORE
+====================================================== */
 
-function resetArenaView() {
+function failGame(
+  message
+) {
+
+
+  if (!gameActive) {
+
+
+    const errorBox =
+      document.getElementById(
+        "error-box"
+      );
+
+
+    errorBox.textContent =
+      message;
+
+
+    errorBox.classList.remove(
+      "hidden"
+    );
+
+
+    return;
+
+  }
+
+
+
+  gameActive =
+    false;
+
+
+  clearWatchdog();
+
+
+
+  const errorBox =
+    document.getElementById(
+      "error-box"
+    );
+
+
+  errorBox.textContent =
+    message;
+
+
+  errorBox.classList.remove(
+    "hidden"
+  );
+
+
+
+  /*
+    In caso di errore fermiamo completamente
+    entrambi i Worker.
+
+    In questo modo anche un eventuale
+    while infinito viene eliminato.
+  */
+
+  terminateWorkers();
+
 
 
   document.getElementById(
-    "results"
-  ).classList.add(
-    "hidden"
+    "arena-status"
+  ).textContent =
+    "Riavvio dell'Arena...";
+
+
+
+  setTimeout(
+    createWorkers,
+    400
   );
+
+}
+
+
+
+/* ======================================================
+   TIMEOUT
+====================================================== */
+
+function armWatchdog() {
+
+
+  clearWatchdog();
+
+
+  watchdog =
+    setTimeout(
+      function() {
+
+
+        if (!gameActive) {
+          return;
+        }
+
+
+
+        let message =
+
+          "La partita è stata fermata perché " +
+          "uno dei bot non ha raggiunto il " +
+          "prossimo input().";
+
+
+        if (
+          pendingMoves[1] &&
+          !pendingMoves[2]
+        ) {
+
+          message +=
+
+            "\\n\\n" +
+            botNames[1] +
+            " è pronto, ma " +
+            botNames[2] +
+            " sembra essere bloccato.";
+
+        }
+
+
+        else if (
+          pendingMoves[2] &&
+          !pendingMoves[1]
+        ) {
+
+          message +=
+
+            "\\n\\n" +
+            botNames[2] +
+            " è pronto, ma " +
+            botNames[1] +
+            " sembra essere bloccato.";
+
+        }
+
+
+        message +=
+
+          "\\n\\nControlla soprattutto i cicli while.";
+
+
+        failGame(
+          message
+        );
+
+      },
+
+      BOT_TIMEOUT
+
+    );
+
+}
+
+
+
+function clearWatchdog() {
+
+
+  if (watchdog) {
+
+
+    clearTimeout(
+      watchdog
+    );
+
+
+    watchdog =
+      null;
+
+  }
+
+}
+
+
+
+/* ======================================================
+   RESET
+====================================================== */
+
+function resetVisuals() {
 
 
   document.getElementById(
@@ -1653,27 +2509,160 @@ function resetArenaView() {
 
   document.getElementById(
     "game-table"
-  ).innerHTML = "";
+  ).innerHTML =
+    "";
+
+
+  document.getElementById(
+    "console-1"
+  ).textContent =
+    "";
+
+
+  document.getElementById(
+    "console-2"
+  ).textContent =
+    "";
 
 
   document.getElementById(
     "score-1"
-  ).textContent = "0";
+  ).textContent =
+    "0";
 
 
   document.getElementById(
     "score-2"
-  ).textContent = "0";
+  ).textContent =
+    "0";
+
+
+  const finalBox =
+    document.getElementById(
+      "final-result"
+    );
+
+
+  finalBox.innerHTML =
+    "";
+
+
+  finalBox.className =
+    "arena-final";
 
 }
 
 
 
-/* ==========================================
-   ESCAPE NOMI
-========================================== */
+function resetArena() {
 
-function escapeHTML(text) {
+
+  clearWatchdog();
+
+
+  gameActive =
+    false;
+
+
+  resetVisuals();
+
+
+  document.getElementById(
+    "results"
+  ).classList.add(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "console-section"
+  ).classList.add(
+    "hidden"
+  );
+
+
+  /*
+    Ricreiamo i Worker:
+    partita successiva completamente pulita.
+  */
+
+  createWorkers();
+
+}
+
+
+
+/* ======================================================
+   TERMINA WORKER
+====================================================== */
+
+function terminateWorkers() {
+
+
+  for (
+    let bot = 1;
+    bot <= 2;
+    bot++
+  ) {
+
+
+    if (
+      workers[bot]
+    ) {
+
+
+      workers[bot].terminate();
+
+
+      workers[bot] =
+        null;
+
+    }
+
+  }
+
+
+  workersReady = {
+
+    1: false,
+    2: false
+
+  };
+
+}
+
+
+
+/* ======================================================
+   PULIZIA ERRORI PYTHON
+====================================================== */
+
+function cleanPythonError(
+  message
+) {
+
+
+  /*
+    Manteniamo per ora il traceback:
+    è utile per capire gli errori
+    degli studenti.
+  */
+
+  return String(
+    message
+  );
+
+}
+
+
+
+/* ======================================================
+   ESCAPE HTML
+====================================================== */
+
+function escapeHTML(
+  text
+) {
 
 
   const div =
@@ -1692,31 +2681,32 @@ function escapeHTML(text) {
 
 
 
-/* ==========================================
+/* ======================================================
    EVENTI
-========================================== */
+====================================================== */
 
 document.getElementById(
   "play-button"
 ).addEventListener(
-
   "click",
-
   playGame
-
 );
-
 
 
 document.getElementById(
   "reset-button"
 ).addEventListener(
-
   "click",
-
-  resetArenaView
-
+  resetArena
 );
+
+
+
+/* ======================================================
+   AVVIO
+====================================================== */
+
+createWorkers();
 
 
 </script>
