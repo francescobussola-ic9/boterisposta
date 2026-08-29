@@ -1,1 +1,378 @@
+/* ------------------------------
+   IMPOSTAZIONI GENERALI
+------------------------------ */
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #25365a 0%,
+      #121b31 45%,
+      #090e19 100%
+    );
+
+  color: #f4f7ff;
+
+  min-height: 100vh;
+}
+
+
+/* ------------------------------
+   PAGINA
+------------------------------ */
+
+.page {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+  padding-bottom: 60px;
+}
+
+
+/* ------------------------------
+   LOGO
+------------------------------ */
+
+.topbar {
+  display: flex;
+  justify-content: center;
+
+  padding: 28px 0 18px;
+}
+
+.logo-link {
+  display: inline-block;
+}
+
+.logo {
+  display: block;
+
+  max-width: 330px;
+  width: 75vw;
+  height: auto;
+}
+
+
+/* ------------------------------
+   HERO
+------------------------------ */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* ------------------------------
+   CARD DEL BOT
+------------------------------ */
+
+.bot-card {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 42% 58%;
+
+  overflow: hidden;
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.10),
+      rgba(255,255,255,0.035)
+    );
+
+  border: 1px solid rgba(255,255,255,0.15);
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.35);
+}
+
+
+/* ------------------------------
+   IMMAGINE BOT
+------------------------------ */
+
+.bot-image-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  min-height: 440px;
+
+  padding: 30px 25px 0;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(64, 181, 255, 0.25),
+      transparent 65%
+    );
+}
+
+.bot-image {
+  display: block;
+
+  width: 100%;
+  max-width: 390px;
+
+  height: auto;
+}
+
+
+/* ------------------------------
+   TESTI BOT
+------------------------------ */
+
+.bot-info {
+  padding: 55px 55px 50px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+
+  font-size: 0.82rem;
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+
+  color: #7fcbff;
+}
+
+.bot-info h1 {
+  margin: 0;
+
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 0.95;
+
+  letter-spacing: -0.045em;
+}
+
+.bot-quote {
+  margin: 26px 0 20px;
+
+  font-size: 1.35rem;
+  line-height: 1.45;
+
+  font-style: italic;
+
+  color: #bfe6ff;
+}
+
+.bot-description {
+  margin: 0;
+
+  max-width: 600px;
+
+  font-size: 1.08rem;
+  line-height: 1.7;
+
+  color: #dce5f5;
+}
+
+
+/* ------------------------------
+   STRATEGIA
+------------------------------ */
+
+.strategy-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  margin-top: 32px;
+  padding: 15px 18px;
+
+  border-radius: 14px;
+
+  background: rgba(0,0,0,0.25);
+}
+
+.strategy-label {
+  font-size: 0.75rem;
+  font-weight: bold;
+
+  letter-spacing: 0.12em;
+
+  color: #aab8cf;
+}
+
+.strategy-move {
+  width: 42px;
+  height: 42px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.move-c {
+  background: #45d483;
+  color: #06180e;
+}
+
+
+/* ------------------------------
+   BOX SFIDA
+------------------------------ */
+
+.challenge-box {
+  width: min(720px, 100%);
+
+  margin-top: 34px;
+
+  padding: 34px 38px;
+
+  text-align: center;
+
+  border-radius: 20px;
+
+  background: #f5f7ff;
+
+  color: #11192a;
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.25);
+}
+
+.challenge-box h2 {
+  margin: 0 0 18px;
+
+  font-size: 2rem;
+}
+
+.challenge-box p {
+  margin: 8px 0;
+
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+
+/* ------------------------------
+   PULSANTE
+------------------------------ */
+
+.challenge-button {
+  display: inline-block;
+
+  margin-top: 24px;
+
+  padding: 17px 30px;
+
+  border-radius: 12px;
+
+  background: #1976d2;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-size: 1rem;
+  font-weight: 900;
+
+  letter-spacing: 0.06em;
+
+  box-shadow:
+    0 9px 0 #0b4781;
+
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.challenge-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 11px 0 #0b4781;
+}
+
+.challenge-button:active {
+  transform: translateY(5px);
+
+  box-shadow:
+    0 4px 0 #0b4781;
+}
+
+
+/* ------------------------------
+   LINK INDIETRO
+------------------------------ */
+
+.back-link {
+  margin-top: 34px;
+
+  color: #b9c9df;
+
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: white;
+}
+
+
+/* ------------------------------
+   MOBILE
+------------------------------ */
+
+@media (max-width: 760px) {
+
+  .page {
+    width: min(94%, 600px);
+  }
+
+  .bot-card {
+    grid-template-columns: 1fr;
+  }
+
+  .bot-image-wrap {
+    min-height: auto;
+
+    padding: 25px 25px 0;
+  }
+
+  .bot-image {
+    max-width: 300px;
+  }
+
+  .bot-info {
+    padding: 32px 26px 36px;
+  }
+
+  .bot-info h1 {
+    font-size: 3.7rem;
+  }
+
+  .bot-quote {
+    font-size: 1.15rem;
+  }
+
+  .challenge-box {
+    padding: 28px 22px;
+  }
+
+}
