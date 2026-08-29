@@ -1,14 +1,7 @@
-/* ------------------------------
-   IMPOSTAZIONI GENERALI
------------------------------- */
-
 * {
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
 
 body {
   margin: 0;
@@ -18,361 +11,678 @@ body {
     Helvetica,
     sans-serif;
 
-  background:
-    radial-gradient(
-      circle at top,
-      #25365a 0%,
-      #121b31 45%,
-      #090e19 100%
-    );
+  background: #f4f7fb;
 
-  color: #f4f7ff;
-
-  min-height: 100vh;
+  color: #172033;
 }
 
 
-/* ------------------------------
-   PAGINA
------------------------------- */
+/* =========================
+   HEADER
+========================= */
 
-.page {
-  width: min(1100px, 92%);
-  margin: 0 auto;
-  padding-bottom: 60px;
-}
+.site-header {
+  background: white;
 
+  border-bottom: 1px solid #dce3ec;
 
-/* ------------------------------
-   LOGO
------------------------------- */
-
-.topbar {
   display: flex;
   justify-content: center;
 
-  padding: 28px 0 18px;
+  padding: 20px;
 }
 
-.logo-link {
-  display: inline-block;
-}
 
 .logo {
   display: block;
 
-  max-width: 330px;
-  width: 75vw;
+  width: min(300px, 70vw);
+
   height: auto;
 }
 
 
-/* ------------------------------
-   HERO
------------------------------- */
+/* =========================
+   PAGINA
+========================= */
 
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.page {
+  width: min(1000px, 92%);
+
+  margin: 35px auto 70px;
 }
 
 
-/* ------------------------------
-   CARD DEL BOT
------------------------------- */
+/* =========================
+   PRESENTAZIONE BOT
+========================= */
 
-.bot-card {
-  width: 100%;
-
-  display: grid;
-  grid-template-columns: 42% 58%;
-
-  overflow: hidden;
+.bot-intro {
+  background: white;
 
   border-radius: 24px;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,0.10),
-      rgba(255,255,255,0.035)
-    );
+  display: grid;
+  grid-template-columns: 360px 1fr;
 
-  border: 1px solid rgba(255,255,255,0.15);
+  overflow: hidden;
 
   box-shadow:
-    0 25px 60px rgba(0,0,0,0.35);
+    0 10px 35px rgba(25, 50, 80, 0.08);
 }
 
 
-/* ------------------------------
-   IMMAGINE BOT
------------------------------- */
+.bot-picture {
+  min-height: 340px;
 
-.bot-image-wrap {
   display: flex;
   justify-content: center;
   align-items: flex-end;
 
-  min-height: 440px;
-
-  padding: 30px 25px 0;
+  padding: 25px 25px 0;
 
   background:
-    radial-gradient(
-      circle at center,
-      rgba(64, 181, 255, 0.25),
-      transparent 65%
+    linear-gradient(
+      135deg,
+      #dff3ff,
+      #edf8ff
     );
 }
 
-.bot-image {
-  display: block;
 
+.bot-picture img {
   width: 100%;
-  max-width: 390px;
+  max-width: 320px;
 
-  height: auto;
+  display: block;
 }
 
 
-/* ------------------------------
-   TESTI BOT
------------------------------- */
+.bot-title {
+  padding: 55px 50px;
 
-.bot-info {
-  padding: 55px 55px 50px;
-}
-
-.eyebrow {
-  margin: 0 0 12px;
-
-  font-size: 0.82rem;
-  font-weight: 800;
-
-  letter-spacing: 0.16em;
-
-  color: #7fcbff;
-}
-
-.bot-info h1 {
-  margin: 0;
-
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  line-height: 0.95;
-
-  letter-spacing: -0.045em;
-}
-
-.bot-quote {
-  margin: 26px 0 20px;
-
-  font-size: 1.35rem;
-  line-height: 1.45;
-
-  font-style: italic;
-
-  color: #bfe6ff;
-}
-
-.bot-description {
-  margin: 0;
-
-  max-width: 600px;
-
-  font-size: 1.08rem;
-  line-height: 1.7;
-
-  color: #dce5f5;
-}
-
-
-/* ------------------------------
-   STRATEGIA
------------------------------- */
-
-.strategy-box {
   display: flex;
-  align-items: center;
-  gap: 14px;
+  flex-direction: column;
 
-  margin-top: 32px;
-  padding: 15px 18px;
-
-  border-radius: 14px;
-
-  background: rgba(0,0,0,0.25);
+  justify-content: center;
 }
 
-.strategy-label {
-  font-size: 0.75rem;
+
+.qualification {
+  margin: 0 0 10px;
+
+  color: #2879ae;
+
+  font-size: 0.78rem;
+
   font-weight: bold;
 
-  letter-spacing: 0.12em;
-
-  color: #aab8cf;
-}
-
-.strategy-move {
-  width: 42px;
-  height: 42px;
-
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 50%;
-
-  font-size: 1.25rem;
-  font-weight: 900;
-}
-
-.move-c {
-  background: #45d483;
-  color: #06180e;
+  letter-spacing: 0.15em;
 }
 
 
-/* ------------------------------
-   BOX SFIDA
------------------------------- */
+.bot-title h1 {
+  margin: 0;
 
-.challenge-box {
-  width: min(720px, 100%);
+  font-size: clamp(
+    3.5rem,
+    8vw,
+    6rem
+  );
 
-  margin-top: 34px;
+  line-height: 1;
 
-  padding: 34px 38px;
+  color: #173c68;
 
-  text-align: center;
+  letter-spacing: -0.04em;
+}
+
+
+.bot-quote {
+  margin: 28px 0 0;
+
+  color: #53667c;
+
+  font-size: 1.3rem;
+
+  line-height: 1.5;
+
+  font-style: italic;
+}
+
+
+/* =========================
+   CONSEGNA
+========================= */
+
+.instructions {
+  margin-top: 30px;
+
+  background: white;
 
   border-radius: 20px;
 
-  background: #f5f7ff;
-
-  color: #11192a;
+  padding: 35px 40px;
 
   box-shadow:
-    0 18px 40px rgba(0,0,0,0.25);
+    0 8px 25px rgba(25, 50, 80, 0.06);
 }
 
-.challenge-box h2 {
-  margin: 0 0 18px;
+
+.instructions h2 {
+  margin-top: 0;
+
+  color: #173c68;
 
   font-size: 2rem;
 }
 
-.challenge-box p {
-  margin: 8px 0;
 
+.instructions p {
   font-size: 1.05rem;
+
+  line-height: 1.55;
+}
+
+
+.moves {
+  display: grid;
+
+  grid-template-columns:
+    45px auto;
+
+  gap: 10px 14px;
+
+  align-items: center;
+
+  margin: 25px 0;
+}
+
+
+.move {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 900;
+}
+
+
+.move-c {
+  background: #c9f4d8;
+  color: #176638;
+}
+
+
+.move-a {
+  background: #ffd1d1;
+  color: #9c2929;
+}
+
+
+.move-p {
+  background: #d9e7ff;
+  color: #275da6;
+}
+
+
+.hint {
+  margin-bottom: 0;
+
+  color: #53667c;
+}
+
+
+/* =========================
+   EDITOR
+========================= */
+
+.editor-section,
+.game-section {
+  margin-top: 30px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 35px 40px;
+
+  box-shadow:
+    0 8px 25px rgba(25, 50, 80, 0.06);
+}
+
+
+.section-title {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 20px;
+
+  margin-bottom: 20px;
+}
+
+
+.section-title h2 {
+  margin: 4px 0 0;
+
+  color: #173c68;
+
+  font-size: 1.8rem;
+}
+
+
+.small-label {
+  font-size: 0.72rem;
+
+  font-weight: bold;
+
+  color: #6d7d90;
+
+  letter-spacing: 0.14em;
+}
+
+
+.python-status {
+  font-size: 0.85rem;
+
+  color: #9a6a14;
+
+  background: #fff4d8;
+
+  padding: 7px 12px;
+
+  border-radius: 20px;
+}
+
+
+.python-status.ready {
+  color: #176638;
+
+  background: #dff6e7;
+}
+
+
+#python-code {
+  display: block;
+
+  width: 100%;
+
+  min-height: 300px;
+
+  resize: vertical;
+
+  border: 2px solid #cbd7e5;
+
+  border-radius: 12px;
+
+  padding: 20px;
+
+  background: #f8fafc;
+
+  color: #172033;
+
+  font-family:
+    "Courier New",
+    Courier,
+    monospace;
+
+  font-size: 1rem;
+
+  line-height: 1.6;
+
+  tab-size: 4;
+}
+
+
+#python-code:focus {
+  outline: none;
+
+  border-color: #4295cb;
+
+  box-shadow:
+    0 0 0 3px rgba(66, 149, 203, 0.12);
+}
+
+
+/* =========================
+   PULSANTI
+========================= */
+
+.editor-buttons {
+  display: flex;
+
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+
+button {
+  font-family: inherit;
+
+  cursor: pointer;
+}
+
+
+.primary-button {
+  border: 0;
+
+  border-radius: 10px;
+
+  padding: 15px 24px;
+
+  background: #2879ae;
+
+  color: white;
+
+  font-weight: bold;
+
+  font-size: 0.95rem;
+}
+
+
+.primary-button:hover {
+  background: #1d6797;
+}
+
+
+.primary-button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+
+.secondary-button {
+  border: 1px solid #b9c7d6;
+
+  border-radius: 10px;
+
+  padding: 15px 20px;
+
+  background: white;
+
+  color: #40546c;
+
+  font-weight: bold;
+}
+
+
+/* =========================
+   ERRORI
+========================= */
+
+.error-box {
+  margin-top: 20px;
+
+  padding: 16px;
+
+  border-radius: 10px;
+
+  background: #ffe5e5;
+
+  color: #982a2a;
+
+  font-family:
+    "Courier New",
+    monospace;
+
   line-height: 1.5;
 }
 
 
-/* ------------------------------
-   PULSANTE
------------------------------- */
+.hidden {
+  display: none;
+}
 
-.challenge-button {
-  display: inline-block;
 
-  margin-top: 24px;
+/* =========================
+   PUNTEGGIO
+========================= */
 
-  padding: 17px 30px;
+.scoreboard {
+  display: flex;
 
-  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
 
-  background: #1976d2;
+  gap: 35px;
 
-  color: white;
+  padding: 25px;
 
-  text-decoration: none;
+  margin-bottom: 25px;
 
+  background: #eef6fc;
+
+  border-radius: 16px;
+}
+
+
+.score {
+  text-align: center;
+}
+
+
+.score span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #62758b;
+
+  font-size: 0.75rem;
+
+  font-weight: bold;
+
+  letter-spacing: 0.08em;
+}
+
+
+.score strong {
+  display: block;
+
+  font-size: 3rem;
+
+  color: #173c68;
+}
+
+
+.score-separator {
+  font-size: 2rem;
+
+  color: #8fa0b3;
+}
+
+
+/* =========================
+   TABELLA
+========================= */
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  text-align: center;
+}
+
+
+th {
+  padding: 12px 8px;
+
+  border-bottom: 2px solid #dbe4ee;
+
+  color: #62758b;
+
+  font-size: 0.8rem;
+
+  text-transform: uppercase;
+}
+
+
+td {
+  padding: 12px 8px;
+
+  border-bottom: 1px solid #e5ebf1;
+}
+
+
+.table-move {
+  width: 34px;
+  height: 34px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  font-weight: bold;
+}
+
+
+/* =========================
+   RISULTATO FINALE
+========================= */
+
+.final-result {
+  margin-top: 25px;
+
+  border-radius: 14px;
+
+  padding: 25px;
+
+  text-align: center;
+}
+
+
+.final-result strong {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 1.8rem;
+}
+
+
+.final-result span {
   font-size: 1rem;
-  font-weight: 900;
-
-  letter-spacing: 0.06em;
-
-  box-shadow:
-    0 9px 0 #0b4781;
-
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease;
-}
-
-.challenge-button:hover {
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 11px 0 #0b4781;
-}
-
-.challenge-button:active {
-  transform: translateY(5px);
-
-  box-shadow:
-    0 4px 0 #0b4781;
 }
 
 
-/* ------------------------------
+.victory {
+  background: #dff6e7;
+
+  color: #176638;
+}
+
+
+.defeat {
+  background: #ffe5e5;
+
+  color: #8d2929;
+}
+
+
+.draw {
+  background: #fff1cb;
+
+  color: #795716;
+}
+
+
+/* =========================
    LINK INDIETRO
------------------------------- */
+========================= */
 
 .back-link {
-  margin-top: 34px;
+  display: inline-block;
 
-  color: #b9c9df;
+  margin-top: 30px;
+
+  color: #52708d;
 
   text-decoration: none;
 }
 
+
 .back-link:hover {
-  color: white;
+  text-decoration: underline;
 }
 
 
-/* ------------------------------
+/* =========================
    MOBILE
------------------------------- */
+========================= */
 
-@media (max-width: 760px) {
+@media (max-width: 720px) {
 
   .page {
-    width: min(94%, 600px);
+    width: 94%;
   }
 
-  .bot-card {
+
+  .bot-intro {
     grid-template-columns: 1fr;
   }
 
-  .bot-image-wrap {
+
+  .bot-picture {
     min-height: auto;
-
-    padding: 25px 25px 0;
   }
 
-  .bot-image {
-    max-width: 300px;
+
+  .bot-picture img {
+    max-width: 260px;
   }
 
-  .bot-info {
-    padding: 32px 26px 36px;
+
+  .bot-title {
+    padding: 30px 25px 35px;
   }
 
-  .bot-info h1 {
-    font-size: 3.7rem;
+
+  .bot-title h1 {
+    font-size: 4rem;
   }
 
-  .bot-quote {
-    font-size: 1.15rem;
-  }
 
-  .challenge-box {
+  .instructions,
+  .editor-section,
+  .game-section {
     padding: 28px 22px;
+  }
+
+
+  .section-title {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .editor-buttons {
+    flex-direction: column;
+  }
+
+
+  .primary-button,
+  .secondary-button {
+    width: 100%;
   }
 
 }
