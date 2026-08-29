@@ -506,7 +506,7 @@ import ast
 from arena_bridge import arena_input, arena_print
 
 
-def __arena_print__(*args, sep=" ", end="\\\\n", file=None, flush=False):
+def __arena_print__(*args, sep=" ", end="\\n", file=None, flush=False):
 
     testo = sep.join(str(x) for x in args)
     testo = testo + end
