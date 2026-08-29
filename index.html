@@ -1,1 +1,621 @@
+<!DOCTYPE html>
+<html lang="it">
 
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>BOT E RISPOSTA!</title>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css?v=8"
+  >
+
+  <style>
+
+    :root {
+      --blue-dark: #173c68;
+      --blue: #3f91c8;
+      --blue-light: #eaf5fc;
+      --yellow: #ffd84d;
+      --yellow-dark: #d3a900;
+      --text: #27364a;
+      --muted: #6d7d8e;
+      --white: #ffffff;
+      --shadow: 0 12px 30px rgba(24, 57, 91, 0.10);
+    }
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(
+          180deg,
+          #f8fcff 0%,
+          #eef7fc 50%,
+          #ffffff 100%
+        );
+      color: var(--text);
+    }
+
+
+    .home {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 34px 22px 60px;
+    }
+
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      padding: 46px 24px 40px;
+      border-radius: 30px;
+      background:
+        linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #f4fbff 55%,
+          #fff7cc 100%
+        );
+      box-shadow: var(--shadow);
+    }
+
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+
+    .hero::before {
+      width: 230px;
+      height: 230px;
+      background: #bfe7ff;
+      top: -100px;
+      left: -80px;
+    }
+
+
+    .hero::after {
+      width: 190px;
+      height: 190px;
+      background: #ffe46e;
+      right: -65px;
+      bottom: -80px;
+    }
+
+
+    .hero-logo {
+      position: relative;
+      z-index: 1;
+      width: min(480px, 88%);
+      height: auto;
+      margin-bottom: 18px;
+    }
+
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: var(--blue-dark);
+      font-size: clamp(2.2rem, 6vw, 4.3rem);
+    }
+
+
+    .hero p {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 18px auto 0;
+      font-size: 1.1rem;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+
+    .intro-chip {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      margin-top: 22px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: #5f4b00;
+      font-weight: bold;
+      font-size: 0.92rem;
+      letter-spacing: 0.02em;
+    }
+
+
+    .section {
+      margin-top: 46px;
+    }
+
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+
+    .section-title h2 {
+      margin: 0;
+      color: var(--blue-dark);
+      font-size: clamp(1.9rem, 4vw, 2.7rem);
+    }
+
+
+    .section-title p {
+      max-width: 700px;
+      margin: 10px auto 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+
+    .qualifiers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+
+    .bot-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      padding: 25px;
+      border-radius: 22px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+    }
+
+
+    .bot-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 17px 38px rgba(24, 57, 91, 0.15);
+    }
+
+
+    .bot-image-box {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    .bot-card img {
+      max-height: 170px;
+      max-width: 88%;
+      object-fit: contain;
+    }
+
+
+    .bot-card h3 {
+      margin: 14px 0 8px;
+      text-align: center;
+      color: var(--blue-dark);
+      font-size: 1.65rem;
+    }
+
+
+    .bot-card p {
+      margin: 0;
+      text-align: center;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+
+    .challenge-button {
+      margin-top: auto;
+      padding-top: 22px;
+      text-align: center;
+    }
+
+
+    .challenge-button span {
+      display: inline-block;
+      padding: 11px 19px;
+      border-radius: 999px;
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      font-weight: bold;
+    }
+
+
+    .arena-card {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.2fr auto;
+      align-items: center;
+      gap: 30px;
+      padding: 34px 38px;
+      border-radius: 28px;
+      background:
+        linear-gradient(
+          135deg,
+          #183f6c 0%,
+          #2d76ad 62%,
+          #4096c9 100%
+        );
+      box-shadow: 0 18px 42px rgba(24, 63, 108, 0.24);
+      color: white;
+    }
+
+
+    .arena-card::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      right: -75px;
+      top: -80px;
+      background: rgba(255, 216, 77, 0.20);
+    }
+
+
+    .arena-content {
+      position: relative;
+      z-index: 1;
+    }
+
+
+    .arena-label {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: #5f4b00;
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+    }
+
+
+    .arena-card h2 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.3rem);
+    }
+
+
+    .arena-card p {
+      max-width: 670px;
+      margin: 13px 0 0;
+      line-height: 1.6;
+      color: #eaf5fc;
+    }
+
+
+    .arena-button {
+      position: relative;
+      z-index: 1;
+      display: inline-block;
+      white-space: nowrap;
+      padding: 15px 25px;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: #4d3c00;
+      text-decoration: none;
+      font-size: 1.08rem;
+      font-weight: bold;
+      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.16);
+      transition: transform 0.18s ease;
+    }
+
+
+    .arena-button:hover {
+      transform: scale(1.04);
+    }
+
+
+    .rules {
+      margin-top: 42px;
+      padding: 24px 28px;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(24, 57, 91, 0.07);
+      text-align: center;
+    }
+
+
+    .rules strong {
+      color: var(--blue-dark);
+    }
+
+
+    .rules p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+
+    footer {
+      padding: 35px 15px 15px;
+      text-align: center;
+      color: #8290a0;
+      font-size: 0.9rem;
+    }
+
+
+    @media (max-width: 850px) {
+
+      .qualifiers-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .bot-card {
+        max-width: 560px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .arena-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .arena-card p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+    }
+
+
+    @media (max-width: 520px) {
+
+      .home {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .hero {
+        padding: 34px 17px 32px;
+        border-radius: 22px;
+      }
+
+      .arena-card {
+        padding: 28px 20px;
+        border-radius: 22px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<main class="home">
+
+
+  <section class="hero">
+
+    <img
+      src="assets/logober.png"
+      alt="BOT E RISPOSTA!"
+      class="hero-logo"
+    >
+
+    <h1>BOT E RISPOSTA!</h1>
+
+    <p>
+      Progetta il tuo bot in Python, scegli come reagire alle mosse
+      dell'avversario e preparati al torneo.
+      Prima di entrare nell'Arena, dimostra che il tuo bot è pronto
+      affrontando le tre sfide di qualificazione.
+    </p>
+
+    <div class="intro-chip">
+      COOPERA · ATTACCA · PROTEGGI
+    </div>
+
+  </section>
+
+
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>Le qualificazioni</h2>
+
+      <p>
+        Incolla il codice del tuo bot e affronta i tre avversari.
+        Ogni partita dura 10 turni.
+      </p>
+
+    </div>
+
+
+    <div class="qualifiers-grid">
+
+
+      <a
+        href="brobot/index.html"
+        class="bot-card"
+      >
+
+        <div class="bot-image-box">
+
+          <img
+            src="assets/brobot.png"
+            alt="BRObot"
+          >
+
+        </div>
+
+        <h3>BRObot</h3>
+
+        <p>
+          Prima sfida di qualificazione.
+          Metti alla prova il comportamento del tuo bot.
+        </p>
+
+        <div class="challenge-button">
+          <span>SFIDA BRObot →</span>
+        </div>
+
+      </a>
+
+
+
+      <a
+        href="fortino/index.html"
+        class="bot-card"
+      >
+
+        <div class="bot-image-box">
+
+          <img
+            src="assets/fortino.png"
+            alt="Fortino"
+          >
+
+        </div>
+
+        <h3>Fortino</h3>
+
+        <p>
+          Seconda sfida di qualificazione.
+          Il tuo bot saprà ottenere il massimo dalla partita?
+        </p>
+
+        <div class="challenge-button">
+          <span>SFIDA Fortino →</span>
+        </div>
+
+      </a>
+
+
+
+      <a
+        href="rambot/index.html"
+        class="bot-card"
+      >
+
+        <div class="bot-image-box">
+
+          <img
+            src="assets/rambot.png"
+            alt="Rambot"
+          >
+
+        </div>
+
+        <h3>Rambot</h3>
+
+        <p>
+          Terza sfida di qualificazione.
+          Ultimo test prima di entrare nel torneo.
+        </p>
+
+        <div class="challenge-button">
+          <span>SFIDA Rambot →</span>
+        </div>
+
+      </a>
+
+
+    </div>
+
+  </section>
+
+
+
+  <section class="section">
+
+    <div class="arena-card">
+
+      <div class="arena-content">
+
+        <div class="arena-label">
+          TORNEO
+        </div>
+
+        <h2>L'Arena</h2>
+
+        <p>
+          Qui due bot completi si affrontano direttamente.
+          Incolla entrambi i programmi Python, dai un nome ai contendenti
+          e lascia che l'Arena gestisca automaticamente i 10 turni,
+          i punteggi e il risultato finale.
+        </p>
+
+      </div>
+
+
+      <a
+        href="arena/index.html"
+        class="arena-button"
+      >
+        ENTRA NELL'ARENA →
+      </a>
+
+    </div>
+
+  </section>
+
+
+
+  <section class="rules">
+
+    <p>
+      <strong>Ricorda:</strong>
+      a ogni turno il bot deve prima scegliere la propria
+      <code>mossa</code> e poi raggiungere un
+      <code>input()</code> per ricevere la mossa dell'avversario.
+      Le mosse valide sono
+      <strong>C</strong>,
+      <strong>A</strong> e
+      <strong>P</strong>.
+    </p>
+
+  </section>
+
+
+  <footer>
+    BOT E RISPOSTA! · Torneo di bot Python
+  </footer>
+
+
+</main>
+
+
+</body>
+
+</html>
