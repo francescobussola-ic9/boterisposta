@@ -1415,45 +1415,36 @@ function handleWorkerMessage(
      PYTHON PRONTO
   ------------------------------------- */
 
+  if (data.type === "ready") {
+
+  workersReady[bot] = true;
+
+  document.getElementById(
+    "arena-status"
+  ).textContent =
+    "Motore " + bot + " pronto. Attendo l'altro...";
+
   if (
-    data.type ===
-    "ready"
+    workersReady[1] &&
+    workersReady[2]
   ) {
 
-
-    workersReady[bot] =
-      true;
-
-
-    if (
-      workersReady[1] &&
-      workersReady[2]
-    ) {
-
-
-      const status =
-        document.getElementById(
-          "arena-status"
-        );
-
-
-      status.textContent =
-        "Arena pronta ✓";
-
-
-      status.classList.add(
-        "ready"
+    const status =
+      document.getElementById(
+        "arena-status"
       );
 
+    status.textContent =
+      "Arena pronta ✓";
 
-      document.getElementById(
-        "play-button"
-      ).disabled =
-        false;
+    status.classList.add(
+      "ready"
+    );
 
-    }
-
-
+    document.getElementById(
+      "play-button"
+    ).disabled = false;
+  }
     return;
 
   }
