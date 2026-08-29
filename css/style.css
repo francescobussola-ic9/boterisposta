@@ -98,8 +98,8 @@ body {
 }
 
 
-.bot-title {
-  padding: 55px 50px;
+.bot-content {
+  padding: 42px 50px;
 
   display: flex;
   flex-direction: column;
@@ -121,7 +121,7 @@ body {
 }
 
 
-.bot-title h1 {
+.bot-content h1 {
   margin: 0;
 
   font-size: clamp(
@@ -155,35 +155,36 @@ body {
    CONSEGNA
 ========================= */
 
-.instructions {
-  margin-top: 30px;
+.instructions-inline {
+  margin-top: 28px;
 
-  background: white;
+  padding-top: 24px;
 
-  border-radius: 20px;
-
-  padding: 35px 40px;
-
-  box-shadow:
-    0 8px 25px rgba(25, 50, 80, 0.06);
+  border-top: 1px solid #dbe4ee;
 }
 
 
-.instructions h2 {
-  margin-top: 0;
+.instructions-inline h2 {
+  margin: 0 0 14px;
 
   color: #173c68;
 
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 
 
-.instructions p {
-  font-size: 1.05rem;
+.instructions-inline p {
+  margin: 8px 0;
 
-  line-height: 1.55;
+  font-size: 1rem;
+
+  line-height: 1.5;
 }
 
+
+.instructions-inline .moves {
+  margin: 18px 0;
+}
 
 .moves {
   display: grid;
