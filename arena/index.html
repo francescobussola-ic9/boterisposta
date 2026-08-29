@@ -14,15 +14,15 @@
 
   <link
     rel="stylesheet"
-    href="../css/style.css?v=5"
+    href="../css/style.css?v=6"
   >
 
 
   <style>
 
-    /* ====================================
+    /* =========================
        ARENA
-    ==================================== */
+    ========================= */
 
     .arena-header {
       text-align: center;
@@ -43,9 +43,9 @@
     }
 
 
-    /* ====================================
+    /* =========================
        EDITOR
-    ==================================== */
+    ========================= */
 
     .arena-grid {
       display: grid;
@@ -87,7 +87,7 @@
     .bot-code {
       display: block;
       width: 100%;
-      min-height: 370px;
+      min-height: 380px;
       resize: vertical;
       padding: 18px;
       border: 2px solid #cbd7e5;
@@ -107,9 +107,9 @@
     }
 
 
-    /* ====================================
+    /* =========================
        CONTROLLI
-    ==================================== */
+    ========================= */
 
     .arena-controls {
       display: flex;
@@ -141,9 +141,9 @@
     }
 
 
-    /* ====================================
+    /* =========================
        CONSOLE
-    ==================================== */
+    ========================= */
 
     .console-section {
       margin-top: 30px;
@@ -179,7 +179,7 @@
     }
 
     .console {
-      height: 220px;
+      height: 230px;
       overflow-y: auto;
       padding: 17px;
       color: #eef5fc;
@@ -191,9 +191,9 @@
     }
 
 
-    /* ====================================
+    /* =========================
        RISULTATI
-    ==================================== */
+    ========================= */
 
     .arena-results {
       margin-top: 30px;
@@ -322,7 +322,6 @@
 </head>
 
 
-
 <body>
 
 
@@ -345,10 +344,6 @@
 <main class="page">
 
 
-  <!-- ==================================
-       TITOLO
-  =================================== -->
-
   <section class="arena-header">
 
     <p class="qualification">
@@ -365,14 +360,12 @@
 
 
 
-  <!-- ==================================
-       CODICI
-  =================================== -->
+  <!-- =========================
+       BOT
+  ========================== -->
 
   <section class="arena-grid">
 
-
-    <!-- BOT 1 -->
 
     <div class="bot-card">
 
@@ -392,11 +385,13 @@
       >turno = 1
 
 mossa = "C"
+
 print("La mia prima mossa è:", mossa)
 
 mossa_avversario = input("Cosa ha giocato l'avversario? ")
 
 turno = turno + 1
+
 
 while turno <= 10:
 
@@ -414,8 +409,6 @@ while turno <= 10:
     </div>
 
 
-
-    <!-- BOT 2 -->
 
     <div class="bot-card">
 
@@ -435,20 +428,25 @@ while turno <= 10:
       >turno = 1
 
 mossa = "P"
+
 print("Comincio con:", mossa)
 
 mossa_avversario = input("Mossa avversario: ")
 
 turno = turno + 1
 
+
 while turno <= 10:
 
     if turno <= 4:
+
         if mossa_avversario == "A":
             mossa = "P"
         else:
             mossa = "C"
+
     else:
+
         if mossa_avversario == "C":
             mossa = "A"
         else:
@@ -466,9 +464,9 @@ while turno <= 10:
 
 
 
-  <!-- ==================================
-       PULSANTI
-  =================================== -->
+  <!-- =========================
+       CONTROLLI
+  ========================== -->
 
   <div class="arena-controls">
 
@@ -480,12 +478,11 @@ while turno <= 10:
       ▶ AVVIA LA PARTITA
     </button>
 
-
     <button
       id="reset-button"
       class="secondary-button"
     >
-      Cancella risultato
+      Ricomincia
     </button>
 
   </div>
@@ -506,9 +503,9 @@ while turno <= 10:
 
 
 
-  <!-- ==================================
+  <!-- =========================
        CONSOLE
-  =================================== -->
+  ========================== -->
 
   <section
     id="console-section"
@@ -516,7 +513,7 @@ while turno <= 10:
   >
 
     <h2 class="console-title">
-      Console dei bot
+      Console
     </h2>
 
 
@@ -538,7 +535,6 @@ while turno <= 10:
         ></div>
 
       </div>
-
 
 
       <div class="console-card">
@@ -564,9 +560,9 @@ while turno <= 10:
 
 
 
-  <!-- ==================================
+  <!-- =========================
        RISULTATI
-  =================================== -->
+  ========================== -->
 
   <section
     id="results"
@@ -667,85 +663,79 @@ while turno <= 10:
 
 
 
-<script>
+<script type="module">
 
 
-/* ======================================================
+/* =========================================================
    CONFIGURAZIONE
-====================================================== */
+========================================================= */
 
 const PYODIDE_URL =
-  "https://cdn.jsdelivr.net/pyodide/v314.0.3/full/pyodide.js";
+  "https://cdn.jsdelivr.net/pyodide/v314.0.6/full/pyodide.mjs";
 
 
-const TURN_DELAY = 350;
+const TURN_DELAY = 300;
 
 
 /*
-  Se un bot rimane bloccato molto a lungo
-  senza raggiungere il prossimo input(),
-  la partita viene fermata.
-
-  Utile soprattutto contro while infiniti.
+  Se un bot non arriva al successivo input()
+  entro questo tempo, probabilmente è rimasto
+  bloccato in un ciclo infinito.
 */
 
 const BOT_TIMEOUT = 8000;
 
 
 
-/* ======================================================
-   MATRICE PUNTEGGI
-====================================================== */
+/* =========================================================
+   PUNTEGGI
+========================================================= */
 
 const scores = {
 
   C: {
-
     C: [3, 3],
     A: [0, 5],
     P: [2, 1]
-
   },
 
   A: {
-
     C: [5, 0],
     A: [0, 0],
     P: [0, 2]
-
   },
 
   P: {
-
     C: [1, 2],
     A: [2, 0],
     P: [1, 1]
-
   }
 
 };
 
 
 
-/* ======================================================
-   MOTORE PYTHON CHE VERRÀ CARICATO
-   DENTRO CIASCUN WEB WORKER
-====================================================== */
+/* =========================================================
+   MOTORE PYTHON
+
+   L'AST sostituisce ogni:
+
+       input("...")
+
+   con:
+
+       await __arena_input__(mossa, "...")
+
+   Il ragazzo continua però a scrivere input()
+   normalmente.
+========================================================= */
 
 const PYTHON_ENGINE = `
 
 import ast
 
-from arena_bridge import (
-    arena_input,
-    arena_print
-)
+from arena_bridge import arena_input, arena_print
 
-
-
-# ------------------------------------------------------
-# PRINT
-# ------------------------------------------------------
 
 def __arena_print__(
     *args,
@@ -755,20 +745,12 @@ def __arena_print__(
     flush=False
 ):
 
-    testo = sep.join(
-        str(x)
-        for x in args
-    )
-
+    testo = sep.join(str(x) for x in args)
     testo = testo + end
 
     arena_print(testo)
 
 
-
-# ------------------------------------------------------
-# INPUT
-# ------------------------------------------------------
 
 async def __arena_input__(
     mossa_corrente,
@@ -784,37 +766,15 @@ async def __arena_input__(
 
 
 
-# ------------------------------------------------------
-# TRASFORMAZIONE AST
-#
-# input("...")
-#
-# diventa internamente:
-#
-# await __arena_input__(
-#     locals().get("mossa"),
-#     "..."
-# )
-#
-# Lo studente NON deve scrivere await.
-# ------------------------------------------------------
-
-class InputTransformer(
-    ast.NodeTransformer
-):
+class InputTransformer(ast.NodeTransformer):
 
     def visit_Call(self, node):
 
         node = self.generic_visit(node)
 
-
         if (
-            isinstance(
-                node.func,
-                ast.Name
-            )
-            and
-            node.func.id == "input"
+            isinstance(node.func, ast.Name)
+            and node.func.id == "input"
         ):
 
             current_move = ast.Call(
@@ -822,15 +782,12 @@ class InputTransformer(
                 func=ast.Attribute(
 
                     value=ast.Call(
-
                         func=ast.Name(
                             id="locals",
                             ctx=ast.Load()
                         ),
-
                         args=[],
                         keywords=[]
-
                     ),
 
                     attr="get",
@@ -839,13 +796,18 @@ class InputTransformer(
                 ),
 
                 args=[
-                    ast.Constant(
-                        value="mossa"
-                    )
+                    ast.Constant(value="mossa")
                 ],
 
                 keywords=[]
 
+            )
+
+
+            prompt = (
+                node.args[0]
+                if len(node.args) > 0
+                else ast.Constant(value="")
             )
 
 
@@ -858,10 +820,10 @@ class InputTransformer(
 
                 args=[
                     current_move,
-                    *node.args
+                    prompt
                 ],
 
-                keywords=node.keywords
+                keywords=[]
 
             )
 
@@ -881,12 +843,7 @@ class InputTransformer(
 
 
 
-# ------------------------------------------------------
-# ESECUZIONE DEL PROGRAMMA
-# ------------------------------------------------------
-
 async def run_student_code(source):
-
 
     tree = ast.parse(
         source,
@@ -894,19 +851,7 @@ async def run_student_code(source):
     )
 
 
-    tree = InputTransformer().visit(
-        tree
-    )
-
-
-    /*
-      Tutto il programma dello studente
-      viene inserito dentro una funzione
-      asincrona invisibile.
-
-      Il codice originale non viene
-      modificato nell'editor.
-    */
+    tree = InputTransformer().visit(tree)
 
 
     main_function = ast.AsyncFunctionDef(
@@ -914,18 +859,24 @@ async def run_student_code(source):
         name="__bot_main__",
 
         args=ast.arguments(
-
             posonlyargs=[],
             args=[],
+            vararg=None,
             kwonlyargs=[],
             kw_defaults=[],
+            kwarg=None,
             defaults=[]
-
         ),
 
         body=tree.body,
 
-        decorator_list=[]
+        decorator_list=[],
+
+        returns=None,
+
+        type_comment=None,
+
+        type_params=[]
 
     )
 
@@ -941,9 +892,7 @@ async def run_student_code(source):
     )
 
 
-    ast.fix_missing_locations(
-        module
-    )
+    ast.fix_missing_locations(module)
 
 
     compiled = compile(
@@ -982,21 +931,21 @@ async def run_student_code(source):
 
 
 
-/* ======================================================
-   CODICE JAVASCRIPT DI OGNI WORKER
-====================================================== */
+/* =========================================================
+   CREA IL CODICE DEL WEB WORKER
+========================================================= */
 
 function createWorkerSource() {
 
 
   return `
 
-    importScripts(
-      ${JSON.stringify(PYODIDE_URL)}
-    );
+    import {
+      loadPyodide
+    } from ${JSON.stringify(PYODIDE_URL)};
 
 
-    let pyodide;
+    let pyodide = null;
 
     let nextInputId = 0;
 
@@ -1005,13 +954,13 @@ function createWorkerSource() {
 
 
 
-    // ==========================================
-    // PONTE: PRINT
-    // ==========================================
+    /* ---------------------------------------
+       PRINT DA PYTHON
+    --------------------------------------- */
 
     function arenaPrint(text) {
 
-      postMessage({
+      self.postMessage({
 
         type: "print",
 
@@ -1023,9 +972,14 @@ function createWorkerSource() {
 
 
 
-    // ==========================================
-    // PONTE: INPUT
-    // ==========================================
+    /* ---------------------------------------
+       INPUT DA PYTHON
+
+       Restituisce una Promise.
+
+       Python si sospende finché l'Arena
+       non risponde.
+    --------------------------------------- */
 
     function arenaInput(
       move,
@@ -1047,7 +1001,7 @@ function createWorkerSource() {
           );
 
 
-          postMessage({
+          self.postMessage({
 
             type:
               "input",
@@ -1073,19 +1027,16 @@ function createWorkerSource() {
 
 
 
-    // ==========================================
-    // AVVIO PYODIDE
-    // ==========================================
+    /* ---------------------------------------
+       CARICAMENTO PYODIDE
+    --------------------------------------- */
 
     async function initialize() {
 
-
       try {
-
 
         pyodide =
           await loadPyodide();
-
 
 
         pyodide.registerJsModule(
@@ -1105,34 +1056,32 @@ function createWorkerSource() {
         );
 
 
-
         await pyodide.runPythonAsync(
           ${JSON.stringify(PYTHON_ENGINE)}
         );
 
 
-
-        postMessage({
+        self.postMessage({
 
           type:
             "ready"
 
         });
 
-
       }
 
 
       catch (error) {
 
-
-        postMessage({
+        self.postMessage({
 
           type:
             "fatal",
 
           message:
-            error.message
+            String(
+              error.message || error
+            )
 
         });
 
@@ -1146,28 +1095,24 @@ function createWorkerSource() {
 
 
 
-    // ==========================================
-    // MESSAGGI DALL'ARENA
-    // ==========================================
+    /* ---------------------------------------
+       MESSAGGI DALLA PAGINA
+    --------------------------------------- */
 
     self.onmessage =
       async function(event) {
-
 
         const data =
           event.data;
 
 
 
-        // --------------------------------------
-        // RISPOSTA A INPUT
-        // --------------------------------------
+        /* RISPOSTA A INPUT */
 
         if (
           data.type ===
           "input-response"
         ) {
-
 
           const resolve =
             waitingInputs.get(
@@ -1177,11 +1122,9 @@ function createWorkerSource() {
 
           if (resolve) {
 
-
             waitingInputs.delete(
               data.id
             );
-
 
             resolve(
               data.value
@@ -1196,18 +1139,14 @@ function createWorkerSource() {
 
 
 
-        // --------------------------------------
-        // AVVIA PROGRAMMA
-        // --------------------------------------
+        /* AVVIO BOT */
 
         if (
           data.type ===
           "start"
         ) {
 
-
           try {
-
 
             pyodide.globals.set(
               "_student_source",
@@ -1216,31 +1155,33 @@ function createWorkerSource() {
 
 
             await pyodide.runPythonAsync(
+
               "await run_student_code(_student_source)"
+
             );
 
 
-            postMessage({
+            self.postMessage({
 
               type:
                 "done"
 
             });
 
-
           }
 
 
           catch (error) {
 
-
-            postMessage({
+            self.postMessage({
 
               type:
                 "error",
 
               message:
-                error.message
+                String(
+                  error.message || error
+                )
 
             });
 
@@ -1256,11 +1197,19 @@ function createWorkerSource() {
 
 
 
-/* ======================================================
+/* =========================================================
    STATO ARENA
-====================================================== */
+========================================================= */
 
 let workers = {
+
+  1: null,
+  2: null
+
+};
+
+
+let workerUrls = {
 
   1: null,
   2: null
@@ -1282,6 +1231,11 @@ let gameActive = false;
 let turn = 0;
 
 
+let score1 = 0;
+
+let score2 = 0;
+
+
 let pendingMoves = {
 
   1: null,
@@ -1298,11 +1252,6 @@ let finishedBots = {
 };
 
 
-let score1 = 0;
-
-let score2 = 0;
-
-
 let botNames = {
 
   1: "Bot 1",
@@ -1315,9 +1264,9 @@ let watchdog = null;
 
 
 
-/* ======================================================
-   CREA I DUE BOT
-====================================================== */
+/* =========================================================
+   CREA I DUE WORKER
+========================================================= */
 
 function createWorkers() {
 
@@ -1333,9 +1282,15 @@ function createWorkers() {
   };
 
 
-  document.getElementById(
-    "play-button"
-  ).disabled = true;
+  const playButton =
+    document.getElementById(
+      "play-button"
+    );
+
+
+  playButton.disabled =
+    true;
+
 
 
   const status =
@@ -1384,13 +1339,29 @@ function createWorkers() {
       );
 
 
+    workerUrls[bot] =
+      url;
+
+
+
+    /*
+      FONDAMENTALE:
+
+      Pyodide 314 richiede
+      type: "module"
+    */
+
     const worker =
-      new Worker(url);
+      new Worker(
 
+        url,
 
-    URL.revokeObjectURL(
-      url
-    );
+        {
+          type:
+            "module"
+        }
+
+      );
 
 
     workers[bot] =
@@ -1409,13 +1380,14 @@ function createWorkers() {
       };
 
 
+
     worker.onerror =
       function(event) {
 
         failGame(
 
-          "Errore nel motore del Bot " +
-          bot +
+          "Errore nel motore del " +
+          botNames[bot] +
           ".\\n\\n" +
           event.message
 
@@ -1429,9 +1401,9 @@ function createWorkers() {
 
 
 
-/* ======================================================
-   MESSAGGI DAI WORKER
-====================================================== */
+/* =========================================================
+   MESSAGGI DAI BOT
+========================================================= */
 
 function handleWorkerMessage(
   bot,
@@ -1439,12 +1411,13 @@ function handleWorkerMessage(
 ) {
 
 
-  // ----------------------------------------
-  // PRONTO
-  // ----------------------------------------
+  /* -------------------------------------
+     PYTHON PRONTO
+  ------------------------------------- */
 
   if (
-    data.type === "ready"
+    data.type ===
+    "ready"
   ) {
 
 
@@ -1475,7 +1448,8 @@ function handleWorkerMessage(
 
       document.getElementById(
         "play-button"
-      ).disabled = false;
+      ).disabled =
+        false;
 
     }
 
@@ -1486,12 +1460,13 @@ function handleWorkerMessage(
 
 
 
-  // ----------------------------------------
-  // PRINT
-  // ----------------------------------------
+  /* -------------------------------------
+     PRINT
+  ------------------------------------- */
 
   if (
-    data.type === "print"
+    data.type ===
+    "print"
   ) {
 
 
@@ -1511,12 +1486,13 @@ function handleWorkerMessage(
 
 
 
-  // ----------------------------------------
-  // INPUT
-  // ----------------------------------------
+  /* -------------------------------------
+     INPUT
+  ------------------------------------- */
 
   if (
-    data.type === "input"
+    data.type ===
+    "input"
   ) {
 
 
@@ -1531,7 +1507,9 @@ function handleWorkerMessage(
 
       data.id,
 
-      data.move
+      data.move,
+
+      data.prompt
 
     );
 
@@ -1542,12 +1520,13 @@ function handleWorkerMessage(
 
 
 
-  // ----------------------------------------
-  // PROGRAMMA FINITO
-  // ----------------------------------------
+  /* -------------------------------------
+     PROGRAMMA TERMINATO
+  ------------------------------------- */
 
   if (
-    data.type === "done"
+    data.type ===
+    "done"
   ) {
 
 
@@ -1561,23 +1540,19 @@ function handleWorkerMessage(
 
 
 
-    /*
-      Se il programma finisce prima
-      di aver giocato 10 turni,
-      qualcosa non va.
-    */
-
-    if (turn < 10) {
+    if (
+      turn < 10
+    ) {
 
 
       failGame(
 
         botNames[bot] +
         " ha terminato il programma " +
-        "dopo soltanto " +
+        "prima della fine della partita.\\n\\n" +
+        "Turni completati: " +
         turn +
-        " turni.\\n\\n" +
-        "La partita deve durare 10 turni."
+        " su 10."
 
       );
 
@@ -1593,7 +1568,6 @@ function handleWorkerMessage(
       finishedBots[2]
     ) {
 
-
       finishGame();
 
     }
@@ -1605,12 +1579,13 @@ function handleWorkerMessage(
 
 
 
-  // ----------------------------------------
-  // ERRORE PYTHON
-  // ----------------------------------------
+  /* -------------------------------------
+     ERRORE PYTHON
+  ------------------------------------- */
 
   if (
-    data.type === "error"
+    data.type ===
+    "error"
   ) {
 
 
@@ -1619,9 +1594,7 @@ function handleWorkerMessage(
       "Errore in " +
       botNames[bot] +
       ":\\n\\n" +
-      cleanPythonError(
-        data.message
-      )
+      data.message
 
     );
 
@@ -1632,18 +1605,21 @@ function handleWorkerMessage(
 
 
 
-  // ----------------------------------------
-  // ERRORE CARICAMENTO PYTHON
-  // ----------------------------------------
+  /* -------------------------------------
+     ERRORE CARICAMENTO
+  ------------------------------------- */
 
   if (
-    data.type === "fatal"
+    data.type ===
+    "fatal"
   ) {
 
 
     failGame(
 
-      "Errore nel caricamento Python:\\n\\n" +
+      "Errore nel caricamento Python del " +
+      botNames[bot] +
+      ":\\n\\n" +
       data.message
 
     );
@@ -1654,22 +1630,17 @@ function handleWorkerMessage(
 
 
 
-/* ======================================================
-   RICEVE LA MOSSA DA UN BOT
-====================================================== */
+/* =========================================================
+   UN BOT ARRIVA A input()
+========================================================= */
 
 function receiveMove(
   bot,
   inputId,
-  rawMove
+  rawMove,
+  prompt
 ) {
 
-
-  /*
-    Dopo il decimo turno un nuovo
-    input() significherebbe che il bot
-    sta cercando di giocare un turno 11.
-  */
 
   if (
     turn >= 10
@@ -1699,7 +1670,7 @@ function receiveMove(
     failGame(
 
       botNames[bot] +
-      " ha richiesto due input() " +
+      " ha richiesto più di un input() " +
       "nello stesso turno."
 
     );
@@ -1721,7 +1692,7 @@ function receiveMove(
 
       botNames[bot] +
       " è arrivato a input() senza " +
-      'aver assegnato un valore a "mossa".'
+      'aver assegnato un valore alla variabile "mossa".'
 
     );
 
@@ -1750,13 +1721,35 @@ function receiveMove(
       ' ha scelto "' +
       move +
       '".\\n\\n' +
-      'La variabile "mossa" deve essere ' +
+      'La variabile "mossa" deve contenere ' +
       '"C", "A" oppure "P".'
 
     );
 
 
     return;
+
+  }
+
+
+
+  /*
+    Mostriamo anche il prompt dell'input,
+    come in un vero terminale.
+  */
+
+  if (
+    prompt &&
+    String(prompt).length > 0
+  ) {
+
+    appendConsole(
+
+      bot,
+
+      String(prompt)
+
+    );
 
   }
 
@@ -1775,15 +1768,15 @@ function receiveMove(
 
 
   /*
-    Se entrambi sono arrivati al proprio
-    input(), il turno è completo.
+    Entrambi i bot sono arrivati
+    al proprio input():
+    possiamo chiudere il turno.
   */
 
   if (
     pendingMoves[1] &&
     pendingMoves[2]
   ) {
-
 
     completeTurn();
 
@@ -1793,9 +1786,9 @@ function receiveMove(
 
 
 
-/* ======================================================
-   COMPLETA UN TURNO
-====================================================== */
+/* =========================================================
+   COMPLETA IL TURNO
+========================================================= */
 
 function completeTurn() {
 
@@ -1823,7 +1816,7 @@ function completeTurn() {
 
 
 
-  const points =
+  const round =
     scores[
       bot1.move
     ][
@@ -1831,14 +1824,12 @@ function completeTurn() {
     ];
 
 
-
   const points1 =
-    points[0];
+    round[0];
 
 
   const points2 =
-    points[1];
-
+    round[1];
 
 
   score1 +=
@@ -1880,10 +1871,26 @@ function completeTurn() {
 
 
   /*
-    Piccola pausa visiva.
+    Nelle console facciamo vedere
+    anche la risposta ricevuta da input().
+  */
 
-    Poi ciascun input() riceve
-    la mossa dell'altro bot.
+  appendConsole(
+    1,
+    bot2.move + "\n"
+  );
+
+
+  appendConsole(
+    2,
+    bot1.move + "\n"
+  );
+
+
+
+  /*
+    Piccola pausa per rendere
+    leggibile la partita.
   */
 
   setTimeout(
@@ -1925,8 +1932,25 @@ function completeTurn() {
 
 
 
-      armWatchdog();
+      /*
+        Dopo il turno 10 aspettiamo
+        semplicemente che i due programmi
+        terminino.
+      */
 
+      if (
+        turn < 10
+      ) {
+
+        armWatchdog();
+
+      }
+
+      else {
+
+        armFinishWatchdog();
+
+      }
 
     },
 
@@ -1938,9 +1962,9 @@ function completeTurn() {
 
 
 
-/* ======================================================
+/* =========================================================
    AVVIA PARTITA
-====================================================== */
+========================================================= */
 
 function playGame() {
 
@@ -2064,7 +2088,6 @@ function playGame() {
     true;
 
 
-
   document.getElementById(
     "console-section"
   ).classList.remove(
@@ -2110,9 +2133,9 @@ function playGame() {
 
 
 
-/* ======================================================
+/* =========================================================
    TABELLA
-====================================================== */
+========================================================= */
 
 function addTurnToTable(
   turnNumber,
@@ -2178,9 +2201,9 @@ function addTurnToTable(
 
 
 
-/* ======================================================
+/* =========================================================
    CONSOLE
-====================================================== */
+========================================================= */
 
 function appendConsole(
   bot,
@@ -2188,28 +2211,33 @@ function appendConsole(
 ) {
 
 
-  const consoleBox =
+  const box =
     document.getElementById(
       "console-" + bot
     );
 
 
-  consoleBox.textContent +=
+  box.textContent +=
     text;
 
 
-  consoleBox.scrollTop =
-    consoleBox.scrollHeight;
+  box.scrollTop =
+    box.scrollHeight;
 
 }
 
 
 
-/* ======================================================
+/* =========================================================
    FINE PARTITA
-====================================================== */
+========================================================= */
 
 function finishGame() {
+
+
+  if (!gameActive) {
+    return;
+  }
 
 
   clearWatchdog();
@@ -2309,45 +2337,13 @@ function finishGame() {
 
 
 
-/* ======================================================
+/* =========================================================
    ERRORE
-====================================================== */
+========================================================= */
 
 function failGame(
   message
 ) {
-
-
-  if (!gameActive) {
-
-
-    const errorBox =
-      document.getElementById(
-        "error-box"
-      );
-
-
-    errorBox.textContent =
-      message;
-
-
-    errorBox.classList.remove(
-      "hidden"
-    );
-
-
-    return;
-
-  }
-
-
-
-  gameActive =
-    false;
-
-
-  clearWatchdog();
-
 
 
   const errorBox =
@@ -2366,37 +2362,52 @@ function failGame(
 
 
 
-  /*
-    In caso di errore fermiamo completamente
-    entrambi i Worker.
+  if (
+    gameActive
+  ) {
 
-    In questo modo anche un eventuale
-    while infinito viene eliminato.
-  */
-
-  terminateWorkers();
+    gameActive =
+      false;
 
 
-
-  document.getElementById(
-    "arena-status"
-  ).textContent =
-    "Riavvio dell'Arena...";
+    clearWatchdog();
 
 
+    terminateWorkers();
 
-  setTimeout(
-    createWorkers,
-    400
-  );
+
+    const status =
+      document.getElementById(
+        "arena-status"
+      );
+
+
+    status.textContent =
+      "Riavvio dell'Arena...";
+
+
+    status.classList.remove(
+      "ready"
+    );
+
+
+    setTimeout(
+
+      createWorkers,
+
+      400
+
+    );
+
+  }
 
 }
 
 
 
-/* ======================================================
-   TIMEOUT
-====================================================== */
+/* =========================================================
+   TIMEOUT DURANTE LA PARTITA
+========================================================= */
 
 function armWatchdog() {
 
@@ -2422,6 +2433,7 @@ function armWatchdog() {
           "prossimo input().";
 
 
+
         if (
           pendingMoves[1] &&
           !pendingMoves[2]
@@ -2429,7 +2441,7 @@ function armWatchdog() {
 
           message +=
 
-            "\\n\\n" +
+            "\n\n" +
             botNames[1] +
             " è pronto, ma " +
             botNames[2] +
@@ -2445,7 +2457,7 @@ function armWatchdog() {
 
           message +=
 
-            "\\n\\n" +
+            "\n\n" +
             botNames[2] +
             " è pronto, ma " +
             botNames[1] +
@@ -2456,7 +2468,7 @@ function armWatchdog() {
 
         message +=
 
-          "\\n\\nControlla soprattutto i cicli while.";
+          "\n\nControlla soprattutto i cicli while.";
 
 
         failGame(
@@ -2473,10 +2485,54 @@ function armWatchdog() {
 
 
 
+/* =========================================================
+   TIMEOUT DOPO IL TURNO 10
+========================================================= */
+
+function armFinishWatchdog() {
+
+
+  clearWatchdog();
+
+
+  watchdog =
+    setTimeout(
+      function() {
+
+
+        if (!gameActive) {
+          return;
+        }
+
+
+        failGame(
+
+          "Sono stati completati 10 turni, " +
+          "ma uno dei programmi non è terminato.\n\n" +
+          "Controlla il ciclo while e il valore di turno."
+
+        );
+
+      },
+
+      BOT_TIMEOUT
+
+    );
+
+}
+
+
+
+/* =========================================================
+   CANCELLA TIMEOUT
+========================================================= */
+
 function clearWatchdog() {
 
 
-  if (watchdog) {
+  if (
+    watchdog !== null
+  ) {
 
 
     clearTimeout(
@@ -2493,9 +2549,9 @@ function clearWatchdog() {
 
 
 
-/* ======================================================
-   RESET
-====================================================== */
+/* =========================================================
+   RESET VISIVO
+========================================================= */
 
 function resetVisuals() {
 
@@ -2505,6 +2561,12 @@ function resetVisuals() {
   ).classList.add(
     "hidden"
   );
+
+
+  document.getElementById(
+    "error-box"
+  ).textContent =
+    "";
 
 
   document.getElementById(
@@ -2554,14 +2616,21 @@ function resetVisuals() {
 
 
 
+/* =========================================================
+   RICOMINCIA
+
+   Ricreiamo entrambi i motori così
+   ogni partita parte completamente pulita.
+========================================================= */
+
 function resetArena() {
-
-
-  clearWatchdog();
 
 
   gameActive =
     false;
+
+
+  clearWatchdog();
 
 
   resetVisuals();
@@ -2581,20 +2650,15 @@ function resetArena() {
   );
 
 
-  /*
-    Ricreiamo i Worker:
-    partita successiva completamente pulita.
-  */
-
   createWorkers();
 
 }
 
 
 
-/* ======================================================
+/* =========================================================
    TERMINA WORKER
-====================================================== */
+========================================================= */
 
 function terminateWorkers() {
 
@@ -2619,7 +2683,25 @@ function terminateWorkers() {
 
     }
 
+
+
+    if (
+      workerUrls[bot]
+    ) {
+
+
+      URL.revokeObjectURL(
+        workerUrls[bot]
+      );
+
+
+      workerUrls[bot] =
+        null;
+
+    }
+
   }
+
 
 
   workersReady = {
@@ -2633,32 +2715,9 @@ function terminateWorkers() {
 
 
 
-/* ======================================================
-   PULIZIA ERRORI PYTHON
-====================================================== */
-
-function cleanPythonError(
-  message
-) {
-
-
-  /*
-    Manteniamo per ora il traceback:
-    è utile per capire gli errori
-    degli studenti.
-  */
-
-  return String(
-    message
-  );
-
-}
-
-
-
-/* ======================================================
-   ESCAPE HTML
-====================================================== */
+/* =========================================================
+   TESTO SICURO
+========================================================= */
 
 function escapeHTML(
   text
@@ -2681,30 +2740,37 @@ function escapeHTML(
 
 
 
-/* ======================================================
+/* =========================================================
    EVENTI
-====================================================== */
+========================================================= */
 
 document.getElementById(
   "play-button"
 ).addEventListener(
+
   "click",
+
   playGame
+
 );
+
 
 
 document.getElementById(
   "reset-button"
 ).addEventListener(
+
   "click",
+
   resetArena
+
 );
 
 
 
-/* ======================================================
+/* =========================================================
    AVVIO
-====================================================== */
+========================================================= */
 
 createWorkers();
 
