@@ -1,1 +1,1173 @@
+<!DOCTYPE html>
+<html lang="it">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Arena | BOT E RISPOSTA</title>
+
+  <link rel="stylesheet" href="../css/style.css?v=3">
+
+  <script src="https://cdn.jsdelivr.net/pyodide/v314.0.3/full/pyodide.js"></script>
+
+
+  <style>
+
+    /* =========================
+       ARENA
+    ========================= */
+
+    .arena-title {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .arena-title h1 {
+      margin: 0 0 10px;
+
+      color: #173c68;
+
+      font-size: clamp(3rem, 8vw, 5rem);
+
+      letter-spacing: -0.04em;
+    }
+
+    .arena-title p {
+      margin: 0;
+
+      color: #5c6f84;
+
+      font-size: 1.08rem;
+    }
+
+
+    /* DUE BOT */
+
+    .bots-grid {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 25px;
+    }
+
+
+    .bot-editor {
+      background: white;
+
+      border-radius: 20px;
+
+      padding: 28px;
+
+      box-shadow:
+        0 8px 25px rgba(25, 50, 80, 0.06);
+    }
+
+
+    .bot-editor h2 {
+      margin: 0 0 18px;
+
+      color: #173c68;
+    }
+
+
+    .bot-name {
+      width: 100%;
+
+      border: 2px solid #cbd7e5;
+
+      border-radius: 10px;
+
+      padding: 11px 13px;
+
+      margin-bottom: 15px;
+
+      font-size: 1rem;
+
+      font-weight: bold;
+
+      color: #173c68;
+    }
+
+
+    .bot-name:focus {
+      outline: none;
+
+      border-color: #4295cb;
+    }
+
+
+    .bot-code {
+      display: block;
+
+      width: 100%;
+
+      height: 330px;
+
+      resize: vertical;
+
+      border: 2px solid #cbd7e5;
+
+      border-radius: 12px;
+
+      padding: 18px;
+
+      background: #f8fafc;
+
+      color: #172033;
+
+      font-family:
+        "Courier New",
+        Courier,
+        monospace;
+
+      font-size: 0.95rem;
+
+      line-height: 1.55;
+
+      tab-size: 4;
+    }
+
+
+    .bot-code:focus {
+      outline: none;
+
+      border-color: #4295cb;
+
+      box-shadow:
+        0 0 0 3px rgba(66,149,203,0.12);
+    }
+
+
+    /* CONTROLLI */
+
+    .arena-controls {
+      margin-top: 28px;
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 15px;
+
+      flex-wrap: wrap;
+    }
+
+
+    .arena-status {
+      text-align: center;
+
+      margin-top: 18px;
+
+      font-size: 0.9rem;
+
+      color: #8a681c;
+    }
+
+
+    .arena-status.ready {
+      color: #176638;
+    }
+
+
+    /* RISULTATO */
+
+    .arena-result {
+      margin-top: 30px;
+
+      background: white;
+
+      border-radius: 20px;
+
+      padding: 35px 40px;
+
+      box-shadow:
+        0 8px 25px rgba(25, 50, 80, 0.06);
+    }
+
+
+    .arena-scoreboard {
+      display: grid;
+
+      grid-template-columns: 1fr auto 1fr;
+
+      align-items: center;
+
+      gap: 30px;
+
+      padding: 28px;
+
+      margin-bottom: 25px;
+
+      border-radius: 16px;
+
+      background: #eef6fc;
+    }
+
+
+    .arena-score {
+      text-align: center;
+    }
+
+
+    .arena-score span {
+      display: block;
+
+      color: #62758b;
+
+      font-size: 0.78rem;
+
+      font-weight: bold;
+
+      letter-spacing: 0.07em;
+
+      margin-bottom: 4px;
+    }
+
+
+    .arena-score strong {
+      display: block;
+
+      color: #173c68;
+
+      font-size: 3rem;
+    }
+
+
+    .arena-versus {
+      font-size: 1.7rem;
+
+      color: #8193a6;
+
+      font-weight: bold;
+    }
+
+
+    .arena-error {
+      margin-top: 20px;
+
+      padding: 18px;
+
+      border-radius: 12px;
+
+      background: #ffe5e5;
+
+      color: #982a2a;
+
+      font-family: "Courier New", monospace;
+
+      white-space: pre-wrap;
+    }
+
+
+    @media (max-width: 800px) {
+
+      .bots-grid {
+        grid-template-columns: 1fr;
+      }
+
+
+      .bot-code {
+        height: 260px;
+      }
+
+
+      .arena-result {
+        padding: 28px 20px;
+      }
+
+
+      .arena-scoreboard {
+        gap: 15px;
+      }
+
+
+      .arena-score strong {
+        font-size: 2.3rem;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<header class="site-header">
+
+  <a href="../index.html">
+
+    <img
+      src="../assets/logober.png"
+      alt="BOT E RISPOSTA"
+      class="logo"
+    >
+
+  </a>
+
+</header>
+
+
+
+<main class="page">
+
+
+  <!-- TITOLO -->
+
+  <section class="arena-title">
+
+    <p class="qualification">
+      BOT E RISPOSTA
+    </p>
+
+    <h1>Arena</h1>
+
+    <p>
+      Incolla il codice di due bot e falli sfidare.
+    </p>
+
+  </section>
+
+
+
+  <!-- EDITOR -->
+
+  <section class="bots-grid">
+
+
+    <!-- BOT 1 -->
+
+    <div class="bot-editor">
+
+      <h2>Bot 1</h2>
+
+      <input
+        id="bot1-name"
+        class="bot-name"
+        type="text"
+        value="Bot 1"
+        maxlength="30"
+      >
+
+      <textarea
+        id="bot1-code"
+        class="bot-code"
+        spellcheck="false"
+      ># Scrivi qui il codice del Bot 1
+
+if turno == 1:
+    mossa = "C"
+else:
+    if mossa_avversario == "A":
+        mossa = "P"
+    else:
+        mossa = "C"</textarea>
+
+    </div>
+
+
+
+    <!-- BOT 2 -->
+
+    <div class="bot-editor">
+
+      <h2>Bot 2</h2>
+
+      <input
+        id="bot2-name"
+        class="bot-name"
+        type="text"
+        value="Bot 2"
+        maxlength="30"
+      >
+
+      <textarea
+        id="bot2-code"
+        class="bot-code"
+        spellcheck="false"
+      ># Scrivi qui il codice del Bot 2
+
+if turno == 1:
+    mossa = "P"
+else:
+    if mossa_avversario == "C":
+        mossa = "A"
+    else:
+        mossa = "P"</textarea>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- PULSANTI -->
+
+  <section class="arena-controls">
+
+    <button
+      id="play-button"
+      class="primary-button"
+      disabled
+    >
+      ▶ AVVIA LA PARTITA
+    </button>
+
+    <button
+      id="reset-button"
+      class="secondary-button"
+    >
+      Cancella risultato
+    </button>
+
+  </section>
+
+
+  <div
+    id="python-status"
+    class="arena-status"
+  >
+    Caricamento Python...
+  </div>
+
+
+  <div
+    id="error-box"
+    class="arena-error hidden"
+  ></div>
+
+
+
+  <!-- RISULTATI -->
+
+  <section
+    id="result-section"
+    class="arena-result hidden"
+  >
+
+
+    <div class="arena-scoreboard">
+
+
+      <div class="arena-score">
+
+        <span id="score-name-1">
+          BOT 1
+        </span>
+
+        <strong id="score-1">
+          0
+        </strong>
+
+      </div>
+
+
+      <div class="arena-versus">
+        VS
+      </div>
+
+
+      <div class="arena-score">
+
+        <span id="score-name-2">
+          BOT 2
+        </span>
+
+        <strong id="score-2">
+          0
+        </strong>
+
+      </div>
+
+
+    </div>
+
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+        <tr>
+
+          <th>Turno</th>
+
+          <th id="table-name-1">
+            Bot 1
+          </th>
+
+          <th id="table-name-2">
+            Bot 2
+          </th>
+
+          <th>Punti</th>
+
+        </tr>
+
+        </thead>
+
+
+        <tbody id="game-table">
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+
+    <div
+      id="final-result"
+      class="final-result"
+    ></div>
+
+
+  </section>
+
+
+
+  <a
+    href="../index.html"
+    class="back-link"
+  >
+    ← Torna alla home
+  </a>
+
+
+</main>
+
+
+
+<script>
+
+let pyodide;
+
+
+// ================================
+// MATRICE DEI PUNTEGGI
+// ================================
+
+const scores = {
+
+  C: {
+    C: [3, 3],
+    A: [0, 5],
+    P: [2, 1]
+  },
+
+  A: {
+    C: [5, 0],
+    A: [0, 0],
+    P: [0, 2]
+  },
+
+  P: {
+    C: [1, 2],
+    A: [2, 0],
+    P: [1, 1]
+  }
+
+};
+
+
+
+// ================================
+// AVVIO PYODIDE
+// ================================
+
+async function startPython() {
+
+  const status =
+    document.getElementById("python-status");
+
+
+  try {
+
+    pyodide =
+      await loadPyodide();
+
+
+    /*
+      Creiamo due ambienti Python
+      completamente separati.
+
+      Ogni bot avrà quindi le proprie
+      variabili.
+    */
+
+    await pyodide.runPythonAsync(`
+
+bot1_env = {}
+bot2_env = {}
+
+
+def reset_bots():
+
+    global bot1_env
+    global bot2_env
+
+    bot1_env = {}
+    bot2_env = {}
+
+
+def run_bot(code, env, turno, mossa_avversario):
+
+    env["turno"] = turno
+    env["mossa_avversario"] = mossa_avversario
+
+    exec(code, env)
+
+    return env.get("mossa", None)
+
+    `);
+
+
+    status.textContent =
+      "Python pronto ✓";
+
+    status.classList.add("ready");
+
+
+    document.getElementById(
+      "play-button"
+    ).disabled = false;
+
+  }
+
+
+  catch (error) {
+
+    status.textContent =
+      "Errore nel caricamento di Python";
+
+  }
+
+}
+
+
+startPython();
+
+
+
+// ================================
+// ESEGUI UN BOT
+// ================================
+
+async function executeBot(
+  botNumber,
+  code,
+  turn,
+  previousOpponentMove
+) {
+
+  /*
+    Passiamo temporaneamente i dati
+    dal JavaScript a Python.
+  */
+
+  pyodide.globals.set(
+    "_arena_code",
+    code
+  );
+
+  pyodide.globals.set(
+    "_arena_turn",
+    turn
+  );
+
+  pyodide.globals.set(
+    "_arena_previous",
+    previousOpponentMove
+  );
+
+
+  const envName =
+    botNumber === 1
+      ? "bot1_env"
+      : "bot2_env";
+
+
+  const result =
+    await pyodide.runPythonAsync(`
+
+run_bot(
+    _arena_code,
+    ${envName},
+    _arena_turn,
+    _arena_previous
+)
+
+    `);
+
+
+  if (result === null || result === undefined) {
+
+    throw new Error(
+      `Il Bot ${botNumber} non ha assegnato un valore alla variabile "mossa".`
+    );
+
+  }
+
+
+  const move =
+    String(result)
+      .trim()
+      .toUpperCase();
+
+
+  if (!["C", "A", "P"].includes(move)) {
+
+    throw new Error(
+      `Il Bot ${botNumber} ha scelto "${move}". ` +
+      `La variabile "mossa" deve contenere "C", "A" oppure "P".`
+    );
+
+  }
+
+
+  return move;
+
+}
+
+
+
+// ================================
+// PARTITA
+// ================================
+
+async function playGame() {
+
+  const errorBox =
+    document.getElementById("error-box");
+
+  const resultSection =
+    document.getElementById("result-section");
+
+  const table =
+    document.getElementById("game-table");
+
+  const finalResult =
+    document.getElementById("final-result");
+
+
+  errorBox.classList.add("hidden");
+
+  resultSection.classList.remove("hidden");
+
+  table.innerHTML = "";
+
+  finalResult.innerHTML = "";
+
+
+  document.getElementById(
+    "score-1"
+  ).textContent = "0";
+
+  document.getElementById(
+    "score-2"
+  ).textContent = "0";
+
+
+
+  // -----------------------------
+  // NOMI
+  // -----------------------------
+
+  const bot1Name =
+    document.getElementById("bot1-name").value.trim()
+    || "Bot 1";
+
+  const bot2Name =
+    document.getElementById("bot2-name").value.trim()
+    || "Bot 2";
+
+
+  document.getElementById(
+    "score-name-1"
+  ).textContent = bot1Name.toUpperCase();
+
+
+  document.getElementById(
+    "score-name-2"
+  ).textContent = bot2Name.toUpperCase();
+
+
+  document.getElementById(
+    "table-name-1"
+  ).textContent = bot1Name;
+
+
+  document.getElementById(
+    "table-name-2"
+  ).textContent = bot2Name;
+
+
+
+  // -----------------------------
+  // CODICI
+  // -----------------------------
+
+  const code1 =
+    document.getElementById(
+      "bot1-code"
+    ).value;
+
+
+  const code2 =
+    document.getElementById(
+      "bot2-code"
+    ).value;
+
+
+
+  // -----------------------------
+  // RESET AMBIENTI PYTHON
+  // -----------------------------
+
+  await pyodide.runPythonAsync(
+    "reset_bots()"
+  );
+
+
+
+  let score1 = 0;
+  let score2 = 0;
+
+
+  let previousMove1 = "";
+  let previousMove2 = "";
+
+
+
+  // =============================
+  // 10 TURNI
+  // =============================
+
+  for (
+    let turn = 1;
+    turn <= 10;
+    turn++
+  ) {
+
+    try {
+
+
+      /*
+        IMPORTANTE:
+
+        entrambi i bot decidono la mossa
+        conoscendo SOLO ciò che è accaduto
+        nei turni precedenti.
+
+        Nessuno dei due conosce la mossa
+        corrente dell'altro.
+      */
+
+
+      const move1 =
+        await executeBot(
+          1,
+          code1,
+          turn,
+          previousMove2
+        );
+
+
+      const move2 =
+        await executeBot(
+          2,
+          code2,
+          turn,
+          previousMove1
+        );
+
+
+
+      // -----------------------------
+      // PUNTEGGIO
+      // -----------------------------
+
+      const round =
+        scores[move1][move2];
+
+
+      const points1 =
+        round[0];
+
+      const points2 =
+        round[1];
+
+
+      score1 += points1;
+      score2 += points2;
+
+
+
+      // -----------------------------
+      // MOSTRA TURNO
+      // -----------------------------
+
+      addTurn(
+        turn,
+        move1,
+        move2,
+        points1,
+        points2
+      );
+
+
+
+      document.getElementById(
+        "score-1"
+      ).textContent = score1;
+
+
+      document.getElementById(
+        "score-2"
+      ).textContent = score2;
+
+
+
+      /*
+        Solo DOPO aver giocato
+        aggiorniamo la memoria.
+      */
+
+      previousMove1 =
+        move1;
+
+      previousMove2 =
+        move2;
+
+    }
+
+
+    catch (error) {
+
+      errorBox.textContent =
+        "Errore nella partita:\n\n"
+        + error.message;
+
+      errorBox.classList.remove(
+        "hidden"
+      );
+
+      return;
+
+    }
+
+  }
+
+
+
+  // =============================
+  // RISULTATO FINALE
+  // =============================
+
+  if (score1 > score2) {
+
+    finalResult.innerHTML =
+      "<strong>" +
+      escapeHTML(bot1Name) +
+      " vince!</strong>" +
+
+      "<span>" +
+      score1 +
+      " – " +
+      score2 +
+      "</span>";
+
+
+    finalResult.className =
+      "final-result victory";
+
+  }
+
+
+  else if (score2 > score1) {
+
+    finalResult.innerHTML =
+      "<strong>" +
+      escapeHTML(bot2Name) +
+      " vince!</strong>" +
+
+      "<span>" +
+      score2 +
+      " – " +
+      score1 +
+      "</span>";
+
+
+    finalResult.className =
+      "final-result victory";
+
+  }
+
+
+  else {
+
+    finalResult.innerHTML =
+      "<strong>Pareggio!</strong>" +
+
+      "<span>" +
+      score1 +
+      " – " +
+      score2 +
+      "</span>";
+
+
+    finalResult.className =
+      "final-result draw";
+
+  }
+
+}
+
+
+
+// ================================
+// AGGIUNGE TURNO
+// ================================
+
+function addTurn(
+  turn,
+  move1,
+  move2,
+  points1,
+  points2
+) {
+
+  const table =
+    document.getElementById(
+      "game-table"
+    );
+
+
+  const row =
+    document.createElement("tr");
+
+
+  row.innerHTML = `
+
+    <td>
+      ${turn}
+    </td>
+
+
+    <td>
+
+      <span
+        class="table-move move-${move1.toLowerCase()}"
+      >
+        ${move1}
+      </span>
+
+    </td>
+
+
+    <td>
+
+      <span
+        class="table-move move-${move2.toLowerCase()}"
+      >
+        ${move2}
+      </span>
+
+    </td>
+
+
+    <td>
+      ${points1} – ${points2}
+    </td>
+
+  `;
+
+
+  table.appendChild(row);
+
+}
+
+
+
+// ================================
+// PULIZIA RISULTATO
+// ================================
+
+function resetResult() {
+
+  document.getElementById(
+    "result-section"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "error-box"
+  ).classList.add("hidden");
+
+
+  document.getElementById(
+    "game-table"
+  ).innerHTML = "";
+
+
+  document.getElementById(
+    "score-1"
+  ).textContent = "0";
+
+
+  document.getElementById(
+    "score-2"
+  ).textContent = "0";
+
+}
+
+
+
+// ================================
+// SICUREZZA TESTO NOMI
+// ================================
+
+function escapeHTML(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
+
+
+
+// ================================
+// PULSANTI
+// ================================
+
+document.getElementById(
+  "play-button"
+).addEventListener(
+  "click",
+  playGame
+);
+
+
+document.getElementById(
+  "reset-button"
+).addEventListener(
+  "click",
+  resetResult
+);
+
+</script>
+
+
+</body>
+
+</html>
