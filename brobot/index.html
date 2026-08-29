@@ -2,281 +2,479 @@
 <html lang="it">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>BRObot | BOT E RISPOSTA</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <link rel="stylesheet" href="../css/style.css">
+  <title>SFIDA BRObot | BOT E RISPOSTA</title>
 
-  <script src="https://cdn.jsdelivr.net/pyodide/v314.0.3/full/pyodide.js"></script>
+  <link
+    rel="stylesheet"
+    href="../css/style.css?v=7"
+  >
+
+  <style>
+
+    .challenge {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .challenge-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .challenge-bot {
+      width: 150px;
+      max-width: 40vw;
+      margin-bottom: 10px;
+    }
+
+    .challenge-header h1 {
+      margin: 0;
+      color: #173c68;
+      font-size: clamp(2.8rem, 7vw, 4.8rem);
+    }
+
+    .challenge-header p {
+      color: #607287;
+    }
+
+    .code-card {
+      background: white;
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(25, 50, 80, 0.07);
+    }
+
+    .bot-name {
+      width: 100%;
+      padding: 11px 13px;
+      margin-bottom: 14px;
+      border: 2px solid #cbd7e5;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .bot-code {
+      width: 100%;
+      min-height: 420px;
+      padding: 18px;
+      border: 2px solid #cbd7e5;
+      border-radius: 12px;
+      background: #f8fafc;
+      font-family: "Courier New", monospace;
+      font-size: 0.94rem;
+      line-height: 1.55;
+      resize: vertical;
+      tab-size: 4;
+    }
+
+    .bot-code:focus,
+    .bot-name:focus {
+      outline: none;
+      border-color: #4295cb;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 15px;
+      color: #946817;
+    }
+
+    .status.ready {
+      color: #176638;
+    }
+
+    .arena-error {
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #ffe5e5;
+      color: #922727;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
+
+    .console-section,
+    .results {
+      margin-top: 28px;
+    }
+
+    .console-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .console-card {
+      overflow: hidden;
+      border-radius: 16px;
+      background: #172033;
+    }
+
+    .console-head {
+      padding: 11px 16px;
+      background: #26364d;
+      color: white;
+      font-weight: bold;
+    }
+
+    .console {
+      height: 210px;
+      overflow-y: auto;
+      padding: 16px;
+      color: #eef5fc;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+
+    .results {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(25, 50, 80, 0.07);
+    }
+
+    .scoreboard {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px;
+      padding: 24px;
+      border-radius: 15px;
+      background: #eef6fc;
+      text-align: center;
+    }
+
+    .score strong {
+      display: block;
+      font-size: 3rem;
+      color: #173c68;
+    }
+
+    .score span {
+      font-weight: bold;
+      color: #607287;
+    }
+
+    .move {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: bold;
+    }
+
+    .move-c {
+      background: #c9f4d8;
+      color: #176638;
+    }
+
+    .move-a {
+      background: #ffd1d1;
+      color: #9c2929;
+    }
+
+    .move-p {
+      background: #d9e7ff;
+      color: #275da6;
+    }
+
+    .final {
+      margin-top: 24px;
+      padding: 22px;
+      text-align: center;
+      border-radius: 14px;
+      font-size: 1.2rem;
+    }
+
+    .victory {
+      background: #dff6e7;
+      color: #176638;
+    }
+
+    .defeat {
+      background: #ffe4e4;
+      color: #922727;
+    }
+
+    .draw {
+      background: #fff1cb;
+      color: #795716;
+    }
+
+    @media (max-width: 700px) {
+
+      .console-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .results {
+        padding: 20px;
+      }
+
+    }
+
+  </style>
+
 </head>
 
 
 <body>
 
-  <header class="site-header">
+<header class="site-header">
 
-    <a href="../index.html">
-      <img
-        src="../assets/logober.png"
-        alt="BOT E RISPOSTA"
-        class="logo"
-      >
-    </a>
+  <a href="../index.html">
+    <img
+      src="../assets/logober.png"
+      alt="BOT E RISPOSTA"
+      class="logo"
+    >
+  </a>
 
-  </header>
+</header>
 
 
-  <main class="page">
+<main class="page challenge">
 
-    <!-- BOT -->
+  <section class="challenge-header">
 
-    <section class="bot-intro">
-
-  <div class="bot-picture">
     <img
       src="../assets/brobot.png"
       alt="BRObot"
+      class="challenge-bot"
     >
+
+    <h1>SFIDA BRObot</h1>
+
+    <p>
+      Incolla il codice del tuo bot e avvia la partita.
+    </p>
+
+  </section>
+
+
+  <section class="code-card">
+
+    <input
+      id="student-name"
+      class="bot-name"
+      value="Il mio bot"
+      maxlength="30"
+    >
+
+    <textarea
+      id="student-code"
+      class="bot-code"
+      spellcheck="false"
+    >turno = 1
+
+while turno <= 10:
+
+    mossa = "C"
+
+    print("Turno", turno, "- gioco", mossa)
+
+    mossa_avversario = input("Mossa avversario: ")
+
+    turno = turno + 1</textarea>
+
+  </section>
+
+
+  <div class="controls">
+
+    <button
+      id="play-button"
+      class="primary-button"
+      disabled
+    >
+      ▶ SFIDA BRObot
+    </button>
+
+    <button
+      id="reset-button"
+      class="secondary-button"
+    >
+      Ricomincia
+    </button>
+
   </div>
 
-  <div class="bot-content">
 
-    <p class="qualification">
-      BOT DI QUALIFICAZIONE #1
-    </p>
-
-    <h1>BRObot</h1>
-
-    <p class="bot-quote">
-      «Piacere. Io sono BRObot.<br>
-      Vediamo cosa sai fare.»
-    </p>
+  <div
+    id="status"
+    class="status"
+  >
+    Preparazione dei motori Python...
+  </div>
 
 
-    <div class="instructions-inline">
+  <div
+    id="error-box"
+    class="arena-error hidden"
+  ></div>
 
-      <h2>Batti BRObot</h2>
 
-      <p>
-        La partita dura <strong>10 turni</strong>.
-      </p>
+  <section
+    id="console-section"
+    class="console-section hidden"
+  >
 
-      <p>
-        A ogni turno il tuo programma deve scegliere:
-      </p>
+    <div class="console-grid">
 
-      <div class="moves">
+      <div class="console-card">
 
-        <span class="move move-c">C</span>
-        <span>Cooperare</span>
+        <div
+          id="console-name-student"
+          class="console-head"
+        >
+          IL MIO BOT
+        </div>
 
-        <span class="move move-a">A</span>
-        <span>Attaccare</span>
-
-        <span class="move move-p">P</span>
-        <span>Proteggere</span>
+        <div
+          id="console-student"
+          class="console"
+        ></div>
 
       </div>
 
-      <p class="hint">
-        Modifica il codice qui sotto e costruisci la tua strategia.
-      </p>
+
+      <div class="console-card">
+
+        <div class="console-head">
+          BRObot
+        </div>
+
+        <div
+          id="console-opponent"
+          class="console"
+        ></div>
+
+      </div>
 
     </div>
 
-  </div>
-
-</section>
+  </section>
 
 
+  <section
+    id="results"
+    class="results hidden"
+  >
 
-    <!-- EDITOR -->
+    <div class="scoreboard">
 
-    <section class="editor-section">
+      <div class="score">
 
-      <div class="section-title">
+        <span id="score-name-student">
+          IL MIO BOT
+        </span>
 
-        <div>
-          <span class="small-label">IL TUO BOT</span>
-          <h2>Codice Python</h2>
-        </div>
-
-        <div id="python-status" class="python-status">
-          Caricamento Python...
-        </div>
-
-      </div>
-
-
-      <textarea
-        id="python-code"
-        spellcheck="false"
-      ># A ogni turno devi scegliere una mossa:
-# "C", "A" oppure "P"
-
-mossa = "C"</textarea>
-
-
-      <div class="editor-buttons">
-
-        <button
-          id="play-button"
-          class="primary-button"
-          disabled
-        >
-          ▶ GIOCA CONTRO BROBOT
-        </button>
-
-        <button
-          id="reset-button"
-          class="secondary-button"
-        >
-          Ricomincia
-        </button>
+        <strong id="score-student">
+          0
+        </strong>
 
       </div>
 
+      <strong>VS</strong>
 
-      <div id="error-box" class="error-box hidden"></div>
+      <div class="score">
 
-    </section>
+        <span>BRObot</span>
 
-
-
-    <!-- PARTITA -->
-
-    <section
-      id="game-section"
-      class="game-section hidden"
-    >
-
-      <div class="section-title">
-
-        <div>
-          <span class="small-label">RISULTATO</span>
-          <h2>La partita</h2>
-        </div>
+        <strong id="score-opponent">
+          0
+        </strong>
 
       </div>
 
-
-      <div class="scoreboard">
-
-        <div class="score">
-
-          <span>IL TUO BOT</span>
-
-          <strong id="player-score">
-            0
-          </strong>
-
-        </div>
+    </div>
 
 
-        <div class="score-separator">
-          :
-        </div>
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Turno</th>
+            <th id="table-student-name">Il mio bot</th>
+            <th>BRObot</th>
+            <th>Punti</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="game-table"></tbody>
+
+      </table>
+
+    </div>
 
 
-        <div class="score">
+    <div
+      id="final-result"
+      class="final"
+    ></div>
 
-          <span>BROBOT</span>
-
-          <strong id="brobot-score">
-            0
-          </strong>
-
-        </div>
-
-      </div>
+  </section>
 
 
-      <div class="table-wrapper">
+  <a
+    href="../index.html"
+    class="back-link"
+  >
+    ← Torna alla home
+  </a>
 
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>Turno</th>
-              <th>Il tuo bot</th>
-              <th>BRObot</th>
-              <th>Punti</th>
-            </tr>
-
-          </thead>
-
-          <tbody id="game-table">
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-
-      <div
-        id="final-result"
-        class="final-result"
-      ></div>
-
-    </section>
-
-
-    <a
-      href="../index.html"
-      class="back-link"
-    >
-      ← Torna alla home
-    </a>
-
-  </main>
+</main>
 
 
 
-<script>
+<script type="module">
 
-let pyodide;
+const PYODIDE_URL =
+  "https://cdn.jsdelivr.net/pyodide/v314.0.6/full/pyodide.mjs";
 
+const TURN_DELAY = 300;
+const BOT_TIMEOUT = 8000;
 
-// ------------------------------------
-// AVVIO PYTHON
-// ------------------------------------
+const OPPONENT_NAME = "BRObot";
 
-async function startPython() {
+const OPPONENT_CODE = `
+turno = 1
 
-  const status =
-    document.getElementById("python-status");
+while turno <= 10:
 
-  try {
+    mossa = "C"
 
-    pyodide = await loadPyodide();
+    print("Gioco:", mossa)
 
-    status.textContent = "Python pronto ✓";
-    status.classList.add("ready");
+    mossa_avversario = input("Mossa avversario: ")
 
-    document.getElementById("play-button").disabled = false;
+    turno = turno + 1
+`;
 
-  }
-
-  catch (error) {
-
-    status.textContent =
-      "Errore nel caricamento di Python";
-
-  }
-
-}
-
-startPython();
-
-
-
-// ------------------------------------
-// MATRICE DEI PUNTEGGI
-// ------------------------------------
 
 const scores = {
 
@@ -301,301 +499,1288 @@ const scores = {
 };
 
 
+const PYTHON_ENGINE = `
 
-// ------------------------------------
-// BROBOT
-// ------------------------------------
+import ast
 
-function brobotMove(turn, previousMove) {
+from arena_bridge import arena_input, arena_print
 
-  /*
-    La strategia di BRObot
-    è gestita dal sito.
-  */
 
-  return "C";
+def __arena_print__(*args, sep=" ", end="\\\\n", file=None, flush=False):
+
+    testo = sep.join(str(x) for x in args)
+    testo = testo + end
+
+    arena_print(testo)
+
+
+async def __arena_input__(mossa_corrente, prompt=""):
+
+    risposta = await arena_input(
+        mossa_corrente,
+        str(prompt)
+    )
+
+    return str(risposta)
+
+
+class InputTransformer(ast.NodeTransformer):
+
+    def visit_Call(self, node):
+
+        node = self.generic_visit(node)
+
+        if (
+            isinstance(node.func, ast.Name)
+            and node.func.id == "input"
+        ):
+
+            current_move = ast.Call(
+
+                func=ast.Attribute(
+
+                    value=ast.Call(
+                        func=ast.Name(
+                            id="locals",
+                            ctx=ast.Load()
+                        ),
+                        args=[],
+                        keywords=[]
+                    ),
+
+                    attr="get",
+                    ctx=ast.Load()
+
+                ),
+
+                args=[
+                    ast.Constant(value="mossa")
+                ],
+
+                keywords=[]
+
+            )
+
+            prompt = (
+                node.args[0]
+                if len(node.args) > 0
+                else ast.Constant(value="")
+            )
+
+            new_call = ast.Call(
+
+                func=ast.Name(
+                    id="__arena_input__",
+                    ctx=ast.Load()
+                ),
+
+                args=[
+                    current_move,
+                    prompt
+                ],
+
+                keywords=[]
+
+            )
+
+            return ast.copy_location(
+                ast.Await(value=new_call),
+                node
+            )
+
+        return node
+
+
+async def run_student_code(source):
+
+    tree = ast.parse(
+        source,
+        filename="<bot>"
+    )
+
+    tree = InputTransformer().visit(tree)
+
+    main_function = ast.AsyncFunctionDef(
+
+        name="__bot_main__",
+
+        args=ast.arguments(
+            posonlyargs=[],
+            args=[],
+            vararg=None,
+            kwonlyargs=[],
+            kw_defaults=[],
+            kwarg=None,
+            defaults=[]
+        ),
+
+        body=tree.body,
+
+        decorator_list=[],
+
+        returns=None,
+
+        type_comment=None,
+
+        type_params=[]
+
+    )
+
+    module = ast.Module(
+        body=[main_function],
+        type_ignores=[]
+    )
+
+    ast.fix_missing_locations(module)
+
+    compiled = compile(
+        module,
+        filename="<bot>",
+        mode="exec"
+    )
+
+    environment = {
+        "__arena_input__": __arena_input__,
+        "print": __arena_print__
+    }
+
+    exec(
+        compiled,
+        environment
+    )
+
+    await environment["__bot_main__"]()
+
+`;
+
+
+function createWorkerSource() {
+
+  return `
+
+    import {
+      loadPyodide
+    } from ${JSON.stringify(PYODIDE_URL)};
+
+    let pyodide = null;
+    let nextInputId = 0;
+
+    const waitingInputs =
+      new Map();
+
+
+    function arenaPrint(text) {
+
+      self.postMessage({
+        type: "print",
+        text: String(text)
+      });
+
+    }
+
+
+    function arenaInput(move, prompt) {
+
+      return new Promise(
+        (resolve) => {
+
+          nextInputId++;
+
+          const id =
+            nextInputId;
+
+          waitingInputs.set(
+            id,
+            resolve
+          );
+
+          self.postMessage({
+
+            type: "input",
+
+            id: id,
+
+            move:
+              move === null ||
+              move === undefined
+                ? null
+                : String(move),
+
+            prompt:
+              String(prompt || "")
+
+          });
+
+        }
+      );
+
+    }
+
+
+    async function initialize() {
+
+      try {
+
+        pyodide =
+          await loadPyodide();
+
+        pyodide.registerJsModule(
+          "arena_bridge",
+          {
+            arena_input: arenaInput,
+            arena_print: arenaPrint
+          }
+        );
+
+        await pyodide.runPythonAsync(
+          ${JSON.stringify(PYTHON_ENGINE)}
+        );
+
+        self.postMessage({
+          type: "ready"
+        });
+
+      }
+
+      catch (error) {
+
+        self.postMessage({
+          type: "fatal",
+          message: String(error.message || error)
+        });
+
+      }
+
+    }
+
+
+    initialize();
+
+
+    self.onmessage =
+      async function(event) {
+
+        const data =
+          event.data;
+
+
+        if (
+          data.type ===
+          "input-response"
+        ) {
+
+          const resolve =
+            waitingInputs.get(
+              data.id
+            );
+
+          if (resolve) {
+
+            waitingInputs.delete(
+              data.id
+            );
+
+            resolve(
+              data.value
+            );
+
+          }
+
+          return;
+
+        }
+
+
+        if (
+          data.type ===
+          "start"
+        ) {
+
+          try {
+
+            pyodide.globals.set(
+              "_student_source",
+              data.code
+            );
+
+            await pyodide.runPythonAsync(
+              "await run_student_code(_student_source)"
+            );
+
+            self.postMessage({
+              type: "done"
+            });
+
+          }
+
+          catch (error) {
+
+            self.postMessage({
+              type: "error",
+              message: String(error.message || error)
+            });
+
+          }
+
+        }
+
+      };
+
+  `;
 
 }
 
 
+let workers = {
+  student: null,
+  opponent: null
+};
 
-// ------------------------------------
-// PARTITA
-// ------------------------------------
+let workerUrls = {
+  student: null,
+  opponent: null
+};
 
-async function playGame() {
+let ready = {
+  student: false,
+  opponent: false
+};
 
-  const code =
-    document.getElementById("python-code").value;
+let pending = {
+  student: null,
+  opponent: null
+};
 
-  const errorBox =
-    document.getElementById("error-box");
+let finished = {
+  student: false,
+  opponent: false
+};
 
-  const gameSection =
-    document.getElementById("game-section");
+let gameActive = false;
 
-  const table =
-    document.getElementById("game-table");
+let turn = 0;
 
-  const finalResult =
-    document.getElementById("final-result");
+let scoreStudent = 0;
+let scoreOpponent = 0;
 
+let studentName =
+  "Il mio bot";
 
-  errorBox.classList.add("hidden");
-
-  table.innerHTML = "";
-
-  finalResult.innerHTML = "";
-
-  gameSection.classList.remove("hidden");
-
-
-  let playerScore = 0;
-  let brobotScore = 0;
-
-  let previousOpponentMove = "";
+let watchdog = null;
 
 
+function createWorkers() {
 
-  for (let turn = 1; turn <= 10; turn++) {
+  terminateWorkers();
 
-    try {
+  ready = {
+    student: false,
+    opponent: false
+  };
 
-      // Variabili rese disponibili al programma Python
+  document.getElementById(
+    "play-button"
+  ).disabled = true;
 
-      pyodide.globals.set("turno", turn);
+  const status =
+    document.getElementById(
+      "status"
+    );
 
-      pyodide.globals.set(
-        "mossa_avversario",
-        previousOpponentMove
+  status.textContent =
+    "Preparazione dei motori Python...";
+
+  status.classList.remove(
+    "ready"
+  );
+
+
+  for (
+    const bot of ["student", "opponent"]
+  ) {
+
+    const blob =
+      new Blob(
+        [createWorkerSource()],
+        {
+          type: "text/javascript"
+        }
       );
 
-
-      // Esegui il codice dello studente
-
-      await pyodide.runPythonAsync(code);
-
-
-      // Recupera la variabile "mossa"
-
-      let playerMove =
-        pyodide.globals.get("mossa");
-
-
-      playerMove =
-        String(playerMove)
-          .trim()
-          .toUpperCase();
-
-
-
-      // Controllo della mossa
-
-      if (!["C", "A", "P"].includes(playerMove)) {
-
-        throw new Error(
-          'La variabile "mossa" deve contenere "C", "A" oppure "P".'
-        );
-
-      }
-
-
-
-      // Mossa di BRObot
-
-      const opponentMove =
-        brobotMove(
-          turn,
-          previousOpponentMove
-        );
-
-
-
-      // Calcolo punti
-
-      const roundScores =
-        scores[playerMove][opponentMove];
-
-      playerScore += roundScores[0];
-      brobotScore += roundScores[1];
-
-
-
-      // Mostra turno
-
-      addTurn(
-        turn,
-        playerMove,
-        opponentMove,
-        roundScores[0],
-        roundScores[1]
+    const url =
+      URL.createObjectURL(
+        blob
       );
 
+    workerUrls[bot] =
+      url;
+
+    const worker =
+      new Worker(
+        url,
+        {
+          type: "module"
+        }
+      );
+
+    workers[bot] =
+      worker;
+
+    worker.onmessage =
+      function(event) {
+
+        handleWorkerMessage(
+          bot,
+          event.data
+        );
+
+      };
+
+    worker.onerror =
+      function(event) {
+
+        failGame(
+          "Errore nel motore Python.\n\n" +
+          event.message
+        );
+
+      };
+
+  }
+
+}
 
 
-      // Aggiorna punteggio
+function handleWorkerMessage(
+  bot,
+  data
+) {
+
+  if (
+    data.type === "ready"
+  ) {
+
+    ready[bot] =
+      true;
+
+    if (
+      ready.student &&
+      ready.opponent
+    ) {
+
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+      status.textContent =
+        "Sfida pronta ✓";
+
+      status.classList.add(
+        "ready"
+      );
 
       document.getElementById(
-        "player-score"
-      ).textContent = playerScore;
-
-      document.getElementById(
-        "brobot-score"
-      ).textContent = brobotScore;
-
-
-
-      // Memorizza la mossa dell'avversario
-
-      previousOpponentMove =
-        opponentMove;
+        "play-button"
+      ).disabled = false;
 
     }
 
-    catch (error) {
+    return;
 
-      errorBox.textContent =
-        "Errore nel codice: " +
-        error.message;
+  }
 
-      errorBox.classList.remove("hidden");
+
+  if (
+    data.type === "print"
+  ) {
+
+    if (gameActive) {
+
+      appendConsole(
+        bot,
+        data.text
+      );
+
+    }
+
+    return;
+
+  }
+
+
+  if (
+    data.type === "input"
+  ) {
+
+    if (!gameActive) {
+      return;
+    }
+
+    receiveMove(
+      bot,
+      data.id,
+      data.move,
+      data.prompt
+    );
+
+    return;
+
+  }
+
+
+  if (
+    data.type === "done"
+  ) {
+
+    if (!gameActive) {
+      return;
+    }
+
+    finished[bot] =
+      true;
+
+    if (
+      turn < 10
+    ) {
+
+      failGame(
+        botLabel(bot) +
+        " ha terminato il programma prima del turno 10."
+      );
 
       return;
 
     }
 
-  }
+    if (
+      finished.student &&
+      finished.opponent
+    ) {
 
+      finishGame();
 
+    }
 
-  // RISULTATO FINALE
-
-  if (playerScore > brobotScore) {
-
-    finalResult.innerHTML =
-      "<strong>VITTORIA!</strong>" +
-      "<span>Hai battuto BRObot.</span>";
-
-    finalResult.className =
-      "final-result victory";
+    return;
 
   }
 
-  else if (playerScore < brobotScore) {
 
-    finalResult.innerHTML =
-      "<strong>BRObot vince.</strong>" +
-      "<span>Modifica il codice e riprova.</span>";
+  if (
+    data.type === "error"
+  ) {
 
-    finalResult.className =
-      "final-result defeat";
+    failGame(
+      "Errore in " +
+      botLabel(bot) +
+      ":\n\n" +
+      data.message
+    );
+
+    return;
+
+  }
+
+
+  if (
+    data.type === "fatal"
+  ) {
+
+    failGame(
+      "Errore nel caricamento Python:\n\n" +
+      data.message
+    );
+
+  }
+
+}
+
+
+function receiveMove(
+  bot,
+  inputId,
+  rawMove,
+  prompt
+) {
+
+  if (
+    turn >= 10
+  ) {
+
+    failGame(
+      botLabel(bot) +
+      " ha richiesto un nuovo input() dopo il turno 10."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    rawMove === null ||
+    rawMove === undefined
+  ) {
+
+    failGame(
+      botLabel(bot) +
+      ' è arrivato a input() senza aver assegnato "mossa".'
+    );
+
+    return;
+
+  }
+
+
+  const move =
+    String(rawMove)
+      .trim()
+      .toUpperCase();
+
+
+  if (
+    !["C", "A", "P"].includes(
+      move
+    )
+  ) {
+
+    failGame(
+      botLabel(bot) +
+      ' ha assegnato a "mossa" il valore "' +
+      move +
+      '".\n\nSono ammessi soltanto C, A e P.'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    prompt
+  ) {
+
+    appendConsole(
+      bot,
+      String(prompt)
+    );
+
+  }
+
+
+  pending[bot] = {
+    id: inputId,
+    move: move
+  };
+
+
+  if (
+    pending.student &&
+    pending.opponent
+  ) {
+
+    completeTurn();
+
+  }
+
+}
+
+
+function completeTurn() {
+
+  clearWatchdog();
+
+  const student =
+    pending.student;
+
+  const opponent =
+    pending.opponent;
+
+  pending = {
+    student: null,
+    opponent: null
+  };
+
+  turn++;
+
+  const points =
+    scores[
+      student.move
+    ][
+      opponent.move
+    ];
+
+  const pStudent =
+    points[0];
+
+  const pOpponent =
+    points[1];
+
+  scoreStudent +=
+    pStudent;
+
+  scoreOpponent +=
+    pOpponent;
+
+  addTurnToTable(
+    turn,
+    student.move,
+    opponent.move,
+    pStudent,
+    pOpponent
+  );
+
+  document.getElementById(
+    "score-student"
+  ).textContent =
+    scoreStudent;
+
+  document.getElementById(
+    "score-opponent"
+  ).textContent =
+    scoreOpponent;
+
+
+  appendConsole(
+    "student",
+    opponent.move + "\n"
+  );
+
+  appendConsole(
+    "opponent",
+    student.move + "\n"
+  );
+
+
+  setTimeout(
+    function() {
+
+      if (!gameActive) {
+        return;
+      }
+
+      workers.student.postMessage({
+
+        type:
+          "input-response",
+
+        id:
+          student.id,
+
+        value:
+          opponent.move
+
+      });
+
+      workers.opponent.postMessage({
+
+        type:
+          "input-response",
+
+        id:
+          opponent.id,
+
+        value:
+          student.move
+
+      });
+
+      if (
+        turn < 10
+      ) {
+
+        armWatchdog();
+
+      }
+
+      else {
+
+        armFinishWatchdog();
+
+      }
+
+    },
+
+    TURN_DELAY
+
+  );
+
+}
+
+
+function playGame() {
+
+  resetVisuals();
+
+  studentName =
+    document.getElementById(
+      "student-name"
+    ).value.trim()
+    || "Il mio bot";
+
+  const studentCode =
+    document.getElementById(
+      "student-code"
+    ).value;
+
+  document.getElementById(
+    "console-name-student"
+  ).textContent =
+    studentName.toUpperCase();
+
+  document.getElementById(
+    "score-name-student"
+  ).textContent =
+    studentName.toUpperCase();
+
+  document.getElementById(
+    "table-student-name"
+  ).textContent =
+    studentName;
+
+  gameActive =
+    true;
+
+  turn =
+    0;
+
+  scoreStudent =
+    0;
+
+  scoreOpponent =
+    0;
+
+  pending = {
+    student: null,
+    opponent: null
+  };
+
+  finished = {
+    student: false,
+    opponent: false
+  };
+
+  document.getElementById(
+    "play-button"
+  ).disabled = true;
+
+  document.getElementById(
+    "console-section"
+  ).classList.remove(
+    "hidden"
+  );
+
+  document.getElementById(
+    "results"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  workers.student.postMessage({
+    type: "start",
+    code: studentCode
+  });
+
+  workers.opponent.postMessage({
+    type: "start",
+    code: OPPONENT_CODE
+  });
+
+  armWatchdog();
+
+}
+
+
+function addTurnToTable(
+  turnNumber,
+  moveStudent,
+  moveOpponent,
+  pStudent,
+  pOpponent
+) {
+
+  const row =
+    document.createElement(
+      "tr"
+    );
+
+  row.innerHTML = `
+
+    <td>
+      ${turnNumber}
+    </td>
+
+    <td>
+      <span class="move move-${moveStudent.toLowerCase()}">
+        ${moveStudent}
+      </span>
+    </td>
+
+    <td>
+      <span class="move move-${moveOpponent.toLowerCase()}">
+        ${moveOpponent}
+      </span>
+    </td>
+
+    <td>
+      ${pStudent} – ${pOpponent}
+    </td>
+
+  `;
+
+  document.getElementById(
+    "game-table"
+  ).appendChild(
+    row
+  );
+
+}
+
+
+function finishGame() {
+
+  if (!gameActive) {
+    return;
+  }
+
+  clearWatchdog();
+
+  gameActive =
+    false;
+
+  const box =
+    document.getElementById(
+      "final-result"
+    );
+
+
+  if (
+    scoreStudent > scoreOpponent
+  ) {
+
+    box.className =
+      "final victory";
+
+    box.innerHTML =
+      "<strong>Vittoria!</strong><br>" +
+      escapeHTML(studentName) +
+      " batte " +
+      OPPONENT_NAME +
+      " " +
+      scoreStudent +
+      " – " +
+      scoreOpponent;
+
+  }
+
+  else if (
+    scoreStudent < scoreOpponent
+  ) {
+
+    box.className =
+      "final defeat";
+
+    box.innerHTML =
+      "<strong>BRObot vince.</strong><br>" +
+      scoreStudent +
+      " – " +
+      scoreOpponent;
 
   }
 
   else {
 
-    finalResult.innerHTML =
-      "<strong>Pareggio.</strong>" +
-      "<span>Prova una nuova strategia.</span>";
+    box.className =
+      "final draw";
 
-    finalResult.className =
-      "final-result draw";
+    box.innerHTML =
+      "<strong>Pareggio!</strong><br>" +
+      scoreStudent +
+      " – " +
+      scoreOpponent;
+
+  }
+
+  document.getElementById(
+    "play-button"
+  ).disabled = false;
+
+}
+
+
+function appendConsole(
+  bot,
+  text
+) {
+
+  const id =
+    bot === "student"
+      ? "console-student"
+      : "console-opponent";
+
+  const box =
+    document.getElementById(
+      id
+    );
+
+  box.textContent +=
+    text;
+
+  box.scrollTop =
+    box.scrollHeight;
+
+}
+
+
+function botLabel(bot) {
+
+  return bot === "student"
+    ? studentName
+    : OPPONENT_NAME;
+
+}
+
+
+function failGame(
+  message
+) {
+
+  const box =
+    document.getElementById(
+      "error-box"
+    );
+
+  box.textContent =
+    message;
+
+  box.classList.remove(
+    "hidden"
+  );
+
+  if (
+    gameActive
+  ) {
+
+    gameActive =
+      false;
+
+    clearWatchdog();
+
+    terminateWorkers();
+
+    document.getElementById(
+      "status"
+    ).textContent =
+      "Riavvio dei motori Python...";
+
+    setTimeout(
+      createWorkers,
+      400
+    );
 
   }
 
 }
 
 
+function armWatchdog() {
 
-// ------------------------------------
-// AGGIUNGE UNA RIGA ALLA TABELLA
-// ------------------------------------
+  clearWatchdog();
 
-function addTurn(
-  turn,
-  playerMove,
-  opponentMove,
-  playerPoints,
-  opponentPoints
-) {
+  watchdog =
+    setTimeout(
+      function() {
 
-  const table =
-    document.getElementById("game-table");
+        if (!gameActive) {
+          return;
+        }
 
-  const row =
-    document.createElement("tr");
+        failGame(
+          "La partita è stata fermata perché uno dei due bot non ha raggiunto il prossimo input().\n\nControlla soprattutto i cicli while."
+        );
 
-
-  row.innerHTML = `
-
-    <td>${turn}</td>
-
-    <td>
-      <span class="table-move move-${playerMove.toLowerCase()}">
-        ${playerMove}
-      </span>
-    </td>
-
-    <td>
-      <span class="table-move move-${opponentMove.toLowerCase()}">
-        ${opponentMove}
-      </span>
-    </td>
-
-    <td>
-      ${playerPoints} – ${opponentPoints}
-    </td>
-
-  `;
-
-
-  table.appendChild(row);
+      },
+      BOT_TIMEOUT
+    );
 
 }
 
 
+function armFinishWatchdog() {
 
-// ------------------------------------
-// RESET
-// ------------------------------------
+  clearWatchdog();
 
-function resetGame() {
+  watchdog =
+    setTimeout(
+      function() {
 
-  document.getElementById(
-    "python-code"
-  ).value =
-`# A ogni turno devi scegliere una mossa:
-# "C", "A" oppure "P"
+        if (!gameActive) {
+          return;
+        }
 
-mossa = "C"`;
+        failGame(
+          "Sono stati giocati 10 turni, ma uno dei programmi non è terminato correttamente."
+        );
+
+      },
+      BOT_TIMEOUT
+    );
+
+}
 
 
-  document.getElementById(
-    "game-section"
-  ).classList.add("hidden");
+function clearWatchdog() {
 
+  if (
+    watchdog !== null
+  ) {
+
+    clearTimeout(
+      watchdog
+    );
+
+    watchdog =
+      null;
+
+  }
+
+}
+
+
+function resetVisuals() {
 
   document.getElementById(
     "error-box"
-  ).classList.add("hidden");
-
-
-  document.getElementById(
-    "player-score"
-  ).textContent = "0";
-
+  ).classList.add(
+    "hidden"
+  );
 
   document.getElementById(
-    "brobot-score"
-  ).textContent = "0";
+    "error-box"
+  ).textContent =
+    "";
+
+  document.getElementById(
+    "console-student"
+  ).textContent =
+    "";
+
+  document.getElementById(
+    "console-opponent"
+  ).textContent =
+    "";
+
+  document.getElementById(
+    "game-table"
+  ).innerHTML =
+    "";
+
+  document.getElementById(
+    "score-student"
+  ).textContent =
+    "0";
+
+  document.getElementById(
+    "score-opponent"
+  ).textContent =
+    "0";
+
+  const final =
+    document.getElementById(
+      "final-result"
+    );
+
+  final.innerHTML =
+    "";
+
+  final.className =
+    "final";
 
 }
 
 
+function resetArena() {
 
-// ------------------------------------
-// PULSANTI
-// ------------------------------------
+  gameActive =
+    false;
+
+  clearWatchdog();
+
+  resetVisuals();
+
+  document.getElementById(
+    "console-section"
+  ).classList.add(
+    "hidden"
+  );
+
+  document.getElementById(
+    "results"
+  ).classList.add(
+    "hidden"
+  );
+
+  createWorkers();
+
+}
+
+
+function terminateWorkers() {
+
+  for (
+    const bot of ["student", "opponent"]
+  ) {
+
+    if (
+      workers[bot]
+    ) {
+
+      workers[bot].terminate();
+
+      workers[bot] =
+        null;
+
+    }
+
+    if (
+      workerUrls[bot]
+    ) {
+
+      URL.revokeObjectURL(
+        workerUrls[bot]
+      );
+
+      workerUrls[bot] =
+        null;
+
+    }
+
+  }
+
+  ready = {
+    student: false,
+    opponent: false
+  };
+
+}
+
+
+function escapeHTML(text) {
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.textContent =
+    text;
+
+  return div.innerHTML;
+
+}
+
 
 document.getElementById(
   "play-button"
@@ -609,11 +1794,13 @@ document.getElementById(
   "reset-button"
 ).addEventListener(
   "click",
-  resetGame
+  resetArena
 );
 
-</script>
 
+createWorkers();
+
+</script>
 
 </body>
 </html>
