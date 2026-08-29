@@ -2,58 +2,77 @@
 <html lang="it">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Arena | BOT E RISPOSTA</title>
 
-  <link rel="stylesheet" href="../css/style.css?v=3">
+  <link
+    rel="stylesheet"
+    href="../css/style.css?v=4"
+  >
 
-  <script src="https://cdn.jsdelivr.net/pyodide/v314.0.3/full/pyodide.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/pyodide/v314.0.3/full/pyodide.js"
+  ></script>
 
 
   <style>
 
-    /* =========================
+    /* ========================================
        ARENA
-    ========================= */
+    ======================================== */
 
-    .arena-title {
+    .arena-header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 32px;
     }
 
-    .arena-title h1 {
-      margin: 0 0 10px;
+
+    .arena-header h1 {
+      margin: 0;
 
       color: #173c68;
 
-      font-size: clamp(3rem, 8vw, 5rem);
+      font-size: clamp(3rem, 8vw, 5.5rem);
 
       letter-spacing: -0.04em;
     }
 
-    .arena-title p {
-      margin: 0;
 
-      color: #5c6f84;
+    .arena-header p {
+      margin: 12px 0 0;
+
+      color: #607287;
 
       font-size: 1.08rem;
     }
 
 
-    /* DUE BOT */
 
-    .bots-grid {
+    /* ========================================
+       EDITOR BOT
+    ======================================== */
+
+    .arena-editors {
+
       display: grid;
 
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
       gap: 25px;
+
     }
 
 
     .bot-editor {
+
       background: white;
 
       border-radius: 20px;
@@ -61,57 +80,95 @@
       padding: 28px;
 
       box-shadow:
-        0 8px 25px rgba(25, 50, 80, 0.06);
+        0 8px 25px rgba(25, 50, 80, 0.07);
+
     }
 
 
-    .bot-editor h2 {
-      margin: 0 0 18px;
+    .bot-editor-title {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 15px;
+
+      margin-bottom: 18px;
+
+    }
+
+
+    .bot-editor-title h2 {
+
+      margin: 0;
 
       color: #173c68;
+
+      font-size: 1.6rem;
+
+    }
+
+
+    .bot-number {
+
+      color: #7a8da1;
+
+      font-size: 0.75rem;
+
+      font-weight: bold;
+
+      letter-spacing: 0.12em;
+
     }
 
 
     .bot-name {
+
       width: 100%;
+
+      margin-bottom: 15px;
+
+      padding: 11px 13px;
 
       border: 2px solid #cbd7e5;
 
       border-radius: 10px;
 
-      padding: 11px 13px;
+      color: #173c68;
 
-      margin-bottom: 15px;
+      background: white;
 
       font-size: 1rem;
 
       font-weight: bold;
 
-      color: #173c68;
     }
 
 
     .bot-name:focus {
+
       outline: none;
 
       border-color: #4295cb;
+
     }
 
 
     .bot-code {
-      display: block;
 
       width: 100%;
 
-      height: 330px;
+      min-height: 340px;
 
       resize: vertical;
+
+      padding: 18px;
 
       border: 2px solid #cbd7e5;
 
       border-radius: 12px;
-
-      padding: 18px;
 
       background: #f8fafc;
 
@@ -127,164 +184,359 @@
       line-height: 1.55;
 
       tab-size: 4;
+
     }
 
 
     .bot-code:focus {
+
       outline: none;
 
       border-color: #4295cb;
 
       box-shadow:
-        0 0 0 3px rgba(66,149,203,0.12);
+        0 0 0 3px rgba(66, 149, 203, 0.12);
+
     }
 
 
-    /* CONTROLLI */
+
+    /* ========================================
+       INFO ENGINE
+    ======================================== */
+
+    .engine-info {
+
+      margin-top: 25px;
+
+      padding: 20px 24px;
+
+      border-radius: 14px;
+
+      background: #edf6fc;
+
+      color: #405b74;
+
+      line-height: 1.55;
+
+    }
+
+
+    .engine-info strong {
+      color: #173c68;
+    }
+
+
+
+    /* ========================================
+       CONTROLLI
+    ======================================== */
 
     .arena-controls {
-      margin-top: 28px;
 
       display: flex;
 
       justify-content: center;
 
-      gap: 15px;
+      gap: 14px;
 
       flex-wrap: wrap;
+
+      margin-top: 28px;
+
     }
 
 
     .arena-status {
+
+      margin-top: 16px;
+
       text-align: center;
 
-      margin-top: 18px;
+      color: #946817;
 
       font-size: 0.9rem;
 
-      color: #8a681c;
     }
 
 
     .arena-status.ready {
+
       color: #176638;
+
     }
 
 
-    /* RISULTATO */
 
-    .arena-result {
-      margin-top: 30px;
-
-      background: white;
-
-      border-radius: 20px;
-
-      padding: 35px 40px;
-
-      box-shadow:
-        0 8px 25px rgba(25, 50, 80, 0.06);
-    }
-
-
-    .arena-scoreboard {
-      display: grid;
-
-      grid-template-columns: 1fr auto 1fr;
-
-      align-items: center;
-
-      gap: 30px;
-
-      padding: 28px;
-
-      margin-bottom: 25px;
-
-      border-radius: 16px;
-
-      background: #eef6fc;
-    }
-
-
-    .arena-score {
-      text-align: center;
-    }
-
-
-    .arena-score span {
-      display: block;
-
-      color: #62758b;
-
-      font-size: 0.78rem;
-
-      font-weight: bold;
-
-      letter-spacing: 0.07em;
-
-      margin-bottom: 4px;
-    }
-
-
-    .arena-score strong {
-      display: block;
-
-      color: #173c68;
-
-      font-size: 3rem;
-    }
-
-
-    .arena-versus {
-      font-size: 1.7rem;
-
-      color: #8193a6;
-
-      font-weight: bold;
-    }
-
+    /* ========================================
+       ERRORI
+    ======================================== */
 
     .arena-error {
-      margin-top: 20px;
 
-      padding: 18px;
+      margin-top: 25px;
+
+      padding: 18px 20px;
 
       border-radius: 12px;
 
       background: #ffe5e5;
 
-      color: #982a2a;
+      color: #922727;
 
-      font-family: "Courier New", monospace;
+      font-family:
+        "Courier New",
+        monospace;
 
       white-space: pre-wrap;
+
     }
 
 
+
+    /* ========================================
+       RISULTATI
+    ======================================== */
+
+    .arena-results {
+
+      margin-top: 30px;
+
+      padding: 35px 40px;
+
+      background: white;
+
+      border-radius: 20px;
+
+      box-shadow:
+        0 8px 25px rgba(25, 50, 80, 0.07);
+
+    }
+
+
+    .arena-scoreboard {
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        auto
+        minmax(0, 1fr);
+
+      align-items: center;
+
+      gap: 30px;
+
+      margin-bottom: 28px;
+
+      padding: 28px;
+
+      border-radius: 16px;
+
+      background: #eef6fc;
+
+    }
+
+
+    .arena-score {
+
+      min-width: 0;
+
+      text-align: center;
+
+    }
+
+
+    .arena-score span {
+
+      display: block;
+
+      overflow: hidden;
+
+      margin-bottom: 5px;
+
+      color: #62758b;
+
+      font-size: 0.8rem;
+
+      font-weight: bold;
+
+      letter-spacing: 0.08em;
+
+      text-overflow: ellipsis;
+
+      white-space: nowrap;
+
+    }
+
+
+    .arena-score strong {
+
+      display: block;
+
+      color: #173c68;
+
+      font-size: 3rem;
+
+    }
+
+
+    .arena-vs {
+
+      color: #8394a6;
+
+      font-size: 1.5rem;
+
+      font-weight: bold;
+
+    }
+
+
+
+    /* ========================================
+       MOSSE
+    ======================================== */
+
+    .arena-move {
+
+      width: 36px;
+
+      height: 36px;
+
+      display: inline-flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      border-radius: 50%;
+
+      font-weight: 900;
+
+    }
+
+
+    .arena-move-c {
+
+      background: #c9f4d8;
+
+      color: #176638;
+
+    }
+
+
+    .arena-move-a {
+
+      background: #ffd1d1;
+
+      color: #9c2929;
+
+    }
+
+
+    .arena-move-p {
+
+      background: #d9e7ff;
+
+      color: #275da6;
+
+    }
+
+
+
+    /* ========================================
+       RISULTATO FINALE
+    ======================================== */
+
+    .arena-final {
+
+      margin-top: 26px;
+
+      padding: 24px;
+
+      border-radius: 14px;
+
+      text-align: center;
+
+    }
+
+
+    .arena-final strong {
+
+      display: block;
+
+      margin-bottom: 6px;
+
+      font-size: 1.8rem;
+
+    }
+
+
+    .arena-final span {
+
+      font-size: 1.05rem;
+
+    }
+
+
+    .arena-final.victory {
+
+      background: #dff6e7;
+
+      color: #176638;
+
+    }
+
+
+    .arena-final.draw {
+
+      background: #fff1cb;
+
+      color: #795716;
+
+    }
+
+
+
+    /* ========================================
+       MOBILE
+    ======================================== */
+
     @media (max-width: 800px) {
 
-      .bots-grid {
+      .arena-editors {
+
         grid-template-columns: 1fr;
+
       }
 
 
       .bot-code {
-        height: 260px;
+
+        min-height: 260px;
+
       }
 
 
-      .arena-result {
-        padding: 28px 20px;
+      .arena-results {
+
+        padding:
+          28px 20px;
+
       }
 
 
       .arena-scoreboard {
+
         gap: 15px;
+
       }
 
 
       .arena-score strong {
+
         font-size: 2.3rem;
+
       }
 
     }
@@ -294,7 +546,9 @@
 </head>
 
 
+
 <body>
+
 
 <header class="site-header">
 
@@ -315,9 +569,11 @@
 <main class="page">
 
 
-  <!-- TITOLO -->
+  <!-- ======================================
+       INTRO
+  ======================================= -->
 
-  <section class="arena-title">
+  <section class="arena-header">
 
     <p class="qualification">
       BOT E RISPOSTA
@@ -326,23 +582,35 @@
     <h1>Arena</h1>
 
     <p>
-      Incolla il codice di due bot e falli sfidare.
+      Incolla due strategie Python e falle
+      sfidare per 10 turni.
     </p>
 
   </section>
 
 
 
-  <!-- EDITOR -->
+  <!-- ======================================
+       EDITOR
+  ======================================= -->
 
-  <section class="bots-grid">
+  <section class="arena-editors">
 
 
     <!-- BOT 1 -->
 
     <div class="bot-editor">
 
-      <h2>Bot 1</h2>
+      <div class="bot-editor-title">
+
+        <h2>Bot 1</h2>
+
+        <span class="bot-number">
+          SFIDANTE 1
+        </span>
+
+      </div>
+
 
       <input
         id="bot1-name"
@@ -352,14 +620,16 @@
         maxlength="30"
       >
 
+
       <textarea
         id="bot1-code"
         class="bot-code"
         spellcheck="false"
-      ># Scrivi qui il codice del Bot 1
+      ># Strategia del Bot 1
 
 if turno == 1:
     mossa = "C"
+
 else:
     if mossa_avversario == "A":
         mossa = "P"
@@ -374,7 +644,16 @@ else:
 
     <div class="bot-editor">
 
-      <h2>Bot 2</h2>
+      <div class="bot-editor-title">
+
+        <h2>Bot 2</h2>
+
+        <span class="bot-number">
+          SFIDANTE 2
+        </span>
+
+      </div>
+
 
       <input
         id="bot2-name"
@@ -384,19 +663,21 @@ else:
         maxlength="30"
       >
 
+
       <textarea
         id="bot2-code"
         class="bot-code"
         spellcheck="false"
-      ># Scrivi qui il codice del Bot 2
+      ># Strategia del Bot 2
 
-if turno == 1:
-    mossa = "P"
+if turno <= 3:
+    mossa = "C"
+
+elif turno <= 6:
+    mossa = "A"
+
 else:
-    if mossa_avversario == "C":
-        mossa = "A"
-    else:
-        mossa = "P"</textarea>
+    mossa = "P"</textarea>
 
     </div>
 
@@ -404,7 +685,26 @@ else:
 
 
 
-  <!-- PULSANTI -->
+  <!-- ======================================
+       SPIEGAZIONE
+  ======================================= -->
+
+  <div class="engine-info">
+
+    L'Arena gestisce automaticamente
+    <strong>turno</strong> e
+    <strong>mossa_avversario</strong>.
+
+    Le altre variabili create dal bot vengono
+    conservate durante tutta la partita.
+
+  </div>
+
+
+
+  <!-- ======================================
+       CONTROLLI
+  ======================================= -->
 
   <section class="arena-controls">
 
@@ -416,6 +716,7 @@ else:
       ▶ AVVIA LA PARTITA
     </button>
 
+
     <button
       id="reset-button"
       class="secondary-button"
@@ -426,12 +727,14 @@ else:
   </section>
 
 
+
   <div
     id="python-status"
     class="arena-status"
   >
     Caricamento Python...
   </div>
+
 
 
   <div
@@ -441,13 +744,17 @@ else:
 
 
 
-  <!-- RISULTATI -->
+  <!-- ======================================
+       RISULTATI
+  ======================================= -->
 
   <section
-    id="result-section"
-    class="arena-result hidden"
+    id="results"
+    class="arena-results hidden"
   >
 
+
+    <!-- PUNTEGGIO -->
 
     <div class="arena-scoreboard">
 
@@ -465,8 +772,10 @@ else:
       </div>
 
 
-      <div class="arena-versus">
+      <div class="arena-vs">
+
         VS
+
       </div>
 
 
@@ -487,27 +796,33 @@ else:
 
 
 
+    <!-- TABELLA -->
+
     <div class="table-wrapper">
 
       <table>
 
         <thead>
 
-        <tr>
+          <tr>
 
-          <th>Turno</th>
+            <th>
+              Turno
+            </th>
 
-          <th id="table-name-1">
-            Bot 1
-          </th>
+            <th id="table-name-1">
+              Bot 1
+            </th>
 
-          <th id="table-name-2">
-            Bot 2
-          </th>
+            <th id="table-name-2">
+              Bot 2
+            </th>
 
-          <th>Punti</th>
+            <th>
+              Punti
+            </th>
 
-        </tr>
+          </tr>
 
         </thead>
 
@@ -522,9 +837,11 @@ else:
 
 
 
+    <!-- RISULTATO -->
+
     <div
       id="final-result"
-      class="final-result"
+      class="arena-final"
     ></div>
 
 
@@ -533,8 +850,8 @@ else:
 
 
   <a
-    href="../index.html"
     class="back-link"
+    href="../index.html"
   >
     ← Torna alla home
   </a>
@@ -546,45 +863,21 @@ else:
 
 <script>
 
+
+/* ==========================================
+   PYODIDE
+========================================== */
+
 let pyodide;
 
 
-// ================================
-// MATRICE DEI PUNTEGGI
-// ================================
-
-const scores = {
-
-  C: {
-    C: [3, 3],
-    A: [0, 5],
-    P: [2, 1]
-  },
-
-  A: {
-    C: [5, 0],
-    A: [0, 0],
-    P: [0, 2]
-  },
-
-  P: {
-    C: [1, 2],
-    A: [2, 0],
-    P: [1, 1]
-  }
-
-};
-
-
-
-// ================================
-// AVVIO PYODIDE
-// ================================
 
 async function startPython() {
 
   const status =
-    document.getElementById("python-status");
+    document.getElementById(
+      "python-status"
+    );
 
 
   try {
@@ -594,11 +887,11 @@ async function startPython() {
 
 
     /*
-      Creiamo due ambienti Python
-      completamente separati.
+      Il motore Python crea due ambienti
+      distinti.
 
-      Ogni bot avrà quindi le proprie
-      variabili.
+      Le variabili di Bot 1 e Bot 2 quindi
+      non interferiscono tra loro.
     */
 
     await pyodide.runPythonAsync(`
@@ -607,7 +900,7 @@ bot1_env = {}
 bot2_env = {}
 
 
-def reset_bots():
+def reset_arena():
 
     global bot1_env
     global bot2_env
@@ -616,14 +909,37 @@ def reset_bots():
     bot2_env = {}
 
 
-def run_bot(code, env, turno, mossa_avversario):
 
-    env["turno"] = turno
-    env["mossa_avversario"] = mossa_avversario
+def esegui_bot(
+    codice,
+    ambiente,
+    numero_turno,
+    ultima_mossa_avversario
+):
 
-    exec(code, env)
+    # L'Arena imposta queste due variabili.
 
-    return env.get("mossa", None)
+    ambiente["turno"] = numero_turno
+
+    ambiente["mossa_avversario"] = \
+        ultima_mossa_avversario
+
+
+    # Evitiamo che una mossa del turno
+    # precedente venga riutilizzata
+    # accidentalmente.
+
+    ambiente["mossa"] = None
+
+
+    # Esegue la strategia.
+
+    exec(codice, ambiente)
+
+
+    # Legge la decisione.
+
+    return ambiente.get("mossa")
 
     `);
 
@@ -631,7 +947,10 @@ def run_bot(code, env, turno, mossa_avversario):
     status.textContent =
       "Python pronto ✓";
 
-    status.classList.add("ready");
+
+    status.classList.add(
+      "ready"
+    );
 
 
     document.getElementById(
@@ -643,6 +962,9 @@ def run_bot(code, env, turno, mossa_avversario):
 
   catch (error) {
 
+    console.error(error);
+
+
     status.textContent =
       "Errore nel caricamento di Python";
 
@@ -651,68 +973,147 @@ def run_bot(code, env, turno, mossa_avversario):
 }
 
 
+
 startPython();
 
 
 
-// ================================
-// ESEGUI UN BOT
-// ================================
+/* ==========================================
+   MATRICE PUNTEGGI
+========================================== */
 
-async function executeBot(
+const scores = {
+
+  C: {
+
+    C: [3, 3],
+
+    A: [0, 5],
+
+    P: [2, 1]
+
+  },
+
+
+  A: {
+
+    C: [5, 0],
+
+    A: [0, 0],
+
+    P: [0, 2]
+
+  },
+
+
+  P: {
+
+    C: [1, 2],
+
+    A: [2, 0],
+
+    P: [1, 1]
+
+  }
+
+};
+
+
+
+/* ==========================================
+   ESECUZIONE DI UN BOT
+========================================== */
+
+async function runBot(
   botNumber,
   code,
   turn,
   previousOpponentMove
 ) {
 
-  /*
-    Passiamo temporaneamente i dati
-    dal JavaScript a Python.
-  */
 
   pyodide.globals.set(
     "_arena_code",
     code
   );
 
+
   pyodide.globals.set(
     "_arena_turn",
     turn
   );
 
+
   pyodide.globals.set(
-    "_arena_previous",
+    "_arena_previous_move",
     previousOpponentMove
   );
 
 
-  const envName =
+
+  const environment =
     botNumber === 1
       ? "bot1_env"
       : "bot2_env";
 
 
-  const result =
-    await pyodide.runPythonAsync(`
 
-run_bot(
+  let result;
+
+
+  try {
+
+    result =
+      await pyodide.runPythonAsync(`
+
+esegui_bot(
     _arena_code,
-    ${envName},
+    ${environment},
     _arena_turn,
-    _arena_previous
+    _arena_previous_move
 )
 
-    `);
+      `);
+
+  }
 
 
-  if (result === null || result === undefined) {
+  catch (error) {
 
     throw new Error(
-      `Il Bot ${botNumber} non ha assegnato un valore alla variabile "mossa".`
+      "Errore nel Bot " +
+      botNumber +
+      " al turno " +
+      turn +
+      ":\n\n" +
+      error.message
     );
 
   }
+
+
+
+  /*
+    mossa deve essere stata assegnata
+    durante QUESTO turno.
+  */
+
+  if (
+    result === null ||
+    result === undefined
+  ) {
+
+    throw new Error(
+      "Il Bot " +
+      botNumber +
+      " non ha scelto alcuna mossa " +
+      "al turno " +
+      turn +
+      "."
+    );
+
+  }
+
 
 
   const move =
@@ -721,14 +1122,26 @@ run_bot(
       .toUpperCase();
 
 
-  if (!["C", "A", "P"].includes(move)) {
+
+  if (
+    !["C", "A", "P"].includes(move)
+  ) {
 
     throw new Error(
-      `Il Bot ${botNumber} ha scelto "${move}". ` +
-      `La variabile "mossa" deve contenere "C", "A" oppure "P".`
+
+      "Il Bot " +
+      botNumber +
+      ' ha impostato mossa = "' +
+      move +
+      '" al turno ' +
+      turn +
+      ".\n\n" +
+      'Sono ammesse soltanto "C", "A" oppure "P".'
+
     );
 
   }
+
 
 
   return move;
@@ -737,81 +1150,111 @@ run_bot(
 
 
 
-// ================================
-// PARTITA
-// ================================
+/* ==========================================
+   PARTITA
+========================================== */
 
 async function playGame() {
 
-  const errorBox =
-    document.getElementById("error-box");
 
-  const resultSection =
-    document.getElementById("result-section");
+  const playButton =
+    document.getElementById(
+      "play-button"
+    );
+
+
+  const errorBox =
+    document.getElementById(
+      "error-box"
+    );
+
+
+  const results =
+    document.getElementById(
+      "results"
+    );
+
 
   const table =
-    document.getElementById("game-table");
+    document.getElementById(
+      "game-table"
+    );
+
 
   const finalResult =
-    document.getElementById("final-result");
+    document.getElementById(
+      "final-result"
+    );
 
 
-  errorBox.classList.add("hidden");
 
-  resultSection.classList.remove("hidden");
+  playButton.disabled = true;
+
+
+  errorBox.classList.add(
+    "hidden"
+  );
+
+
+  results.classList.remove(
+    "hidden"
+  );
+
 
   table.innerHTML = "";
+
 
   finalResult.innerHTML = "";
 
 
-  document.getElementById(
-    "score-1"
-  ).textContent = "0";
 
-  document.getElementById(
-    "score-2"
-  ).textContent = "0";
-
-
-
-  // -----------------------------
-  // NOMI
-  // -----------------------------
+  /* ----------------------------------------
+     NOMI
+  ---------------------------------------- */
 
   const bot1Name =
-    document.getElementById("bot1-name").value.trim()
+    document.getElementById(
+      "bot1-name"
+    ).value.trim()
     || "Bot 1";
 
+
   const bot2Name =
-    document.getElementById("bot2-name").value.trim()
+    document.getElementById(
+      "bot2-name"
+    ).value.trim()
     || "Bot 2";
+
 
 
   document.getElementById(
     "score-name-1"
-  ).textContent = bot1Name.toUpperCase();
+  ).textContent =
+    bot1Name.toUpperCase();
 
 
   document.getElementById(
     "score-name-2"
-  ).textContent = bot2Name.toUpperCase();
+  ).textContent =
+    bot2Name.toUpperCase();
 
 
   document.getElementById(
     "table-name-1"
-  ).textContent = bot1Name;
+  ).textContent =
+    bot1Name;
 
 
   document.getElementById(
     "table-name-2"
-  ).textContent = bot2Name;
+  ).textContent =
+    bot2Name;
 
 
 
-  // -----------------------------
-  // CODICI
-  // -----------------------------
+  /* ----------------------------------------
+     CODICE
+  ---------------------------------------- */
 
   const code1 =
     document.getElementById(
@@ -826,121 +1269,152 @@ async function playGame() {
 
 
 
-  // -----------------------------
-  // RESET AMBIENTI PYTHON
-  // -----------------------------
+  /* ----------------------------------------
+     RESET PYTHON
+  ---------------------------------------- */
 
   await pyodide.runPythonAsync(
-    "reset_bots()"
+    "reset_arena()"
   );
 
 
 
   let score1 = 0;
+
   let score2 = 0;
 
 
+
   let previousMove1 = "";
+
   let previousMove2 = "";
 
 
 
-  // =============================
-  // 10 TURNI
-  // =============================
+  document.getElementById(
+    "score-1"
+  ).textContent = "0";
 
-  for (
-    let turn = 1;
-    turn <= 10;
-    turn++
-  ) {
 
-    try {
+  document.getElementById(
+    "score-2"
+  ).textContent = "0";
+
+
+
+  /* ========================================
+     10 TURNI
+  ======================================== */
+
+  try {
+
+
+    for (
+      let turn = 1;
+      turn <= 10;
+      turn++
+    ) {
 
 
       /*
-        IMPORTANTE:
-
-        entrambi i bot decidono la mossa
-        conoscendo SOLO ciò che è accaduto
-        nei turni precedenti.
-
-        Nessuno dei due conosce la mossa
-        corrente dell'altro.
+        Entrambi ricevono SOLO
+        la mossa precedente dell'altro.
       */
 
 
       const move1 =
-        await executeBot(
+        await runBot(
+
           1,
+
           code1,
+
           turn,
+
           previousMove2
+
         );
+
 
 
       const move2 =
-        await executeBot(
+        await runBot(
+
           2,
+
           code2,
+
           turn,
+
           previousMove1
+
         );
 
 
 
-      // -----------------------------
-      // PUNTEGGIO
-      // -----------------------------
+      /*
+        Solo ora conosciamo entrambe
+        le mosse del turno.
+      */
+
 
       const round =
         scores[move1][move2];
 
 
+
       const points1 =
         round[0];
+
 
       const points2 =
         round[1];
 
 
+
       score1 += points1;
+
       score2 += points2;
 
 
 
-      // -----------------------------
-      // MOSTRA TURNO
-      // -----------------------------
-
       addTurn(
+
         turn,
+
         move1,
+
         move2,
+
         points1,
+
         points2
+
       );
 
 
 
       document.getElementById(
         "score-1"
-      ).textContent = score1;
+      ).textContent =
+        score1;
 
 
       document.getElementById(
         "score-2"
-      ).textContent = score2;
+      ).textContent =
+        score2;
 
 
 
       /*
-        Solo DOPO aver giocato
-        aggiorniamo la memoria.
+        Le mosse diventano "precedenti"
+        soltanto DOPO il turno.
       */
 
       previousMove1 =
         move1;
+
 
       previousMove2 =
         move2;
@@ -948,82 +1422,39 @@ async function playGame() {
     }
 
 
-    catch (error) {
 
-      errorBox.textContent =
-        "Errore nella partita:\n\n"
-        + error.message;
+    showFinalResult(
 
-      errorBox.classList.remove(
-        "hidden"
-      );
+      bot1Name,
 
-      return;
+      bot2Name,
 
-    }
+      score1,
 
-  }
+      score2
 
-
-
-  // =============================
-  // RISULTATO FINALE
-  // =============================
-
-  if (score1 > score2) {
-
-    finalResult.innerHTML =
-      "<strong>" +
-      escapeHTML(bot1Name) +
-      " vince!</strong>" +
-
-      "<span>" +
-      score1 +
-      " – " +
-      score2 +
-      "</span>";
-
-
-    finalResult.className =
-      "final-result victory";
+    );
 
   }
 
 
-  else if (score2 > score1) {
-
-    finalResult.innerHTML =
-      "<strong>" +
-      escapeHTML(bot2Name) +
-      " vince!</strong>" +
-
-      "<span>" +
-      score2 +
-      " – " +
-      score1 +
-      "</span>";
+  catch (error) {
 
 
-    finalResult.className =
-      "final-result victory";
+    errorBox.textContent =
+      error.message;
+
+
+    errorBox.classList.remove(
+      "hidden"
+    );
 
   }
 
 
-  else {
+  finally {
 
-    finalResult.innerHTML =
-      "<strong>Pareggio!</strong>" +
-
-      "<span>" +
-      score1 +
-      " – " +
-      score2 +
-      "</span>";
-
-
-    finalResult.className =
-      "final-result draw";
+    playButton.disabled = false;
 
   }
 
@@ -1031,26 +1462,30 @@ async function playGame() {
 
 
 
-// ================================
-// AGGIUNGE TURNO
-// ================================
+/* ==========================================
+   AGGIUNGE UNA RIGA ALLA TABELLA
+========================================== */
 
 function addTurn(
-  turn,
-  move1,
-  move2,
-  points1,
-  points2
-) {
 
-  const table =
-    document.getElementById(
-      "game-table"
-    );
+  turn,
+
+  move1,
+
+  move2,
+
+  points1,
+
+  points2
+
+) {
 
 
   const row =
-    document.createElement("tr");
+    document.createElement(
+      "tr"
+    );
+
 
 
   row.innerHTML = `
@@ -1063,7 +1498,10 @@ function addTurn(
     <td>
 
       <span
-        class="table-move move-${move1.toLowerCase()}"
+        class="
+          arena-move
+          arena-move-${move1.toLowerCase()}
+        "
       >
         ${move1}
       </span>
@@ -1074,7 +1512,10 @@ function addTurn(
     <td>
 
       <span
-        class="table-move move-${move2.toLowerCase()}"
+        class="
+          arena-move
+          arena-move-${move2.toLowerCase()}
+        "
       >
         ${move2}
       </span>
@@ -1089,26 +1530,125 @@ function addTurn(
   `;
 
 
-  table.appendChild(row);
+
+  document.getElementById(
+    "game-table"
+  ).appendChild(row);
 
 }
 
 
 
-// ================================
-// PULIZIA RISULTATO
-// ================================
+/* ==========================================
+   RISULTATO FINALE
+========================================== */
 
-function resetResult() {
+function showFinalResult(
+
+  bot1Name,
+
+  bot2Name,
+
+  score1,
+
+  score2
+
+) {
+
+
+  const box =
+    document.getElementById(
+      "final-result"
+    );
+
+
+
+  if (score1 > score2) {
+
+
+    box.className =
+      "arena-final victory";
+
+
+    box.innerHTML =
+
+      "<strong>" +
+      escapeHTML(bot1Name) +
+      " vince!</strong>" +
+
+      "<span>" +
+      score1 +
+      " – " +
+      score2 +
+      "</span>";
+
+  }
+
+
+  else if (score2 > score1) {
+
+
+    box.className =
+      "arena-final victory";
+
+
+    box.innerHTML =
+
+      "<strong>" +
+      escapeHTML(bot2Name) +
+      " vince!</strong>" +
+
+      "<span>" +
+      score2 +
+      " – " +
+      score1 +
+      "</span>";
+
+  }
+
+
+  else {
+
+
+    box.className =
+      "arena-final draw";
+
+
+    box.innerHTML =
+
+      "<strong>Pareggio!</strong>" +
+
+      "<span>" +
+      score1 +
+      " – " +
+      score2 +
+      "</span>";
+
+  }
+
+}
+
+
+
+/* ==========================================
+   RESET VISIVO
+========================================== */
+
+function resetArenaView() {
+
 
   document.getElementById(
-    "result-section"
-  ).classList.add("hidden");
+    "results"
+  ).classList.add(
+    "hidden"
+  );
 
 
   document.getElementById(
     "error-box"
-  ).classList.add("hidden");
+  ).classList.add(
+    "hidden"
+  );
 
 
   document.getElementById(
@@ -1129,16 +1669,22 @@ function resetResult() {
 
 
 
-// ================================
-// SICUREZZA TESTO NOMI
-// ================================
+/* ==========================================
+   ESCAPE NOMI
+========================================== */
 
 function escapeHTML(text) {
 
-  const div =
-    document.createElement("div");
 
-  div.textContent = text;
+  const div =
+    document.createElement(
+      "div"
+    );
+
+
+  div.textContent =
+    text;
+
 
   return div.innerHTML;
 
@@ -1146,24 +1692,32 @@ function escapeHTML(text) {
 
 
 
-// ================================
-// PULSANTI
-// ================================
+/* ==========================================
+   EVENTI
+========================================== */
 
 document.getElementById(
   "play-button"
 ).addEventListener(
+
   "click",
+
   playGame
+
 );
+
 
 
 document.getElementById(
   "reset-button"
 ).addEventListener(
+
   "click",
-  resetResult
+
+  resetArenaView
+
 );
+
 
 </script>
 
